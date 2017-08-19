@@ -17,6 +17,8 @@ using EventsBasicANC.Authorization;
 using System.Text;
 using EventsBasicANC.Data.Repository.Interfaces;
 using EventsBasicANC.Data.Repository;
+using AutoMapper;
+using EventsBasicANC.ViewModels;
 
 namespace EventsBasicANC
 {
@@ -64,6 +66,8 @@ namespace EventsBasicANC
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
 
+            services.AddAutoMapper();
+
             //Injeção de Dependencia
             services.AddScoped<SQLSContext>();
             //Repository
@@ -98,6 +102,7 @@ namespace EventsBasicANC
             app.UseCors(c => { c.AllowAnyHeader(); c.AllowAnyMethod(); c.AllowAnyOrigin(); });
             app.UseAuthentication();
             app.UseMvc();
+
         }
 
         public void ConfigureJwtAuthService(IServiceCollection services)

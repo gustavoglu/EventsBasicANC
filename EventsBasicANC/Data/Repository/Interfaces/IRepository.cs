@@ -7,9 +7,13 @@ namespace EventsBasicANC.Data.Repository.Interfaces
 {
     public interface IRepository<T> : IDisposable where T : Entity
     {
-        void Criar(T entity);
+        T Criar(T entity);
 
-        void Atualizar(T entity);
+        T Criar(ICollection<T> entitys);
+
+        T Atualizar(T entity);
+
+        T Deletar(Guid id);
 
         T TrazerPorId(Guid id);
 
