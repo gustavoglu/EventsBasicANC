@@ -1,7 +1,6 @@
 ﻿using EventsBasicANC.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace EventsBasicANC.Services.Interfaces
 {
@@ -9,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         Conta_FuncionarioViewModel Criar(Conta_FuncionarioViewModel conta_FuncionarioViewModel);
 
-        Conta_FuncionarioViewModel Criar(ICollection<Conta_FuncionarioViewModel> conta_FuncionarioViewModel);
+        IEnumerable<Conta_FuncionarioViewModel> Criar(ICollection<Conta_FuncionarioViewModel> conta_FuncionarioViewModel);
 
         Conta_FuncionarioViewModel Atualizar(Conta_FuncionarioViewModel conta_FuncionarioViewModel);
 

@@ -8,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         PagamentoViewModel Criar(PagamentoViewModel entity);
 
-        PagamentoViewModel Criar(ICollection<PagamentoViewModel> entitys);
+        IEnumerable <PagamentoViewModel> Criar(ICollection<PagamentoViewModel> entitys);
 
         PagamentoViewModel Atualizar(PagamentoViewModel entity);
 

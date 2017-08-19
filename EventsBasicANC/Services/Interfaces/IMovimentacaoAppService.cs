@@ -8,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         MovimentacaoViewModel Criar(MovimentacaoViewModel entity);
 
-        MovimentacaoViewModel Criar(ICollection<MovimentacaoViewModel> entitys);
+       IEnumerable<MovimentacaoViewModel> Criar(ICollection<MovimentacaoViewModel> entitys);
 
         MovimentacaoViewModel Atualizar(MovimentacaoViewModel entity);
 

@@ -8,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         EventoViewModel Criar(EventoViewModel entity);
 
-        EventoViewModel Criar(ICollection<EventoViewModel> entitys);
+        IEnumerable<EventoViewModel> Criar(ICollection<EventoViewModel> entitys);
 
         EventoViewModel Atualizar(EventoViewModel entity);
 

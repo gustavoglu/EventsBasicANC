@@ -1,17 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EventsBasicANC.Domain.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventsBasicANC.ViewModels
 {
     public class UsuarioRegistroViewModel
     {
         [Display(Name = "E-mail"), DataType(DataType.EmailAddress)]
-        public string email { get; set; }
+        public string Email { get; set; }
 
         [Display(Name ="Senha"),DataType(DataType.Password)]
-        public string senha { get; set; }
+        public string Senha { get; set; }
 
         [Display(Name = "´Confirmacao da Senha"), DataType(DataType.Password), Compare("senha")]
-        public string confirmacaoSenha { get; set; }
+        public string ConfirmacaoSenha { get; set; }
 
+        [Required(ErrorMessage = "Ncessário informar Tipo da Conta")]
+        public ContaTipo ContaTipo { get; set; }
     }
 }

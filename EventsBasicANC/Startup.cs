@@ -19,6 +19,8 @@ using EventsBasicANC.Data.Repository.Interfaces;
 using EventsBasicANC.Data.Repository;
 using AutoMapper;
 using EventsBasicANC.ViewModels;
+using EventsBasicANC.Services.Interfaces;
+using EventsBasicANC.Services;
 
 namespace EventsBasicANC
 {
@@ -70,6 +72,7 @@ namespace EventsBasicANC
 
             //Injeção de Dependencia
             services.AddScoped<SQLSContext>();
+            
             //Repository
             services.AddScoped<IConta_FuncionarioRepository, Conta_FuncionarioRepository>();
             services.AddScoped<IContaRepository, ContaRepository>();
@@ -85,6 +88,24 @@ namespace EventsBasicANC
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IVenda_ProdutoRepository, Venda_ProdutoRepository>();
             services.AddScoped<IVendaRepository, VendaRepository>();
+
+            //AppService
+            services.AddScoped<IConta_FuncionarioAppService, Conta_FuncionarioAppService>();
+            services.AddScoped<IContaAppService, ContaAppService>();
+            services.AddScoped<IContatoAppService, ContatoAppService>();
+            services.AddScoped<IContratoAppService, ContratoAppService>();
+            services.AddScoped<ICorAppService, CorAppService>();
+            services.AddScoped<IEnderecoAppService, EnderecoAppService>();
+            services.AddScoped<IEventoAppService, EventoAppService>();
+            services.AddScoped<IFichaAppService, FichaAppService>();
+            services.AddScoped<IMovimentacaoAppService, MovimentacaoAppService>();
+            services.AddScoped<IPagamento_FichaAppService, Pagamento_FichaAppService>();
+            services.AddScoped<IPagamentoAppService, PagamentoAppService>();
+            services.AddScoped<IProdutoAppService, ProdutoAppService>();
+            services.AddScoped<IVenda_ProdutoAppService, Venda_ProdutoAppService>();
+            services.AddScoped<IVendaAppService, VendaAppService>();
+            services.AddScoped<IUsuarioAppService, UsuarioAppService>();
+            services.AddScoped<UsuarioAppService>();
 
         }
 

@@ -8,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         CorViewModel Criar(CorViewModel entity);
 
-        CorViewModel Criar(ICollection<CorViewModel> entitys);
+        IEnumerable<CorViewModel> Criar(ICollection<CorViewModel> entitys);
 
         CorViewModel Atualizar(CorViewModel entity);
 

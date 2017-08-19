@@ -8,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         Pagamento_FichaViewModel Criar(Pagamento_FichaViewModel entity);
 
-        Pagamento_FichaViewModel Criar(ICollection<Pagamento_FichaViewModel> entitys);
+        IEnumerable<Pagamento_FichaViewModel> Criar(ICollection<Pagamento_FichaViewModel> entitys);
 
         Pagamento_FichaViewModel Atualizar(Pagamento_FichaViewModel entity);
 

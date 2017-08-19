@@ -1,7 +1,6 @@
 ﻿using EventsBasicANC.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace EventsBasicANC.Services.Interfaces
 {
@@ -9,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         ContatoViewModel Criar(ContatoViewModel entity);
 
-        ContatoViewModel Criar(ICollection<ContatoViewModel> entitys);
+       IEnumerable<ContatoViewModel> Criar(ICollection<ContatoViewModel> entitys);
 
         ContatoViewModel Atualizar(ContatoViewModel entity);
 

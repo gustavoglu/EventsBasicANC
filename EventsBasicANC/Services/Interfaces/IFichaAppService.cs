@@ -8,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         FichaViewModel Criar(FichaViewModel entity);
 
-        FichaViewModel Criar(ICollection<FichaViewModel> entitys);
+        IEnumerable<FichaViewModel> Criar(ICollection<FichaViewModel> entitys);
 
         FichaViewModel Atualizar(FichaViewModel entity);
 

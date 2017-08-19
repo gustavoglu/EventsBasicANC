@@ -8,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         EnderecoViewModel Criar(EnderecoViewModel entity);
 
-        EnderecoViewModel Criar(ICollection<EnderecoViewModel> entitys);
+       IEnumerable <EnderecoViewModel> Criar(ICollection<EnderecoViewModel> entitys);
 
         EnderecoViewModel Atualizar(EnderecoViewModel entity);
 

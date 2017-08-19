@@ -8,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         ContratoViewModel Criar(ContratoViewModel entity);
 
-        ContratoViewModel Criar(ICollection<ContratoViewModel> entitys);
+        IEnumerable<ContratoViewModel> Criar(ICollection<ContratoViewModel> entitys);
 
         ContratoViewModel Atualizar(ContratoViewModel entity);
 

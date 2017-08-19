@@ -9,7 +9,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         ContaViewModel Criar(ContaViewModel entity);
 
-        ContaViewModel Criar(ICollection<ContaViewModel> entitys);
+        IEnumerable<ContaViewModel> Criar(ICollection<ContaViewModel> entitys);
 
         ContaViewModel Atualizar(ContaViewModel entity);
 

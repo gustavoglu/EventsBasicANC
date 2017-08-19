@@ -8,7 +8,7 @@ namespace EventsBasicANC.Services.Interfaces
     {
         ProdutoViewModel Criar(ProdutoViewModel entity);
 
-        ProdutoViewModel Criar(ICollection<ProdutoViewModel> entitys);
+        IEnumerable<ProdutoViewModel> Criar(ICollection<ProdutoViewModel> entitys);
 
         ProdutoViewModel Atualizar(ProdutoViewModel entity);
 
