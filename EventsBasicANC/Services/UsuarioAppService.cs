@@ -28,6 +28,8 @@ namespace EventsBasicANC.Services
             _jwtTokenOptions = jwtTokenOptions.Value;
             _contaRepository = contaRepository;
             _mapper = mapper;
+
+            ThrowIfInvalidOptions(_jwtTokenOptions);
         }
 
         private static long ToUnixEpochDate(DateTime date) =>

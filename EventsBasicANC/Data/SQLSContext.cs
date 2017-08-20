@@ -1,6 +1,7 @@
 ﻿using EventsBasicANC.Data.Extensions;
 using EventsBasicANC.Data.Mappings;
 using EventsBasicANC.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -38,6 +39,15 @@ namespace EventsBasicANC.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Altera nome de tabelas do Entity
+            modelBuilder.Entity<IdentityUser>().ToTable("Usuario").Property(p => p.Id).HasColumnName("UsuarioId");
+            modelBuilder.Entity<Usuario>().ToTable("Usuario").Property(p => p.Id).HasColumnName("UsuarioId");
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("Usuario_Regra");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("Login");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("Claim");
+            modelBuilder.Entity<IdentityRole>().ToTable("Regra");
+
+            //Configura Entitys
             modelBuilder.AddConfiguration(new ContaMap());
             modelBuilder.AddConfiguration(new Conta_FuncionarioMap());
             modelBuilder.AddConfiguration(new ContatoMap());
