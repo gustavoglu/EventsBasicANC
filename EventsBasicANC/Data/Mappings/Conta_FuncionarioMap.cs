@@ -13,12 +13,14 @@ namespace EventsBasicANC.Data.Mappings
             conta_funcionario.HasOne(cf => cf.Funcionario)
                 .WithMany(f => f.Conta_Funcionarios)
                 .HasForeignKey(cf => cf.Id_funcionario)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
 
             conta_funcionario.HasOne(cf => cf.Conta)
                 .WithOne(f => f.Conta_Principal)
                 .HasForeignKey<Conta>(cf => cf.Id_Conta_Principal)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
         }
     }
 }

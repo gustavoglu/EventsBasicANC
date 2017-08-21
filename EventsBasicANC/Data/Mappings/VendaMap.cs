@@ -13,12 +13,14 @@ namespace EventsBasicANC.Data.Mappings
             venda.HasOne(v => v.Evento)
                 .WithMany(e => e.Vendas)
                 .HasForeignKey(v => v.Id_Evento)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
 
             venda.HasOne(v => v.Conta)
                 .WithMany(c => c.Vendas)
                 .HasForeignKey(v => v.Id_loja)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
 
         }
     }

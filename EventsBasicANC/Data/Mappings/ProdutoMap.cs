@@ -14,7 +14,8 @@ namespace EventsBasicANC.Data.Mappings
             produto.HasOne(p => p.Loja)
                 .WithMany(c => c.Produtos)
                 .HasForeignKey(p => p.Id_loja)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
         }
     }
 }

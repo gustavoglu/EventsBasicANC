@@ -17,7 +17,8 @@ namespace EventsBasicANC.Data.Mappings
 
             evento.HasMany(e => e.Contratos)
                 .WithOne(c => c.Evento)
-                .HasForeignKey(c => c.Id_evento);
+                .HasForeignKey(c => c.Id_evento)
+                .OnDelete( Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
 
         }
     }

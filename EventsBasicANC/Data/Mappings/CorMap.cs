@@ -10,7 +10,8 @@ namespace EventsBasicANC.Data.Mappings
         {
             cor.HasMany(c => c.Produtos)
                 .WithOne(p => p.Cor)
-                .HasForeignKey(c => c.Id_Cor);
+                .HasForeignKey(c => c.Id_Cor)
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
         }
     }
 }

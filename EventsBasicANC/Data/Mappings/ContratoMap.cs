@@ -13,12 +13,14 @@ namespace EventsBasicANC.Data.Mappings
             contrato.HasOne(c => c.Loja)
                 .WithMany(cc => cc.Loja_Contratos)
                 .HasForeignKey(c => c.Id_loja)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
 
             contrato.HasOne(c => c.Organizador)
                 .WithMany(cc => cc.Organizador_Contratos)
                 .HasForeignKey(c => c.Id_organizador)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
 
             contrato.HasOne(c => c.Evento)
                 .WithMany(e => e.Contratos)

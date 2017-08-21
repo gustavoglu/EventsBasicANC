@@ -47,7 +47,7 @@ namespace EventsBasicANC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SQLSContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectoin")));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<SQLSContext>()

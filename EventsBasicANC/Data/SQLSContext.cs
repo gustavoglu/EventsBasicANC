@@ -15,7 +15,7 @@ namespace EventsBasicANC.Data
 {
     public class SQLSContext : IdentityDbContext<Usuario>
     {
-        public SQLSContext(DbContextOptions<SQLSContext> options) : base (options)
+        public SQLSContext(DbContextOptions<SQLSContext> options) : base(options)
         {
 
         }
@@ -37,14 +37,19 @@ namespace EventsBasicANC.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+     
             base.OnModelCreating(modelBuilder);
+            
+            
 
             // Altera nome de tabelas do Entity
-            modelBuilder.Entity<IdentityUser>().ToTable("Usuario").Property(p => p.Id).HasColumnName("UsuarioId");
-            modelBuilder.Entity<Usuario>().ToTable("Usuario").Property(p => p.Id).HasColumnName("UsuarioId");
+            modelBuilder.Entity<Usuario>().ToTable("Usuario");
+            modelBuilder.Entity<IdentityUser>().ToTable("Usuario");
             modelBuilder.Entity<IdentityUserRole<string>>().ToTable("Usuario_Regra");
             modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("Login");
             modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("Claim");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("Token");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("Regra_Claim");
             modelBuilder.Entity<IdentityRole>().ToTable("Regra");
 
             //Configura Entitys
