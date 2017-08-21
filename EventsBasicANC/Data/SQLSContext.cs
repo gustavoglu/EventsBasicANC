@@ -73,8 +73,8 @@ namespace EventsBasicANC.Data
         public override int SaveChanges()
         {
             var criados = ChangeTracker.Entries().Where(e => e.Entity is Entity && e.State == EntityState.Added);
-            var atualizados = ChangeTracker.Entries().Where(e => e.Entity is Entity && e.State == EntityState.Added);
-            var deletados = ChangeTracker.Entries().Where(e => e.Entity is Entity && e.State == EntityState.Added);
+            var atualizados = ChangeTracker.Entries().Where(e => e.Entity is Entity && e.State == EntityState.Modified);
+            var deletados = ChangeTracker.Entries().Where(e => e.Entity is Entity && e.State == EntityState.Deleted);
 
             if (criados.Any()) CriaEntidades(criados);
             if (atualizados.Any()) AtualizaEntidades(atualizados);

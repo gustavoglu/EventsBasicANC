@@ -7,12 +7,14 @@ namespace EventsBasicANC.Models
     {
         public Guid Id_venda { get; set; }
 
-        public double Total { get; set; }
+        public double? Total { get; set; } = 0;
 
-        public bool Cancelado { get; set; }
+        public bool? Cancelado { get; set; } = false;
 
         public virtual Venda Venda { get; set; }
 
         public virtual ICollection<Movimentacao> Movimentacoes { get; set; }
+
+        public virtual ICollection<Pagamento_Ficha> Pagamento_Fichas { get; set; }
     }
 }

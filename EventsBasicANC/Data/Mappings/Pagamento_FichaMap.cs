@@ -12,7 +12,15 @@ namespace EventsBasicANC.Data.Mappings
 
             pagamento_ficha.HasOne(pf => pf.Ficha)
                 .WithMany(f => f.Pagamento_Fichas)
-                .HasForeignKey(pf => pf.Id_ficha);
+                .HasForeignKey(pf => pf.Id_ficha)
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
+
+
+            pagamento_ficha.HasOne(pf => pf.Pagamento)
+                .WithMany(p => p.Pagamento_Fichas)
+                .HasForeignKey(pf => pf.Id_pagamento)
+                .IsRequired()
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
 
         }
     }

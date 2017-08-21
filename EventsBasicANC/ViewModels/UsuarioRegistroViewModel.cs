@@ -11,7 +11,7 @@ namespace EventsBasicANC.ViewModels
         [Display(Name ="Senha"),DataType(DataType.Password)]
         public string Senha { get; set; }
 
-        [Display(Name = "´Confirmacao da Senha"), DataType(DataType.Password), Compare("senha")]
+        [Display(Name = "´Confirmacao da Senha"), DataType(DataType.Password), Compare("Senha")]
         public string ConfirmacaoSenha { get; set; }
 
         [Required(ErrorMessage = "Ncessário informar Tipo da Conta")]

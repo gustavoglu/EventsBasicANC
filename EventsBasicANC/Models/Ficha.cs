@@ -6,7 +6,7 @@ namespace EventsBasicANC.Models
     {
         public double Saldo { get; set; } = 0;
 
-        public string NomeCliente { get; set; }
+        public string NomeCliente { get; set; } = null;
 
         public ICollection<Pagamento_Ficha> Pagamento_Fichas { get; set; }
 

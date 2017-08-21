@@ -8,23 +8,23 @@ namespace EventsBasicANC.Models
     {
         public ContaTipo Tipo { get; set; }
 
-        public string Nome { get; set; }
+        public string Nome { get; set; } = null;
 
-        public string Sobrenome { get; set; }
+        public string Sobrenome { get; set; } = null;
 
         public DocumentoTipo DocumentoTipo { get; set; }
 
-        public string Documento { get; set; }
+        public string Documento { get; set; } = null;
 
-        public DateTime DataNascimento { get; set; }
+        public DateTime? DataNascimento { get; set; } = null;
 
-        public string RazaoSocial { get; set; }
+        public string RazaoSocial { get; set; } = null;
 
-        public Guid Id_Conta_Principal { get; set; }
+        public Guid? Id_Conta_Principal { get; set; }
 
-        public virtual Endereco Endereco { get; set; }
+        public virtual Endereco Endereco { get; set; } = null;
 
-        public virtual Contato Contato { get; set; }
+        public virtual Contato Contato { get; set; } = null;
 
         public virtual ICollection<Venda> Vendas { get; set; }
 
@@ -38,6 +38,6 @@ namespace EventsBasicANC.Models
 
         public virtual ICollection<Conta_Funcionario> Conta_Funcionarios { get; set; }
 
-        public virtual Conta_Funcionario Conta_Principal { get; set; }
+        public virtual Conta_Funcionario Conta_Principal { get; set; } 
     }
 }

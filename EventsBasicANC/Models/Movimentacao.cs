@@ -13,9 +13,9 @@ namespace EventsBasicANC.Models
 
         public string Observacao { get; set; } = null;
 
-        public double Valor { get; set; }
+        public double? Valor { get; set; } = 0;
 
-        public double SaldoAnterior{ get; set; }
+        public double? SaldoAnterior { get; set; } = 0;
 
         public virtual Ficha Ficha { get; set; }
 

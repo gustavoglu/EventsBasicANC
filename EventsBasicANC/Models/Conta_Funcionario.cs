@@ -1,5 +1,4 @@
-﻿using EventsBasicANC.Models;
-using System;
+﻿using System;
 
 namespace EventsBasicANC.Models
 {
@@ -9,14 +8,13 @@ namespace EventsBasicANC.Models
 
         public Guid Id_conta { get; set; }
 
-        public DateTime Vencimento { get; set; }
+        public DateTime? Vencimento { get; set; }
 
-        public bool Aprovador { get; set; }
+        public bool? Aprovador { get; set; } = false;
 
-        public bool Permanente { get; set; }
+        public bool? Permanente { get; set; } = false;
 
-        public bool Ativo { get; set; }
-
+        public bool? Ativo { get; set; } = false;
 
         public virtual Conta Funcionario  { get; set; }
 

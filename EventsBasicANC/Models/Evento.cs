@@ -5,15 +5,15 @@ namespace EventsBasicANC.Models
 {
     public class Evento : Entity
     {
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = null;
 
-        public DateTime DataInicio { get; set; }
+        public DateTime? DataInicio { get; set; }
 
-        public DateTime DataFim { get; set; }
+        public DateTime? DataFim { get; set; }
 
         public Guid Id_organizador { get; set; }
 
-        public bool Cancelado { get; set; } = false;
+        public bool? Cancelado { get; set; } = false;
 
         public virtual Conta Organizador { get; set; }
 

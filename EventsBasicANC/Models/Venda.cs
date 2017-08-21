@@ -9,7 +9,7 @@ namespace EventsBasicANC.Models
 
         public bool Cancelada { get; set; } = false;
 
-        public double Total { get; set; }
+        public double? Total { get; set; } = 0;
 
         public Guid Id_loja { get; set; }
 

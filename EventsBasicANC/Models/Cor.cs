@@ -5,9 +5,9 @@ namespace EventsBasicANC.Models
 {
     public class Cor : Entity
     {
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = null;
 
-        public string CorFromHex { get; set; }
+        public string CorFromHex { get; set; } = null;
 
         public ICollection<Produto> Produtos { get; set; }
     }

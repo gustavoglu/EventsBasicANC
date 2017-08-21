@@ -4,15 +4,15 @@ namespace EventsBasicANC.Models
 {
     public class Contrato : Entity
     {
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = null;
 
-        public bool Aprovado { get; set; }
+        public bool? Aprovado { get; set; } = false;
 
-        public bool Ativo { get; set; }
+        public bool? Ativo { get; set; } = false;
 
-        public DateTime DataAprovacao { get; set; }
+        public DateTime? DataAprovacao { get; set; }
 
-        public DateTime Vencimento { get; set; }
+        public DateTime? Vencimento { get; set; }
 
         public Guid Id_loja { get; set; }
 
