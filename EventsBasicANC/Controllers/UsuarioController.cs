@@ -36,10 +36,7 @@ namespace EventsBasicANC.Controllers
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Registro([FromBody]UsuarioRegistroViewModel viewModel)
-        {
-
-            ContaViewModel conta = new ContaViewModel { Id = Guid.NewGuid() };
-            var contaCriada = _contaAppService.Criar(conta);
+        {      
 
             if (!ModelState.IsValid) return BadRequest();
 
@@ -48,11 +45,12 @@ namespace EventsBasicANC.Controllers
 
             if (!result.Succeeded) return BadRequest();
 
-           
+            ContaViewModel conta = new ContaViewModel { Id = Guid.Parse(usuario.Id), Endereco = new EnderecoViewModel { Id = Guid.Parse(usuario.Id) }, Contato = new ContatoViewModel { Id = Guid.Parse(usuario.Id) } };
+            var contaCriada = _contaAppService.Criar(conta);
 
             if (contaCriada == null) return BadRequest();
 
-            return Response(viewModel);
+            return Response("Usuario Criado");
 
         }
     }

@@ -9,7 +9,7 @@ namespace EventsBasicANC.Data.Repository.Interfaces
     {
         T Criar(T entity);
 
-        T Criar(ICollection<T> entitys);
+        IEnumerable<T> Criar(ICollection<T> entitys);
 
         T Atualizar(T entity);
 

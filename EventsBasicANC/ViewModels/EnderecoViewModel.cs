@@ -4,16 +4,17 @@ namespace EventsBasicANC.ViewModels
 {
     public class EnderecoViewModel
     {
-        public string Rua { get; set; }
+        public Guid Id { get; set; }
 
-        public string Bairro { get; set; }
+        public string Rua { get; set; } = null;
 
-        public string Cidade { get; set; }
+        public string Bairro { get; set; } = null;
 
-        public string Estado { get; set; }
+        public string Cidade { get; set; } = null;
 
-        public string Pais { get; set; }
+        public string Estado { get; set; } = null;
 
-        public virtual ContaViewModel Conta { get; set; }
+        public string Pais { get; set; } = null;
+
     }
 }

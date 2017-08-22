@@ -9,6 +9,7 @@ namespace EventsBasicANC.AutoMapper
         public DomainToViewModelProfile()
         {
             CreateMap<Conta, ContaViewModel>();
+            CreateMap<Contato, ContatoViewModel>();
             CreateMap<Conta_Funcionario, Conta_FuncionarioViewModel>();
             CreateMap<Contrato, ContratoViewModel>();
             CreateMap<Cor, CorViewModel>();

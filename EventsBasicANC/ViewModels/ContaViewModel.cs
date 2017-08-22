@@ -17,10 +17,14 @@ namespace EventsBasicANC.ViewModels
 
         public string Documento { get; set; } = null;
 
-        public DateTime? DataNascimento { get; set; }
+        public DateTime? DataNascimento { get; set; } = null;
 
         public string RazaoSocial { get; set; } = null;
 
         public Guid? Id_Conta_Principal { get; set; }
+
+        public virtual EnderecoViewModel Endereco { get; set; } = null;
+
+        public virtual ContatoViewModel Contato { get; set; } = null;
     }
 }

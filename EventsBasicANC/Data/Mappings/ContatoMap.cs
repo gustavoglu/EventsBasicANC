@@ -10,7 +10,8 @@ namespace EventsBasicANC.Data.Mappings
         {
             contato.HasOne(c => c.Conta)
                 .WithOne(cc => cc.Contato)
-                .HasForeignKey<Conta>(c => c.Id);
+                .HasForeignKey<Conta>(c => c.Id)
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
         }
     }
 }

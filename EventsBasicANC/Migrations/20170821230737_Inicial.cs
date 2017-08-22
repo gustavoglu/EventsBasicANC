@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace EventsBasicANC.Migrations
 {
-    public partial class inicial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,12 +14,12 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmailAdicional = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -36,13 +36,13 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CorFromHex = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -56,14 +56,14 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bairro = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cidade = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Pais = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -79,12 +79,12 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NomeCliente = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Saldo = table.Column<double>(type: "float", nullable: false)
@@ -135,29 +135,47 @@ namespace EventsBasicANC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pagamento_Fichas",
+                name: "Contas",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Id_ficha = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Valor = table.Column<double>(type: "float", nullable: false)
+                    Documento = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DocumentoTipo = table.Column<int>(type: "int", nullable: false),
+                    Id_Conta_Principal = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RazaoSocial = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sobrenome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tipo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pagamento_Fichas", x => x.Id);
+                    table.PrimaryKey("PK_Contas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pagamento_Fichas_Fichas_Id_ficha",
-                        column: x => x.Id_ficha,
-                        principalTable: "Fichas",
+                        name: "FK_Contas_Contatos_Id",
+                        column: x => x.Id,
+                        principalTable: "Contatos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Contas_Enderecos_Id",
+                        column: x => x.Id,
+                        principalTable: "Enderecos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Contas_Contas_Id_Conta_Principal",
+                        column: x => x.Id_Conta_Principal,
+                        principalTable: "Contas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -267,65 +285,34 @@ namespace EventsBasicANC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contas",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Documento = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DocumentoTipo = table.Column<int>(type: "int", nullable: false),
-                    Id_Conta_Principal = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RazaoSocial = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Sobrenome = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Tipo = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Contas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Contas_Contatos_Id",
-                        column: x => x.Id,
-                        principalTable: "Contatos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Contas_Enderecos_Id",
-                        column: x => x.Id,
-                        principalTable: "Enderecos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Conta_Funcionarios",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Aprovador = table.Column<bool>(type: "bit", nullable: false),
-                    Ativo = table.Column<bool>(type: "bit", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Aprovador = table.Column<bool>(type: "bit", nullable: true),
+                    Ativo = table.Column<bool>(type: "bit", nullable: true),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ContaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id_conta = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_funcionario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Permanente = table.Column<bool>(type: "bit", nullable: false),
-                    Vencimento = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Permanente = table.Column<bool>(type: "bit", nullable: true),
+                    Vencimento = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Conta_Funcionarios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Conta_Funcionarios_Contas_ContaId",
+                        column: x => x.ContaId,
+                        principalTable: "Contas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Conta_Funcionarios_Contas_Id_funcionario",
                         column: x => x.Id_funcionario,
@@ -339,15 +326,15 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Cancelado = table.Column<bool>(type: "bit", nullable: false),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Cancelado = table.Column<bool>(type: "bit", nullable: true),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DataFim = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataFim = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id_organizador = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
@@ -368,17 +355,17 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Id_Cor = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id_Cor = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Id_loja = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Preco = table.Column<double>(type: "float", nullable: false),
+                    Preco = table.Column<double>(type: "float", nullable: true),
                     Tipo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -403,21 +390,21 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Aprovado = table.Column<bool>(type: "bit", nullable: false),
-                    Ativo = table.Column<bool>(type: "bit", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Aprovado = table.Column<bool>(type: "bit", nullable: true),
+                    Ativo = table.Column<bool>(type: "bit", nullable: true),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DataAprovacao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataAprovacao = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id_evento = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_loja = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_organizador = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Vencimento = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Vencimento = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -447,18 +434,18 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cancelada = table.Column<bool>(type: "bit", nullable: false),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id_Evento = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_loja = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Total = table.Column<double>(type: "float", nullable: false)
+                    Total = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -482,16 +469,16 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Cancelado = table.Column<bool>(type: "bit", nullable: false),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Cancelado = table.Column<bool>(type: "bit", nullable: true),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id_venda = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Total = table.Column<double>(type: "float", nullable: false)
+                    Total = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -509,12 +496,12 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id_produto = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_venda = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -543,19 +530,19 @@ namespace EventsBasicANC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false),
-                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id_Pagamento = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Id_ficha = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MovimentacaoTipo = table.Column<int>(type: "int", nullable: false),
                     Observacao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SaldoAnterior = table.Column<double>(type: "float", nullable: false),
-                    Valor = table.Column<double>(type: "float", nullable: false)
+                    SaldoAnterior = table.Column<double>(type: "float", nullable: true),
+                    Valor = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -574,10 +561,48 @@ namespace EventsBasicANC.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Pagamento_Fichas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AtualizadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CriadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deletado = table.Column<bool>(type: "bit", nullable: true),
+                    DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id_ficha = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id_pagamento = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Valor = table.Column<double>(type: "float", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pagamento_Fichas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pagamento_Fichas_Fichas_Id_ficha",
+                        column: x => x.Id_ficha,
+                        principalTable: "Fichas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pagamento_Fichas_Pagamentos_Id_pagamento",
+                        column: x => x.Id_pagamento,
+                        principalTable: "Pagamentos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Claim_UserId",
                 table: "Claim",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Conta_Funcionarios_ContaId",
+                table: "Conta_Funcionarios",
+                column: "ContaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Conta_Funcionarios_Id_funcionario",
@@ -588,7 +613,8 @@ namespace EventsBasicANC.Migrations
                 name: "IX_Contas_Id_Conta_Principal",
                 table: "Contas",
                 column: "Id_Conta_Principal",
-                unique: true);
+                unique: true,
+                filter: "[Id_Conta_Principal] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contratos_Id_evento",
@@ -629,6 +655,11 @@ namespace EventsBasicANC.Migrations
                 name: "IX_Pagamento_Fichas_Id_ficha",
                 table: "Pagamento_Fichas",
                 column: "Id_ficha");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pagamento_Fichas_Id_pagamento",
+                table: "Pagamento_Fichas",
+                column: "Id_pagamento");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pagamentos_Id_venda",
@@ -693,24 +724,15 @@ namespace EventsBasicANC.Migrations
                 name: "IX_Vendas_Id_loja",
                 table: "Vendas",
                 column: "Id_loja");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Contas_Conta_Funcionarios_Id_Conta_Principal",
-                table: "Contas",
-                column: "Id_Conta_Principal",
-                principalTable: "Conta_Funcionarios",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Conta_Funcionarios_Contas_Id_funcionario",
-                table: "Conta_Funcionarios");
-
             migrationBuilder.DropTable(
                 name: "Claim");
+
+            migrationBuilder.DropTable(
+                name: "Conta_Funcionarios");
 
             migrationBuilder.DropTable(
                 name: "Contratos");
@@ -737,10 +759,10 @@ namespace EventsBasicANC.Migrations
                 name: "Venda_Produtos");
 
             migrationBuilder.DropTable(
-                name: "Pagamentos");
+                name: "Fichas");
 
             migrationBuilder.DropTable(
-                name: "Fichas");
+                name: "Pagamentos");
 
             migrationBuilder.DropTable(
                 name: "Regra");
@@ -768,9 +790,6 @@ namespace EventsBasicANC.Migrations
 
             migrationBuilder.DropTable(
                 name: "Enderecos");
-
-            migrationBuilder.DropTable(
-                name: "Conta_Funcionarios");
         }
     }
 }

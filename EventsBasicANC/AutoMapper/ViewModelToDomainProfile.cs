@@ -9,6 +9,7 @@ namespace EventsBasicANC.AutoMapper
         public ViewModelToDomainProfile()
         {
             CreateMap<Conta, ContaViewModel>().ReverseMap();
+            CreateMap<Contato, ContatoViewModel>().ReverseMap();
             CreateMap<Conta_Funcionario, Conta_FuncionarioViewModel>().ReverseMap();
             CreateMap<Contrato, ContratoViewModel>().ReverseMap();
             CreateMap<Cor, CorViewModel>().ReverseMap();

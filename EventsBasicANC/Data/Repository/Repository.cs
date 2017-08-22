@@ -24,22 +24,22 @@ namespace EventsBasicANC.Data.Repository
         {
             var a = DbSet.Update(entity);
             SaveChanges();
-            return DbSet.Find(entity);
+            return DbSet.Find(entity.Id);
         }
 
         public virtual T Criar(T entity)
         {
             DbSet.Add(entity);
             SaveChanges();
-            return DbSet.Find(entity);
+            return DbSet.Find(entity.Id);
         }
 
-        public virtual T Criar(ICollection<T> entitys)
+        public virtual IEnumerable<T> Criar(ICollection<T> entitys)
         {
             foreach (var entity in entitys) DbSet.Add(entity);
             
             SaveChanges();
-            return DbSet.Find(entitys);
+            return entitys;
         }
 
         public virtual T Deletar(Guid id)

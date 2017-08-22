@@ -13,8 +13,8 @@ using System;
 namespace EventsBasicANC.Migrations
 {
     [DbContext(typeof(SQLSContext))]
-    [Migration("20170821210111_inicial2")]
-    partial class inicial2
+    [Migration("20170821230737_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,8 +47,7 @@ namespace EventsBasicANC.Migrations
 
                     b.Property<int>("DocumentoTipo");
 
-                    b.Property<Guid?>("Id_Conta_Principal")
-                        .IsRequired();
+                    b.Property<Guid?>("Id_Conta_Principal");
 
                     b.Property<string>("Nome");
 
@@ -61,7 +60,8 @@ namespace EventsBasicANC.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Id_Conta_Principal")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Id_Conta_Principal] IS NOT NULL");
 
                     b.ToTable("Contas");
                 });
@@ -78,6 +78,8 @@ namespace EventsBasicANC.Migrations
                     b.Property<DateTime?>("AtualizadoEm");
 
                     b.Property<string>("AtualizadoPor");
+
+                    b.Property<Guid?>("ContaId");
 
                     b.Property<DateTime?>("CriadoEm");
 
@@ -98,6 +100,8 @@ namespace EventsBasicANC.Migrations
                     b.Property<DateTime?>("Vencimento");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContaId");
 
                     b.HasIndex("Id_funcionario");
 
@@ -712,14 +716,18 @@ namespace EventsBasicANC.Migrations
                         .HasForeignKey("EventsBasicANC.Models.Conta", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("EventsBasicANC.Models.Conta_Funcionario", "Conta_Principal")
-                        .WithOne("Conta")
+                    b.HasOne("EventsBasicANC.Models.Conta", "Conta_Principal")
+                        .WithOne()
                         .HasForeignKey("EventsBasicANC.Models.Conta", "Id_Conta_Principal")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("EventsBasicANC.Models.Conta_Funcionario", b =>
                 {
+                    b.HasOne("EventsBasicANC.Models.Conta", "Conta")
+                        .WithMany()
+                        .HasForeignKey("ContaId");
+
                     b.HasOne("EventsBasicANC.Models.Conta", "Funcionario")
                         .WithMany("Conta_Funcionarios")
                         .HasForeignKey("Id_funcionario")
