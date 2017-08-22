@@ -13,8 +13,8 @@ using System;
 namespace EventsBasicANC.Migrations
 {
     [DbContext(typeof(SQLSContext))]
-    [Migration("20170821230737_Inicial")]
-    partial class Inicial
+    [Migration("20170822145214_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -709,12 +709,12 @@ namespace EventsBasicANC.Migrations
                     b.HasOne("EventsBasicANC.Models.Contato", "Contato")
                         .WithOne("Conta")
                         .HasForeignKey("EventsBasicANC.Models.Conta", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("EventsBasicANC.Models.Endereco", "Endereco")
                         .WithOne("Conta")
                         .HasForeignKey("EventsBasicANC.Models.Conta", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("EventsBasicANC.Models.Conta", "Conta_Principal")
                         .WithOne()

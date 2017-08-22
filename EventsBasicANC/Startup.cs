@@ -49,9 +49,15 @@ namespace EventsBasicANC
             services.AddDbContext<SQLSContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<Usuario, IdentityRole>()
-                .AddEntityFrameworkStores<SQLSContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<Usuario, IdentityRole>(cfg =>
+            {
+                cfg.Password.RequireUppercase = false;
+                cfg.Password.RequireDigit = false;
+                cfg.Password.RequiredLength = 6;
+                cfg.Password.RequireNonAlphanumeric = false;
+
+            }).AddEntityFrameworkStores<SQLSContext>()
+              .AddDefaultTokenProviders();
 
             ConfigureJwtAuthService(services);
 
@@ -72,7 +78,7 @@ namespace EventsBasicANC
 
             //Injeção de Dependencia
             services.AddScoped<SQLSContext>();
-            
+
             //Repository
             services.AddScoped<IConta_FuncionarioRepository, Conta_FuncionarioRepository>();
             services.AddScoped<IContaRepository, ContaRepository>();

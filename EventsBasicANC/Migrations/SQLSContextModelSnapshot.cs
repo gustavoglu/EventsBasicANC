@@ -708,12 +708,12 @@ namespace EventsBasicANC.Migrations
                     b.HasOne("EventsBasicANC.Models.Contato", "Contato")
                         .WithOne("Conta")
                         .HasForeignKey("EventsBasicANC.Models.Conta", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("EventsBasicANC.Models.Endereco", "Endereco")
                         .WithOne("Conta")
                         .HasForeignKey("EventsBasicANC.Models.Conta", "Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("EventsBasicANC.Models.Conta", "Conta_Principal")
                         .WithOne()

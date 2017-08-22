@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace EventsBasicANC.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -163,13 +163,13 @@ namespace EventsBasicANC.Migrations
                         column: x => x.Id,
                         principalTable: "Contatos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Contas_Enderecos_Id",
                         column: x => x.Id,
                         principalTable: "Enderecos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Contas_Contas_Id_Conta_Principal",
                         column: x => x.Id_Conta_Principal,

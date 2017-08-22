@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventsBasicANC.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class UsuarioController : BaseController
     {
         private readonly UsuarioAppService _usuarioAppService;
@@ -36,22 +37,46 @@ namespace EventsBasicANC.Controllers
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Registro([FromBody]UsuarioRegistroViewModel viewModel)
-        {      
-
-            if (!ModelState.IsValid) return BadRequest();
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values);
 
             var usuario = new Usuario { UserName = viewModel.Email, Email = viewModel.Email };
             var result = await _userManager.CreateAsync(usuario, viewModel.Senha);
 
-            if (!result.Succeeded) return BadRequest();
+            if (!result.Succeeded)
+            {
+                AdicionaErrosIdentity(result);
+                return BadRequest(ModelState.Values.Select(c => c.Errors));
+            }
 
             ContaViewModel conta = new ContaViewModel { Id = Guid.Parse(usuario.Id), Endereco = new EnderecoViewModel { Id = Guid.Parse(usuario.Id) }, Contato = new ContatoViewModel { Id = Guid.Parse(usuario.Id) } };
             var contaCriada = _contaAppService.Criar(conta);
 
-            if (contaCriada == null) return BadRequest();
+            if (contaCriada == null)
+            {
+                await _userManager.DeleteAsync(await _userManager.FindByIdAsync(usuario.Id));
+                return BadRequest("Erro ao criar Conta para o Usuario");
+            }
 
-            return Response("Usuario Criado");
-
+            return Response($"Usuario { usuario.UserName } Criado", true);
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody]UsuarioLoginViewModel viewModel)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(e => e.Errors));
+
+            var result = await _signManager.PasswordSignInAsync(viewModel.Email, viewModel.Senha, false, true);
+
+            if (!result.Succeeded) return BadRequest(ModelState.Values.Select(e => e.Errors));
+
+            var retorno = _usuarioAppService.ObterTokenUsuario(viewModel);
+
+            return Response(retorno);
+        }
+
+
+
     }
 }
