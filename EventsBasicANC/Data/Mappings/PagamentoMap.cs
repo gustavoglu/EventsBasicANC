@@ -11,10 +11,9 @@ namespace EventsBasicANC.Data.Mappings
             pagamento.HasKey(p => p.Id);
 
             pagamento.HasOne(p => p.Venda)
-                .WithMany(v => v.Pagamentos)
-                .HasForeignKey(p => p.Id_venda)
-                .IsRequired()
-                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
+                .WithOne(v => v.Pagamento)
+                .HasForeignKey<Pagamento>(p => p.Id)
+                .IsRequired();
 
         }
     }

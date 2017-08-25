@@ -1,16 +1,14 @@
 ﻿using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.ViewModels;
-using EventsBasicANC.ViewModels.Validations.Produto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace EventsBasicANC.Controllers
 {
     [AllowAnonymous]
-    [Route("api/[controller]")]
+    [Route("api/Produtos")]
     public class ProdutosController : BaseController
     {
         IProdutoAppService _produtoAppService;
@@ -26,30 +24,35 @@ namespace EventsBasicANC.Controllers
             return _produtoAppService.TrazerTodosAtivos().AsQueryable();
         }
 
-        [HttpPost]
-        public IActionResult Post(ProdutoViewModel produto)
+        [HttpGet("{id:Guid}")]
+        public ProdutoViewModel Get(Guid id)
         {
-            var validations = new CriarProdutoValidation().Validate(produto);
-            if (!validations.IsValid) return BadRequest(validations.Errors.Select(e => new { erro = e.ErrorMessage }));
+            return _produtoAppService.TrazerPorId(id);
+        }
+
+        [HttpPost(Name = "Post")]
+        public IActionResult Post([FromBody]ProdutoViewModel produto)
+        {
+            if (produto == null) return BadRequest("Nenhum Produto Informado");
             var produtoViewModel = _produtoAppService.Criar(produto);
             return Response(produtoViewModel);
         }
 
         [HttpPut]
-        public IActionResult Put(ProdutoViewModel produto)
+        public IActionResult Put([FromBody]ProdutoViewModel produto)
         {
-            var validations = new AtualizarProdutoValidation().Validate(produto);
-            if (!validations.IsValid) return BadRequest(validations.Errors.Select(e => new { erro = e.ErrorMessage }));
+            var exist = _produtoAppService.TrazerPorId(produto.Id.Value);
+            if (exist == null) return BadRequest("Este produto não existe");
             var produtoViewModel = _produtoAppService.Atualizar(produto);
             return Response(produtoViewModel);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:Guid}")]
         public IActionResult Delete(Guid id)
         {
-            var validations = new DeletarProdutoValidation().Validate(new ProdutoViewModel() { Id = id });
-            if (!validations.IsValid) return BadRequest (validations.Errors.Select(e => e.ErrorMessage));
             var exist = _produtoAppService.TrazerPorId(id);
+            if (exist == null) return BadRequest("Este produto não existe");
+
             var produtoDeletado = _produtoAppService.Deletar(id);
             return Response(produtoDeletado);
         }

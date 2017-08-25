@@ -17,7 +17,7 @@ namespace EventsBasicANC.Models
 
         public virtual ICollection<Venda_Produto> Venda_Produtos { get; set; }
 
-        public virtual ICollection<Pagamento> Pagamentos { get; set; }
+        public virtual Pagamento Pagamento { get; set; }
 
         public virtual Evento Evento { get; set; }
 

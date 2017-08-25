@@ -8,7 +8,10 @@ namespace EventsBasicANC.ViewModels
 
         public Guid Id_ficha { get; set; }
 
-        public double Valor { get; set; }
+        public Guid Id_pagamento { get; set; }
 
+        public double? Valor { get; set; } = 0;
+
+        public virtual FichaViewModel Ficha { get; set; }
     }
 }

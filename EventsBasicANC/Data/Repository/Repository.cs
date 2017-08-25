@@ -46,6 +46,7 @@ namespace EventsBasicANC.Data.Repository
         {
             var entityDeleted = DbSet.FirstOrDefault(e => e.Id == id);
             DbSet.Remove(entityDeleted);
+            SaveChanges();
             return entityDeleted;
         }
 
