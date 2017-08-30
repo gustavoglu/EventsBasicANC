@@ -13,8 +13,8 @@ using System;
 namespace EventsBasicANC.Migrations
 {
     [DbContext(typeof(SQLSContext))]
-    [Migration("20170825014146_inicial2")]
-    partial class inicial2
+    [Migration("20170829230825_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

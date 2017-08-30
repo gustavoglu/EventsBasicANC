@@ -13,8 +13,8 @@ using System;
 namespace EventsBasicANC.Migrations
 {
     [DbContext(typeof(SQLSContext))]
-    [Migration("20170822145214_inicial")]
-    partial class inicial
+    [Migration("20170830012617_dataMov")]
+    partial class dataMov
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -325,6 +325,8 @@ namespace EventsBasicANC.Migrations
 
                     b.Property<string>("CriadoPor");
 
+                    b.Property<DateTime?>("Data");
+
                     b.Property<bool?>("Deletado");
 
                     b.Property<DateTime?>("DeletadoEm");
@@ -354,8 +356,7 @@ namespace EventsBasicANC.Migrations
 
             modelBuilder.Entity("EventsBasicANC.Models.Pagamento", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("Id");
 
                     b.Property<DateTime?>("AtualizadoEm");
 
@@ -373,13 +374,9 @@ namespace EventsBasicANC.Migrations
 
                     b.Property<string>("DeletadoPor");
 
-                    b.Property<Guid>("Id_venda");
-
                     b.Property<double?>("Total");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id_venda");
 
                     b.ToTable("Pagamentos");
                 });
@@ -775,9 +772,9 @@ namespace EventsBasicANC.Migrations
             modelBuilder.Entity("EventsBasicANC.Models.Pagamento", b =>
                 {
                     b.HasOne("EventsBasicANC.Models.Venda", "Venda")
-                        .WithMany("Pagamentos")
-                        .HasForeignKey("Id_venda")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithOne("Pagamento")
+                        .HasForeignKey("EventsBasicANC.Models.Pagamento", "Id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EventsBasicANC.Models.Pagamento_Ficha", b =>

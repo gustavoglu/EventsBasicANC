@@ -12,6 +12,8 @@ namespace EventsBasicANC.Services.Interfaces
 
         FichaViewModel Atualizar(FichaViewModel entity);
 
+        FichaViewModel Atualizar(FichaViewModel entity, Guid id_pagamento,bool estorno = false, string movimentacaoObs = null);
+
         FichaViewModel Deletar(Guid id);
 
         FichaViewModel TrazerPorId(Guid id);
@@ -25,5 +27,7 @@ namespace EventsBasicANC.Services.Interfaces
         IEnumerable<FichaViewModel> TrazerTodosAtivos();
 
         IEnumerable<FichaViewModel> TrazerTodosDeletados();
+
+        IEnumerable<FichaViewModel> EfetuaPagamentoFichas(ICollection<FichaViewModel> fichas, Guid id_pagamento, double totalVenda);
     }
 }

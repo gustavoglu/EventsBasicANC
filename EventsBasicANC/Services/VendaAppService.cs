@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EventsBasicANC.Data.Repository.Interfaces;
+using EventsBasicANC.Domain.Models.Enums;
 using EventsBasicANC.Models;
 using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.ViewModels;
@@ -13,10 +14,14 @@ namespace EventsBasicANC.Services
     public class VendaAppService : IVendaAppService
     {
         private readonly IVendaRepository _vendaRepository;
+        private readonly IMovimentacaoRepository _movimentacaoRepository;
+        private readonly IFichaAppService _fichaAppService;
         private readonly IMapper _mapper;
-        public VendaAppService(IVendaRepository vendaRepository, IMapper mapper)
+        public VendaAppService(IVendaRepository vendaRepository, IMovimentacaoRepository movimentacaoRepository, IFichaAppService fichaAppService, IMapper mapper)
         {
             _vendaRepository = vendaRepository;
+            _movimentacaoRepository = movimentacaoRepository;
+            this._fichaAppService = fichaAppService;
             _mapper = mapper;
         }
 
@@ -29,6 +34,11 @@ namespace EventsBasicANC.Services
 
         public VendaViewModel Criar(VendaViewModel VendaViewModel)
         {
+            var fichas = VendaViewModel.Pagamento.Pagamento_Fichas.Select(pf => pf.Ficha).OrderByDescending(f => f.Saldo).ToList();
+            double totalVenda = VendaViewModel.Total.Value;
+
+            var fichasAtualizadas = _fichaAppService.EfetuaPagamentoFichas(fichas, VendaViewModel.Pagamento.Id, totalVenda);
+
             var model = _mapper.Map<Venda>(VendaViewModel);
             return _mapper.Map<VendaViewModel>(_vendaRepository.Criar(model));
         }

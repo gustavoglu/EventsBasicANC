@@ -7,6 +7,7 @@ namespace EventsBasicANC.ViewModels
     {
         public PagamentoViewModel()
         {
+            this.Id = Guid.NewGuid();
             Pagamento_Fichas = new List<Pagamento_FichaViewModel>();
         }
 

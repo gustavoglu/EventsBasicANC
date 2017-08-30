@@ -477,18 +477,17 @@ namespace EventsBasicANC.Migrations
                     Deletado = table.Column<bool>(type: "bit", nullable: true),
                     DeletadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletadoPor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Id_venda = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Total = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pagamentos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pagamentos_Vendas_Id_venda",
-                        column: x => x.Id_venda,
+                        name: "FK_Pagamentos_Vendas_Id",
+                        column: x => x.Id,
                         principalTable: "Vendas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -660,11 +659,6 @@ namespace EventsBasicANC.Migrations
                 name: "IX_Pagamento_Fichas_Id_pagamento",
                 table: "Pagamento_Fichas",
                 column: "Id_pagamento");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pagamentos_Id_venda",
-                table: "Pagamentos",
-                column: "Id_venda");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Produtos_Id_Cor",

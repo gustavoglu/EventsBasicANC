@@ -4,6 +4,11 @@ namespace EventsBasicANC.ViewModels
 {
    public class Pagamento_FichaViewModel
     {
+        public Pagamento_FichaViewModel()
+        {
+            this.Id = Guid.NewGuid();
+        }
+
         public Guid Id { get; set; }
 
         public Guid Id_ficha { get; set; }

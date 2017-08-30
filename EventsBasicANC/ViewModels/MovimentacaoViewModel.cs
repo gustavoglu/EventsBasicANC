@@ -5,6 +5,11 @@ namespace EventsBasicANC.ViewModels
 {
     public class MovimentacaoViewModel
     {
+        public MovimentacaoViewModel()
+        {
+            this.Data = DateTime.Now;
+        }
+
         public Guid Id { get; set; }
 
         public Guid Id_ficha { get; set; } 
@@ -18,5 +23,7 @@ namespace EventsBasicANC.ViewModels
         public double Valor { get; set; }
 
         public double SaldoAnterior{ get; set; }
+
+        public DateTime? Data { get; set; }
     }
 }

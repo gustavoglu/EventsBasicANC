@@ -18,7 +18,9 @@ namespace EventsBasicANC.AutoMapper
             CreateMap<Ficha, FichaViewModel>().ReverseMap();
             CreateMap<Movimentacao, MovimentacaoViewModel>().ReverseMap();
             CreateMap<Pagamento, PagamentoViewModel>().ReverseMap();
-            CreateMap<Pagamento_Ficha, Pagamento_FichaViewModel>().ReverseMap();
+            CreateMap<Pagamento_Ficha, Pagamento_FichaViewModel>()
+                .ForMember(vm => vm.Ficha,cfg => cfg.Ignore())
+                .ReverseMap();
             CreateMap<Produto, ProdutoViewModel>().ReverseMap();
             CreateMap<Usuario, UsuarioViewModel>().ReverseMap();
             CreateMap<Venda, VendaViewModel>().ReverseMap();

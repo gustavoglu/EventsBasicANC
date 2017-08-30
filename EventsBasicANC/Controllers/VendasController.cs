@@ -47,8 +47,9 @@ namespace EventsBasicANC.Controllers
             bool existSaldo = vendaViewModel.Pagamento.Pagamento_Fichas.ToList().Sum(pf => pf.Ficha.Saldo) >= total;
             if (!existSaldo) return BadRequest("A Soma da(s) Ficha(s) informadas é menor que o Total da Venda (Sem saldo Suficiente)");
 
+            var vendaCriada = _vendaAppService.Criar(vendaViewModel);
             return Ok();
-                             
+
         }
 
         [HttpPut("{id}")]

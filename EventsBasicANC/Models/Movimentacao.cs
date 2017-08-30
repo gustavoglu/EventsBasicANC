@@ -5,6 +5,11 @@ namespace EventsBasicANC.Models
 {
     public class Movimentacao : Entity
     {
+        public Movimentacao()
+        {
+            this.Data = DateTime.Now;
+        }
+
         public Guid Id_ficha { get; set; } 
 
         public Guid? Id_Pagamento { get; set; }
@@ -16,6 +21,8 @@ namespace EventsBasicANC.Models
         public double? Valor { get; set; } = 0;
 
         public double? SaldoAnterior { get; set; } = 0;
+
+        public DateTime? Data { get; set; }
 
         public virtual Ficha Ficha { get; set; }
 

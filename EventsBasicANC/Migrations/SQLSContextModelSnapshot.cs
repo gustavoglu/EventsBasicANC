@@ -324,6 +324,8 @@ namespace EventsBasicANC.Migrations
 
                     b.Property<string>("CriadoPor");
 
+                    b.Property<DateTime?>("Data");
+
                     b.Property<bool?>("Deletado");
 
                     b.Property<DateTime?>("DeletadoEm");
