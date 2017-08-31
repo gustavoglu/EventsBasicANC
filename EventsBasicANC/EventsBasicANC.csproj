@@ -15,7 +15,6 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
     <PackageReference Include="NBuilder" Version="5.0.0" />
-    <PackageReference Include="rhinomocks" Version="3.6.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,19 +9,9 @@ namespace EventsBasicANC.ViewModels
 
         public string Senha { get; set; }
 
-        public string ConfirmacaoSenha { get; set; }
-
-        public string Nome { get; set; } = null;
-
-        public string Sobrenome { get; set; } = null;
-
-        public DocumentoTipo DocumentoTipo { get; set; }
-
-        public string Documento { get; set; } = null;
-
-        public DateTime? DataNascimento { get; set; } = null;
-
         public string RazaoSocial { get; set; } = null;
+
+        public string NomeLoja { get; set; } = null;
 
         public EnderecoViewModel Endereco { get; set; } = null;
 

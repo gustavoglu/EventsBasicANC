@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.ViewModels;
-using Rhino.Mocks;
 using System.ComponentModel;
 using FizzWare.NBuilder;
 
@@ -19,9 +18,23 @@ namespace EventsBasicANC.Controllers
         // GET api/values
         [AllowAnonymous]
         [HttpGet]
-        public OrganizadorContainerViewModel Get()
+        public ContainerViewModel Get()
         {
-            var container = Builder<OrganizadorContainerViewModel>.CreateNew().Build();
+            var container = Builder<ContainerViewModel>.CreateNew().Build();
+            container.Evento = Builder<EventoContainerViewModel>.CreateNew().Build();
+            container.Lojas = Builder<LojaContainerViewModel>.CreateListOfSize(10).Build();
+            container.Organizador = Builder<OrganizadorContainerViewModel>.CreateNew().Build();
+
+            foreach (var loja in container.Lojas)
+            {
+                loja.Endereco = Builder<EnderecoContainerViewModel>.CreateNew().Build();
+                loja.Contato = Builder<ContatoContainerViewModel>.CreateNew().Build();
+                loja.Funcionarios = Builder<ContaBasicaContainerViewModel>.CreateListOfSize(3).Build();
+                loja.Produtos = Builder<ProdutoContainerViewModel>.CreateListOfSize(5).Build();
+            }
+
+            container.Organizador.Funcionarios = Builder<ContaBasicaContainerViewModel>.CreateListOfSize(2).Build();
+            
             return container;
         }
 

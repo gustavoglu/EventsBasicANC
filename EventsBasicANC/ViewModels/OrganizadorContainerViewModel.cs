@@ -2,8 +2,8 @@
 
 namespace EventsBasicANC.ViewModels
 {
-    public class OrganizadorContainerViewModel : ContaContainerViewModel
+    public class OrganizadorContainerViewModel : ContaBasicaContainerViewModel
     {
-        public ICollection<ContaContainerViewModel> Funcionarios { get; set; }
+        public ICollection<ContaBasicaContainerViewModel> Funcionarios { get; set; }
     }
 }

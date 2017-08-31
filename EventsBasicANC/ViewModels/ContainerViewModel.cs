@@ -4,10 +4,6 @@ namespace EventsBasicANC.ViewModels
 {
     public class ContainerViewModel
     {
-        public ContainerViewModel()
-        {
-
-        }
         public EventoContainerViewModel Evento { get; set; }
 
         public OrganizadorContainerViewModel Organizador { get; set; }

@@ -14,7 +14,5 @@ namespace EventsBasicANC.ViewModels
 
         public string Estado { get; set; } = null;
 
-        public string Pais { get; set; } = null;
-
     }
 }

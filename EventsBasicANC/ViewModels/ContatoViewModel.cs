@@ -1,4 +1,4 @@
-﻿
+﻿using EventsBasicANC.Domain.Models.Enums;
 using System;
 
 namespace EventsBasicANC.ViewModels
@@ -6,6 +6,12 @@ namespace EventsBasicANC.ViewModels
     public class ContatoViewModel
     {
         public Guid Id { get; set; }
+
+        public string NomeCompleto { get; set; } = null;
+
+        public DocumentoTipo DocumentoTipo { get; set; }
+
+        public string Documento { get; set; } = null;
 
         public string Email { get; set; } = null;
 

@@ -4,6 +4,6 @@
     {
         Salgado,
         Doce,
-        Loquido
+        Bedida
     }
 }

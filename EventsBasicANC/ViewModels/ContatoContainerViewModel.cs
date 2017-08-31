@@ -1,8 +1,8 @@
 ﻿using EventsBasicANC.Domain.Models.Enums;
 
-namespace EventsBasicANC.Models
+namespace EventsBasicANC.ViewModels
 {
-    public class Contato : Entity
+    public class ContatoContainerViewModel
     {
         public string NomeCompleto { get; set; } = null;
 
@@ -17,7 +17,5 @@ namespace EventsBasicANC.Models
         public string Telefone { get; set; } = null;
 
         public string Telefone2 { get; set; } = null;
-
-        public virtual Conta Conta  { get; set; }
     }
 }
