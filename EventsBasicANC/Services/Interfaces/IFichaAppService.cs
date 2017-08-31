@@ -29,5 +29,7 @@ namespace EventsBasicANC.Services.Interfaces
         IEnumerable<FichaViewModel> TrazerTodosDeletados();
 
         IEnumerable<FichaViewModel> EfetuaPagamentoFichas(ICollection<FichaViewModel> fichas, Guid id_pagamento, double totalVenda);
+
+        IEnumerable<FichaViewModel> CriaFichasParaNovoEvento(Guid id_evento);
     }
 }

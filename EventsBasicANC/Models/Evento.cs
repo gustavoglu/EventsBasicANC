@@ -21,5 +21,6 @@ namespace EventsBasicANC.Models
 
         public virtual ICollection<Contrato> Contratos  { get; set; }
 
+        public virtual ICollection<Ficha> Fichas  { get; set; }
     }
 }

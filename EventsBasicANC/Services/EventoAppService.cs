@@ -12,9 +12,11 @@ namespace EventsBasicANC.Services
     public class EventoAppService : IEventoAppService
     {
         private readonly IEventoRepository _eventoRepository;
+        private readonly IFichaAppService _fichaAppService;
         private readonly IMapper _mapper;
-        public EventoAppService(IEventoRepository eventoRepository, IMapper mapper)
+        public EventoAppService(IEventoRepository eventoRepository, IFichaAppService fichaAppService, IMapper mapper)
         {
+            _fichaAppService = fichaAppService;
             _eventoRepository = eventoRepository;
             _mapper = mapper;
         }
@@ -29,6 +31,8 @@ namespace EventsBasicANC.Services
         public EventoViewModel Criar(EventoViewModel EventoViewModel)
         {
             var model = _mapper.Map<Evento>(EventoViewModel);
+            var eventoCriado = _mapper.Map<EventoViewModel>(_eventoRepository.Criar(model));
+            var fichasCriadas =  _fichaAppService.CriaFichasParaNovoEvento(eventoCriado.Id);
             return _mapper.Map<EventoViewModel>(_eventoRepository.Criar(model));
         }
 

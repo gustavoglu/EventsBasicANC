@@ -7,6 +7,7 @@ using EventsBasicANC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventsBasicANC.Services
 {
@@ -15,6 +16,8 @@ namespace EventsBasicANC.Services
         private readonly IFichaRepository _fichaRepository;
         private readonly IMovimentacaoRepository _movimentacaoRepository;
         private readonly IMapper _mapper;
+        private int quantidadeFichasPorEvento = 10000;
+
         public FichaAppService(IFichaRepository fichaRepository, IMovimentacaoRepository movimentacaoRepository, IMapper mapper)
         {
             _fichaRepository = fichaRepository;
@@ -76,6 +79,29 @@ namespace EventsBasicANC.Services
             }
 
             return fichaAtualizada;
+        }
+
+        public IEnumerable<FichaViewModel> CriaFichasParaNovoEvento(Guid id_evento)
+        {
+            List<Ficha> fichasDoEvento = new List<Ficha>();
+            List<Ficha> fichasCriadas = new List<Ficha>();
+            int contagem = 1;
+            int qtdZeros = 5;
+
+            Task.Run(() =>
+            {
+                while (contagem < quantidadeFichasPorEvento)
+                {
+                    string codigo = contagem.ToString().PadLeft((qtdZeros - contagem.ToString().Length), '0');
+                    Ficha ficha = new Ficha { Codigo = codigo, Id_evento = id_evento, Saldo = 0 };
+                    contagem++;
+                }
+
+                fichasCriadas = _fichaRepository.Criar(fichasDoEvento.ToList()).ToList();
+
+            });
+
+            return _mapper.Map<IEnumerable<FichaViewModel>>(fichasCriadas);
         }
 
         public FichaViewModel Criar(FichaViewModel FichaViewModel)

@@ -9,6 +9,11 @@ namespace EventsBasicANC.Data.Mappings
         public override void Map(EntityTypeBuilder<Ficha> ficha)
         {
             ficha.HasKey(f => f.Id);
+
+            ficha.HasOne(f => f.Evento)
+                .WithMany(e => e.Fichas)
+                .HasForeignKey(f => f.Id_evento)
+                .IsRequired();
         }
     }
 }

@@ -10,8 +10,13 @@ namespace EventsBasicANC.ViewModels
         }
         public Guid Id { get; set; }
 
+        public Guid Id_evento { get; set; }
+
+        public string Codigo { get; set; } = null;
+
         public double Saldo { get; set; } = 0;
 
         public string NomeCliente { get; set; } = null;
+
     }
 }

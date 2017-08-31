@@ -6,18 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.ViewModels;
+using Rhino.Mocks;
+using System.ComponentModel;
+using FizzWare.NBuilder;
 
 namespace EventsBasicANC.Controllers
 {
-    //[AllowAnonymous]
+  
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
         // GET api/values
+        [AllowAnonymous]
         [HttpGet]
-        public string Get()
+        public OrganizadorContainerViewModel Get()
         {
-            return "value1,value2";
+            var container = Builder<OrganizadorContainerViewModel>.CreateNew().Build();
+            return container;
         }
 
         // GET api/values/5
