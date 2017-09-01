@@ -21,6 +21,8 @@ using AutoMapper;
 using EventsBasicANC.ViewModels;
 using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.Services;
+using EventsBasicANC.Interfaces;
+using EventsBasicANC.Users;
 
 namespace EventsBasicANC
 {
@@ -113,6 +115,8 @@ namespace EventsBasicANC
             services.AddScoped<IUsuarioAppService, UsuarioAppService>();
             services.AddScoped<UsuarioAppService>();
 
+            //Users
+            services.AddScoped<IUser, AspNetUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

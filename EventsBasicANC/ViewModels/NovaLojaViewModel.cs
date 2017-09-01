@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-
+﻿using System;
 namespace EventsBasicANC.ViewModels
 {
-    public class LojaContainerViewModel
+    public class NovaLojaViewModel
     {
         public string Login { get; set; } = null;
 
@@ -12,12 +11,14 @@ namespace EventsBasicANC.ViewModels
 
         public string NomeFantasia { get; set; } = null;
 
+        public Guid Id_conta_organizador { get; set; }
+
+        public Guid Id_evento { get; set; }
+
         public EnderecoContainerViewModel Endereco { get; set; } = null;
 
         public ContatoContainerViewModel Contato { get; set; } = null;
 
-        public ICollection<ProdutoContainerViewModel> Produtos { get; set; }
 
-        public ICollection<ContaBasicaContainerViewModel> Funcionarios { get; set; }
     }
 }

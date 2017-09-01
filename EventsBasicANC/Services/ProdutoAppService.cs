@@ -38,6 +38,7 @@ namespace EventsBasicANC.Services
             return _mapper.Map<IEnumerable<ProdutoViewModel>>(_produtoRepository.Criar(modelList));
         }
 
+
         public ProdutoViewModel Deletar(Guid id)
         {
             return _mapper.Map<ProdutoViewModel>(_produtoRepository.Deletar(id));

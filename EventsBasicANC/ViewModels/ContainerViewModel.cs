@@ -8,6 +8,6 @@ namespace EventsBasicANC.ViewModels
 
         public OrganizadorContainerViewModel Organizador { get; set; }
 
-        public ICollection<LojaContainerViewModel> Lojas { get; set; }
+        public ICollection<NovaLojaViewModel> Lojas { get; set; }
     }
 }

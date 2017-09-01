@@ -6,7 +6,7 @@ namespace EventsBasicANC.ViewModels
     {
         public string NomeCompleto { get; set; } = null;
 
-        public DocumentoTipo DocumentoTipo { get; set; }
+        public DocumentoTipo? DocumentoTipo { get; set; }
 
         public string Documento { get; set; } = null;
 

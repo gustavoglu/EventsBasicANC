@@ -1,5 +1,6 @@
 ﻿using EventsBasicANC.Data.Extensions;
 using EventsBasicANC.Data.Mappings;
+using EventsBasicANC.Interfaces;
 using EventsBasicANC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -15,9 +16,11 @@ namespace EventsBasicANC.Data
 {
     public class SQLSContext : IdentityDbContext<Usuario>
     {
-        public SQLSContext(DbContextOptions<SQLSContext> options) : base(options)
-        {
+        private readonly IUser _user;
 
+        public SQLSContext(IUser user)
+        {
+            _user = user;
         }
 
         public DbSet<Conta> Contas { get; set; }
@@ -39,7 +42,7 @@ namespace EventsBasicANC.Data
         {
      
             base.OnModelCreating(modelBuilder);
-            
+
             
 
             // Altera nome de tabelas do Entity
@@ -89,6 +92,10 @@ namespace EventsBasicANC.Data
             {
                 var entityAtualizada = (Entity)entity.Entity;
                 entityAtualizada.AtualizadoEm = DateTime.Now;
+
+                if (_user.IsAuthenticated())
+                    entityAtualizada.AtualizadoPor = _user.Name;
+                
             }
         }
 
@@ -98,6 +105,8 @@ namespace EventsBasicANC.Data
             {
                 var entityCriada = (Entity)entity.Entity;
                 entityCriada.CriadoEm = DateTime.Now;
+                if (_user.IsAuthenticated())
+                    entityCriada.CriadoPor = _user.Name;
             }
         }
 
@@ -109,6 +118,9 @@ namespace EventsBasicANC.Data
                 var entityCriada = (Entity)entity.Entity;
                 entityCriada.DeletadoEm = DateTime.Now;
                 entityCriada.Deletado = true;
+
+                if (_user.IsAuthenticated())
+                    entityCriada.DeletadoPor = _user.Name;
             }
         }
 

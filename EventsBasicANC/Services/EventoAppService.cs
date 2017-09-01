@@ -32,8 +32,8 @@ namespace EventsBasicANC.Services
         {
             var model = _mapper.Map<Evento>(EventoViewModel);
             var eventoCriado = _mapper.Map<EventoViewModel>(_eventoRepository.Criar(model));
-            var fichasCriadas =  _fichaAppService.CriaFichasParaNovoEvento(eventoCriado.Id);
-            return _mapper.Map<EventoViewModel>(_eventoRepository.Criar(model));
+            var fichasCriadas =  _fichaAppService.CriaFichasParaNovoEvento(eventoCriado.Id.Value);
+            return eventoCriado;
         }
 
         public IEnumerable<EventoViewModel> Criar(ICollection<EventoViewModel> contasViewModel)

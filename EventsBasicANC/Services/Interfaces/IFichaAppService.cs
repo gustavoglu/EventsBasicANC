@@ -16,6 +16,8 @@ namespace EventsBasicANC.Services.Interfaces
 
         FichaViewModel Deletar(Guid id);
 
+        FichaViewModel TrazerPorCodigo(string codigo);
+
         FichaViewModel TrazerPorId(Guid id);
 
         FichaViewModel TrazerAtivoPorId(Guid id);
@@ -31,5 +33,9 @@ namespace EventsBasicANC.Services.Interfaces
         IEnumerable<FichaViewModel> EfetuaPagamentoFichas(ICollection<FichaViewModel> fichas, Guid id_pagamento, double totalVenda);
 
         IEnumerable<FichaViewModel> CriaFichasParaNovoEvento(Guid id_evento);
+
+        IEnumerable<FichaViewModel> Estorno(Guid id_pagamento);
+
+        FichaViewModel Estorno(Guid id_ficha,double valor);
     }
 }

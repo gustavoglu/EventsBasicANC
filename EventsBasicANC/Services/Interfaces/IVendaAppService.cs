@@ -14,6 +14,8 @@ namespace EventsBasicANC.Services.Interfaces
 
         VendaViewModel Deletar(Guid id);
 
+        VendaViewModel Cancelar(Guid id);
+
         VendaViewModel TrazerPorId(Guid id);
 
         VendaViewModel TrazerAtivoPorId(Guid id);

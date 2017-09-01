@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using EventsBasicANC.Data.Repository.Interfaces;
-using EventsBasicANC.Domain.Models.Enums;
 using EventsBasicANC.Models;
 using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventsBasicANC.Services
 {
@@ -30,6 +28,17 @@ namespace EventsBasicANC.Services
             var model = _mapper.Map<Venda>(VendaViewModel);
             var modelAtualizado = _mapper.Map(VendaViewModel, model);
             return _mapper.Map<VendaViewModel>(_vendaRepository.Atualizar(modelAtualizado));
+        }
+
+        public VendaViewModel Cancelar(Guid id)
+        {
+            var venda = _mapper.Map<VendaViewModel>(_vendaRepository.TrazerPorId(id));
+
+            _fichaAppService.Estorno(venda.Id);
+
+            venda.Cancelada = true;
+
+            return this.Atualizar(venda);
         }
 
         public VendaViewModel Criar(VendaViewModel VendaViewModel)

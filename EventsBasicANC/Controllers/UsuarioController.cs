@@ -76,7 +76,29 @@ namespace EventsBasicANC.Controllers
             return Response(retorno);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Loja([FromBody]NovaLojaViewModel novaLojaViewModel)
+        {
+            if (!ModelState.IsValid) return BadRequest(novaLojaViewModel);
 
+            var usuario = await _usuarioAppService.CriarLojaPorOrganizador(novaLojaViewModel);
+
+            if (usuario == null) return BadRequest("Não foi possivel criar a Loja");
+
+            return Response(usuario);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Funcionario([FromBody]NovoFuncionarioViewModel novoFuncionarioViewModel)
+        {
+            if (!ModelState.IsValid) return BadRequest(novoFuncionarioViewModel);
+
+            var usuarioFunc = await _usuarioAppService.CriarFuncionario(novoFuncionarioViewModel);
+
+            if (usuarioFunc == null) return BadRequest("Não foi possivel criar a Loja");
+
+            return Response(usuarioFunc);
+        }
 
     }
 }

@@ -16,6 +16,7 @@ namespace EventsBasicANC.Controllers
         public ProdutosController(IProdutoAppService produtoAppService)
         {
             _produtoAppService = produtoAppService;
+            
         }
 
         [HttpGet]

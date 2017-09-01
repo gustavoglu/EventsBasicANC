@@ -15,13 +15,15 @@ namespace EventsBasicANC.Services
     {
         private readonly IFichaRepository _fichaRepository;
         private readonly IMovimentacaoRepository _movimentacaoRepository;
+        private readonly IPagamentoRepository _pagamentoRepository;
         private readonly IMapper _mapper;
         private int quantidadeFichasPorEvento = 10000;
 
-        public FichaAppService(IFichaRepository fichaRepository, IMovimentacaoRepository movimentacaoRepository, IMapper mapper)
+        public FichaAppService(IFichaRepository fichaRepository, IMovimentacaoRepository movimentacaoRepository, IPagamentoRepository pagamentoRepository, IMapper mapper)
         {
             _fichaRepository = fichaRepository;
             _movimentacaoRepository = movimentacaoRepository;
+            _pagamentoRepository = pagamentoRepository;
             _mapper = mapper;
         }
 
@@ -50,6 +52,7 @@ namespace EventsBasicANC.Services
 
         public FichaViewModel Atualizar(FichaViewModel FichaViewModel, Guid id_pagamento, bool estorno = false, string movimentacaoObs = null)
         {
+
             var model = _fichaRepository.TrazerPorId(FichaViewModel.Id);
 
             double saldoAnterior = model.Saldo;
@@ -88,18 +91,15 @@ namespace EventsBasicANC.Services
             int contagem = 1;
             int qtdZeros = 5;
 
-            Task.Run(() =>
+            while (contagem < quantidadeFichasPorEvento)
             {
-                while (contagem < quantidadeFichasPorEvento)
-                {
-                    string codigo = contagem.ToString().PadLeft((qtdZeros - contagem.ToString().Length), '0');
-                    Ficha ficha = new Ficha { Codigo = codigo, Id_evento = id_evento, Saldo = 0 };
-                    contagem++;
-                }
+                string codigo = contagem.ToString().PadLeft((qtdZeros - contagem.ToString().Length), '0');
+                Ficha ficha = new Ficha { Codigo = codigo, Id_evento = id_evento, Saldo = 0 };
+                fichasDoEvento.Add(ficha);
+                contagem++;
+            }
 
-                fichasCriadas = _fichaRepository.Criar(fichasDoEvento.ToList()).ToList();
-
-            });
+            fichasCriadas = _fichaRepository.Criar(fichasDoEvento.ToList()).ToList();
 
             return _mapper.Map<IEnumerable<FichaViewModel>>(fichasCriadas);
         }
@@ -145,6 +145,27 @@ namespace EventsBasicANC.Services
             return fichas.ToList();
         }
 
+        public IEnumerable<FichaViewModel> Estorno(Guid id_pagamento)
+        {
+            var pagamento = _pagamentoRepository.TrazerPorId(id_pagamento);
+            var pagamento_fichas = pagamento.Pagamento_Fichas.Where(p => p.Valor.HasValue);
+            foreach (var pagamento_ficha in pagamento_fichas)
+            {
+                pagamento_ficha.Ficha.Saldo = pagamento_ficha.Ficha.Saldo + pagamento_ficha.Valor.Value;
+                var ficha = _mapper.Map<FichaViewModel>(pagamento_ficha.Ficha);
+                this.Atualizar(ficha, id_pagamento, true);
+            }
+
+            return _mapper.Map<IEnumerable<FichaViewModel>>(pagamento_fichas.Select(pf => pf.Ficha).ToList());
+        }
+
+        public FichaViewModel Estorno(Guid id_ficha, double valor)
+        {
+            var fichaViewModel = _mapper.Map<FichaViewModel>(this.TrazerPorId(id_ficha));
+            fichaViewModel.Saldo = fichaViewModel.Saldo + valor;
+            return this.Atualizar(fichaViewModel);
+        }
+
         public FichaViewModel TrazerAtivoPorId(Guid id)
         {
             return _mapper.Map<FichaViewModel>(_fichaRepository.TrazerAtivoPorId(id));
@@ -153,6 +174,11 @@ namespace EventsBasicANC.Services
         public FichaViewModel TrazerDeletadoPorId(Guid id)
         {
             return _mapper.Map<FichaViewModel>(_fichaRepository.TrazerDeletadoPorId(id));
+        }
+
+        public FichaViewModel TrazerPorCodigo(string codigo)
+        {
+            return _mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Codigo == codigo && f.Deletado == false).FirstOrDefault());
         }
 
         public FichaViewModel TrazerPorId(Guid id)

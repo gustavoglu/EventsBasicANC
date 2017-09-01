@@ -9,6 +9,7 @@ namespace EventsBasicANC.ViewModels
         {
             this.Id = Guid.NewGuid();
         }
+
         public Guid? Id { get; set; }
 
         public string Descricao { get; set; } = null;

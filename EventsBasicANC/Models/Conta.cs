@@ -8,8 +8,6 @@ namespace EventsBasicANC.Models
     {
         public ContaTipo Tipo { get; set; }
 
-        public string NomeCompleto { get; set; }
-
         public string RazaoSocial { get; set; } = null;
 
         public string NomeFantasia { get; set; } = null;
