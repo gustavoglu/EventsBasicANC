@@ -1,4 +1,5 @@
-﻿using EventsBasicANC.ViewModels;
+﻿using EventsBasicANC.Domain.Models.Enums;
+using EventsBasicANC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -27,5 +28,8 @@ namespace EventsBasicANC.Services.Interfaces
 
         IEnumerable<ContaViewModel> TrazerTodosDeletados();
 
+        ContaTipo? TrazerTipoDaConta(Guid id_conta);
+
+        ContaTipo? TrazerTipoFuncionario(Guid id_conta);
     }
 }

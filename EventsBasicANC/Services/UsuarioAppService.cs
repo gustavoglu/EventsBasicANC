@@ -23,14 +23,16 @@ namespace EventsBasicANC.Services
         private readonly IContaRepository _contaRepository;
         private readonly IConta_FuncionarioRepository _conta_funcionarioRepository;
         private readonly IMapper _mapper;
+        private readonly IContaAppService _contaAppService;
 
-        public UsuarioAppService(IOptions<JwtTokenOptions> jwtTokenOptions, UserManager<Usuario> userManager, SignInManager<Usuario> signManager, IContaRepository contaRepository, IConta_FuncionarioRepository conta_funcionarioRepository, IMapper mapper)
+        public UsuarioAppService(IOptions<JwtTokenOptions> jwtTokenOptions, UserManager<Usuario> userManager, SignInManager<Usuario> signManager, IContaRepository contaRepository, IConta_FuncionarioRepository conta_funcionarioRepository, IContaAppService contaAppService,IMapper mapper)
         {
             _userManager = userManager;
             _signManager = signManager;
             _jwtTokenOptions = jwtTokenOptions.Value;
             _contaRepository = contaRepository;
             _conta_funcionarioRepository = conta_funcionarioRepository;
+            _contaAppService = contaAppService;
             _mapper = mapper;
 
             ThrowIfInvalidOptions(_jwtTokenOptions);
@@ -43,6 +45,9 @@ namespace EventsBasicANC.Services
         {
             var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
             var userClaims = await _userManager.GetClaimsAsync(user);
+            string tipoConta = _contaAppService.TrazerTipoDaConta(Guid.Parse(user.Id)).ToString();
+            string tipoFuncionario = null;
+            if (tipoConta == "Funcionario") tipoFuncionario = _contaAppService.TrazerTipoFuncionario(Guid.Parse(user.Id)).ToString();
 
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
@@ -62,6 +67,9 @@ namespace EventsBasicANC.Services
             var response = new
             {
                 access_token = encodedJwt,
+                tipoConta = tipoConta,
+                id_usuario = user.Id,
+                tipoFuncionario = tipoFuncionario,
                 expirese_in = (int)_jwtTokenOptions.ValidFor.TotalSeconds,
             };
 
@@ -93,6 +101,7 @@ namespace EventsBasicANC.Services
             Guid id_usuarioGuid = Guid.Parse(usuario.Id);
 
             var result = await _signManager.UserManager.CreateAsync(usuario, novaLojaViewModel.Senha);
+
             if (!result.Succeeded) return null;
 
             Contrato contrato = new Contrato
@@ -117,6 +126,11 @@ namespace EventsBasicANC.Services
             try
             {
                 var contaCriada = _contaRepository.Criar(conta_loja);
+                var usuarioCriado = await _signManager.UserManager.FindByIdAsync(usuario.Id);
+                await _signManager.UserManager.AddClaimsAsync(usuarioCriado, new List<Claim>()
+                {
+
+                });
             }
             catch (Exception e)
             {
@@ -159,6 +173,30 @@ namespace EventsBasicANC.Services
             }
 
             return _mapper.Map<UsuarioViewModel>(usuario);
+        }
+
+        private IEnumerable<Claim> ClaimsLoja()
+        {
+            return new List<Claim>()
+            {
+                new Claim("",""),
+            };
+        }
+
+        private IEnumerable<Claim> ClaimsOrganizador()
+        {
+            return new List<Claim>() { };
+        }
+
+        private IEnumerable<Claim> ClaimsFuncionarioLoja()
+        {
+            return new List<Claim>() { };
+        }
+
+        private IEnumerable<Claim> ClaimsFuncionarioOrganizador()
+        {
+            return new List<Claim>() { };
+
         }
 
     }

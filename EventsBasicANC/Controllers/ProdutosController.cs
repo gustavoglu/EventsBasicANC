@@ -1,4 +1,5 @@
-﻿using EventsBasicANC.Services.Interfaces;
+﻿using EventsBasicANC.Domain.Models.Enums;
+using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,12 @@ namespace EventsBasicANC.Controllers
     public class ProdutosController : BaseController
     {
         IProdutoAppService _produtoAppService;
+        IContaAppService _contaAppService;
 
-        public ProdutosController(IProdutoAppService produtoAppService)
+        public ProdutosController(IProdutoAppService produtoAppService, IContaAppService contaAppService)
         {
             _produtoAppService = produtoAppService;
-            
+            _contaAppService = contaAppService;
         }
 
         [HttpGet]
@@ -34,7 +36,10 @@ namespace EventsBasicANC.Controllers
         [HttpPost(Name = "Post")]
         public IActionResult Post([FromBody]ProdutoViewModel produto)
         {
+            var contaTipo = _contaAppService.TrazerTipoDaConta(produto.Id_loja);
+            if (contaTipo == ContaTipo.Funcionario || contaTipo == ContaTipo.Funcionario) return BadRequest("O id_conta precisa ser de uma loja");
             if (produto == null) return BadRequest("Nenhum Produto Informado");
+
             var produtoViewModel = _produtoAppService.Criar(produto);
             return Response(produtoViewModel);
         }

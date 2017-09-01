@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.ViewModels;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EventsBasicANC.Controllers
 {
@@ -13,6 +14,7 @@ namespace EventsBasicANC.Controllers
 
         IEventoAppService _eventoAppService;
 
+        
         public EventosController(IEventoAppService eventoAppService)
         {
             _eventoAppService = eventoAppService;

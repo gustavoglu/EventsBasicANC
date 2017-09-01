@@ -23,6 +23,6 @@ namespace EventsBasicANC.Models
 
         public DateTime? AtualizadoEm { get; set; }
 
-        public bool? Deletado { get; set; } = false;
+        public bool Deletado { get; set; } = false;
     }
 }

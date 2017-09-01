@@ -15,8 +15,12 @@ namespace EventsBasicANC.Data.Mappings
                 .HasForeignKey(cf => cf.Id_funcionario)
                 .IsRequired()
                 .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
-            
-           
+
+            conta_funcionario.HasOne(cf => cf.Conta)
+                .WithMany(f => f.Funcionario_Contas)
+                .HasForeignKey(cf => cf.Id_conta)
+                .IsRequired()
+                .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
         }
     }
 }

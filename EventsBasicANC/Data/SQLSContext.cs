@@ -43,8 +43,6 @@ namespace EventsBasicANC.Data
      
             base.OnModelCreating(modelBuilder);
 
-            
-
             // Altera nome de tabelas do Entity
             modelBuilder.Entity<Usuario>().ToTable("Usuario");
             modelBuilder.Entity<IdentityUser>().ToTable("Usuario");

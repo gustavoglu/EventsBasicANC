@@ -6,16 +6,19 @@ using EventsBasicANC.ViewModels;
 using EventsBasicANC.Data.Repository.Interfaces;
 using AutoMapper;
 using EventsBasicANC.Models;
+using EventsBasicANC.Domain.Models.Enums;
 
 namespace EventsBasicANC.Services
 {
     public class ContaAppService : IContaAppService
     {
         private readonly IContaRepository _contaRepository;
+        private readonly IConta_FuncionarioRepository _conta_FuncionarioRepository;
         private readonly IMapper _mapper;
-        public ContaAppService(IContaRepository contaRepository, IMapper mapper)
+        public ContaAppService(IContaRepository contaRepository, IConta_FuncionarioRepository conta_FuncionarioRepository, IMapper mapper)
         {
             _contaRepository = contaRepository;
+            _conta_FuncionarioRepository = conta_FuncionarioRepository;
             _mapper = mapper;
         }
 
@@ -56,6 +59,24 @@ namespace EventsBasicANC.Services
         public ContaViewModel TrazerPorId(Guid id)
         {
             return _mapper.Map<ContaViewModel>(_contaRepository.TrazerPorId(id));
+        }
+
+        public ContaTipo? TrazerTipoDaConta(Guid id_conta)
+        {
+            var contaTipo = _contaRepository.TrazerAtivoPorId(id_conta).Tipo;
+            return contaTipo;
+        }
+
+        public ContaTipo? TrazerTipoFuncionario(Guid id_conta_funcionario)
+        {
+            var contaFuncionarioTipo = this.TrazerTipoDaConta(id_conta_funcionario);
+            if (contaFuncionarioTipo != ContaTipo.Funcionario) return null;
+            var funcionario = this.TrazerPorId(id_conta_funcionario);
+            var contas_funcionario = _conta_FuncionarioRepository.TrazerPorFuncionario(id_conta_funcionario);
+            if (!contas_funcionario.Any()) return null;
+            var conta_funcionario = contas_funcionario.FirstOrDefault();
+            var contaPrincipal = _contaRepository.TrazerPorId(conta_funcionario.Id_conta);
+            return contaPrincipal.Tipo;
         }
 
         public IEnumerable<ContaViewModel> TrazerTodos()

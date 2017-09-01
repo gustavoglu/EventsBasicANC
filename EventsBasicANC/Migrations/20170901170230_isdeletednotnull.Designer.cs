@@ -13,9 +13,10 @@ using System;
 namespace EventsBasicANC.Migrations
 {
     [DbContext(typeof(SQLSContext))]
-    partial class SQLSContextModelSnapshot : ModelSnapshot
+    [Migration("20170901170230_isdeletednotnull")]
+    partial class isdeletednotnull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

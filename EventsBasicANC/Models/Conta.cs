@@ -30,6 +30,8 @@ namespace EventsBasicANC.Models
 
         public virtual ICollection<Conta_Funcionario> Conta_Funcionarios { get; set; }
 
+        public virtual ICollection<Conta_Funcionario> Funcionario_Contas { get; set; }
+
         public virtual Conta Conta_Principal { get; set; }
     }
 }
