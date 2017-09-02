@@ -2,7 +2,7 @@
 using EventsBasicANC.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace EventsBasicANC.Services.Interfaces
 {
@@ -14,7 +14,11 @@ namespace EventsBasicANC.Services.Interfaces
 
         ContaViewModel Atualizar(ContaViewModel entity);
 
-        ContaViewModel Deletar(Guid id);
+        Task<ContaViewModel> AtualizarFuncionario(AtualizaFuncionarioaViewModel atualizaFuncionarioaViewModel);
+
+        Task<ContaViewModel> AtualizarLoja(AtualizarLojaViewModel atualizaLojaViewModel);
+
+        Task<ContaViewModel> Deletar(Guid id);
 
         ContaViewModel TrazerPorId(Guid id);
 

@@ -193,6 +193,25 @@ namespace EventsBasicANC.Services
             return _mapper.Map<UsuarioViewModel>(usuario);
         }
 
+        public async Task<UsuarioViewModel> Deletar(string id_usuario)
+        {
+            var usuarioDeletado = await _userManager.FindByIdAsync(id_usuario);
+            var result = await _userManager.DeleteAsync(usuarioDeletado);
+            if (!result.Succeeded) return null;
+            return _mapper.Map<UsuarioViewModel>(usuarioDeletado);
+        }
+
+        public async Task<UsuarioViewModel> AtualizaUserName(string id_usuario,string userNameLogin)
+        {
+            var usuario = await _userManager.FindByIdAsync(id_usuario);
+            if (usuario == null) return null;
+            usuario.UserName = userNameLogin;
+            usuario.Email = userNameLogin;
+            var result = await _userManager.UpdateAsync(usuario);
+            if (!result.Succeeded) return null;
+            return _mapper.Map<UsuarioViewModel>(usuario);
+        }
+
         public IEnumerable<Claim> ClaimsLoja()
         {
             return new List<Claim>()

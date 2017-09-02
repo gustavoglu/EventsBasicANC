@@ -9,10 +9,6 @@ namespace EventsBasicANC.ViewModels
 
         public ContaTipo Tipo { get; set; }
 
-        public string Nome { get; set; } = null;
-
-        public string Sobrenome { get; set; } = null;
-
         public DocumentoTipo DocumentoTipo { get; set; }
 
         public string Documento { get; set; } = null;
@@ -20,6 +16,8 @@ namespace EventsBasicANC.ViewModels
         public DateTime? DataNascimento { get; set; } = null;
 
         public string RazaoSocial { get; set; } = null;
+
+        public string NomeFantasia { get; set; } = null;
 
         public Guid? Id_Conta_Principal { get; set; }
 

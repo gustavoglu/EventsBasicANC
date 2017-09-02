@@ -8,6 +8,7 @@ using AutoMapper;
 using EventsBasicANC.Models;
 using EventsBasicANC.Domain.Models.Enums;
 using EventsBasicANC.Data.Repository;
+using System.Threading.Tasks;
 
 namespace EventsBasicANC.Services
 {
@@ -16,20 +17,62 @@ namespace EventsBasicANC.Services
         private readonly IContaRepository _contaRepository;
         private readonly IContratoRepository _contratoRepository;
         private readonly IConta_FuncionarioRepository _conta_FuncionarioRepository;
+        private readonly UsuarioAppService _usuarioAppService;
         private readonly IMapper _mapper;
-        public ContaAppService(IContaRepository contaRepository, IContratoRepository contratoRepository, IConta_FuncionarioRepository conta_FuncionarioRepository, IMapper mapper)
+        public ContaAppService(IContaRepository contaRepository, IContratoRepository contratoRepository, IConta_FuncionarioRepository conta_FuncionarioRepository, UsuarioAppService usuarioAppService, IMapper mapper)
         {
             _contaRepository = contaRepository;
             _contratoRepository = contratoRepository;
             _conta_FuncionarioRepository = conta_FuncionarioRepository;
+            _usuarioAppService = usuarioAppService;
             _mapper = mapper;
         }
 
         public ContaViewModel Atualizar(ContaViewModel contaViewModel)
         {
-            var model = _mapper.Map<Conta>(contaViewModel);
+            var model = _contaRepository.TrazerPorId(contaViewModel.Id);
             var modelAtualizado = _mapper.Map(contaViewModel, model);
             return _mapper.Map<ContaViewModel>(_contaRepository.Atualizar(modelAtualizado));
+        }
+
+        public async Task<ContaViewModel> AtualizarFuncionario(AtualizaFuncionarioaViewModel atualizaFuncionarioaViewModel)
+        {
+            var funcionario = this.TrazerPorId(atualizaFuncionarioaViewModel.Id);
+            if (funcionario == null) return null;
+            var usuarioAtualizado = await _usuarioAppService.AtualizaUserName(atualizaFuncionarioaViewModel.Id.ToString(), atualizaFuncionarioaViewModel.Login);
+            if (usuarioAtualizado == null) return null;
+            funcionario.Contato.NomeCompleto = atualizaFuncionarioaViewModel.NomeCompleto;
+            var funcionarioAtualizado = this.Atualizar(funcionario);
+            if (funcionarioAtualizado == null) return null;
+            return funcionarioAtualizado;
+        }
+
+        public async Task<ContaViewModel> AtualizarLoja(AtualizarLojaViewModel atualizaLojaViewModel)
+        {
+            var loja = this.TrazerPorId(atualizaLojaViewModel.Id);
+            if (loja == null) return null;
+            var usuarioAtualizado = await _usuarioAppService.AtualizaUserName(atualizaLojaViewModel.Id.ToString(), atualizaLojaViewModel.Login);
+            if (usuarioAtualizado == null) return null;
+
+            loja.RazaoSocial = atualizaLojaViewModel.RazaoSocial;
+            loja.NomeFantasia = atualizaLojaViewModel.NomeFantasia;
+
+            loja.Contato.NomeCompleto = atualizaLojaViewModel.Contato.NomeCompleto;
+            loja.Contato.Documento = atualizaLojaViewModel.Contato.Documento;
+            loja.Contato.DocumentoTipo = atualizaLojaViewModel.Contato.DocumentoTipo.Value;
+            loja.Contato.Email = atualizaLojaViewModel.Contato.Email;
+            loja.Contato.EmailAdicional = atualizaLojaViewModel.Contato.EmailAdicional;
+            loja.Contato.Telefone = atualizaLojaViewModel.Contato.Telefone;
+            loja.Contato.Telefone2 = atualizaLojaViewModel.Contato.Telefone2;
+
+            loja.Endereco.Cidade = atualizaLojaViewModel.Endereco.Cidade;
+            loja.Endereco.Estado = atualizaLojaViewModel.Endereco.Estado;
+            loja.Endereco.Rua = atualizaLojaViewModel.Endereco.Rua;
+            loja.Endereco.Bairro = atualizaLojaViewModel.Endereco.Bairro;
+
+            var lojaAtualizado = this.Atualizar(loja);
+            if (lojaAtualizado == null) return null;
+            return lojaAtualizado;
         }
 
         public ContaViewModel Criar(ContaViewModel contaViewModel)
@@ -44,8 +87,10 @@ namespace EventsBasicANC.Services
             return _mapper.Map<IEnumerable<ContaViewModel>>(_contaRepository.Criar(modelList));
         }
 
-        public ContaViewModel Deletar(Guid id)
+        public async Task<ContaViewModel> Deletar(Guid id)
         {
+            var result = await _usuarioAppService.Deletar(id.ToString());
+            if (result == null) return null;
             return _mapper.Map<ContaViewModel>(_contaRepository.Deletar(id));
         }
 

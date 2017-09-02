@@ -1,44 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.ViewModels;
+using EventsBasicANC.Services;
 
 namespace EventsBasicANC.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]/[action]")]
-    public class ContasController : Controller
+    public class ContasController : BaseController
     {
         IContaAppService _contaAppService;
+        UsuarioAppService _usuarioAppService;
 
-        public ContasController(IContaAppService contaAppService)
+        public ContasController(IContaAppService contaAppService, UsuarioAppService usuarioAppService)
         {
             _contaAppService = contaAppService;
+            _usuarioAppService = usuarioAppService;
         }
 
         // GET: api/Contas
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("api/Contas")]
+        public IEnumerable<ContaViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _contaAppService.TrazerTodosAtivos();
         }
 
-        [HttpGet]
+        [Route("api/Funcionarios")]
         public IEnumerable<ContaViewModel> Funcionarios(Guid id_conta)
         {
             return _contaAppService.TrazerFuncionariosAtivos(id_conta);
         }
 
+
         [HttpGet]
-        public IEnumerable<ContaViewModel> Lojas(Guid id_loja,Guid id_organizador)
+        [Route("api/Lojas")]
+        public IEnumerable<ContaViewModel> Lojas([FromBody]Guid id_loja, Guid id_organizador)
         {
             return _contaAppService.TrazerLojasAtivasPorOrganizador(id_loja, id_organizador);
         }
 
+        [HttpDelete]
+        [Route("api/Funcionarios/{id_funcionario:Guid}")]
+        public async Task<IActionResult> DeletarFuncionario(Guid id_funcionario)
+        {
+            var tipoConta = _contaAppService.TrazerTipoDaConta(id_funcionario);
+            if (!tipoConta.HasValue || tipoConta.Value != Domain.Models.Enums.ContaTipo.Funcionario) return BadRequest("A conta precisa ser de um Funcionário.");
+            var result = await _contaAppService.Deletar(id_funcionario);
+            if (result == null) BadRequest("Ocorreu algum erro ao deletar o Funcionario");
+            return Response(result);
+        }
+
+        [HttpDelete]
+        [Route("api/Lojas/{id_loja:Guid}")]
+        public async Task<IActionResult> DeletarLoja(Guid id_loja)
+        {
+            var tipoConta = _contaAppService.TrazerTipoDaConta(id_loja);
+            if (!tipoConta.HasValue || tipoConta.Value != Domain.Models.Enums.ContaTipo.Loja) return BadRequest("A conta precisa ser de uma Loja.");
+            var result = await _contaAppService.Deletar(id_loja);
+            if (result == null) BadRequest("Ocorreu algum erro ao deletar a Loja");
+            return Response(result);
+        }
 
         // GET: api/Contas/5
         //[HttpGet("{id}", Name = "Get")]
@@ -46,19 +71,36 @@ namespace EventsBasicANC.Controllers
         //{
         //    return "value";
         //}
-        
+
         // POST: api/Contas
         [HttpPost]
         public void Post([FromBody]string value)
         {
         }
-        
+
         // PUT: api/Contas/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        [Route("api/Funcionarios")]
+        public IActionResult AtualizaFuncionario(AtualizaFuncionarioaViewModel atualizaFuncionarioViewModel)
         {
+            var tipoConta = _contaAppService.TrazerTipoDaConta(atualizaFuncionarioViewModel.Id);
+            if (tipoConta != Domain.Models.Enums.ContaTipo.Funcionario) return BadRequest("A conta informada não é um Funcionário");
+            var funcionarioAtualizado = _contaAppService.AtualizarFuncionario(atualizaFuncionarioViewModel);
+            if (funcionarioAtualizado == null) return BadRequest("Algo deu errado ao Atualizar o Funcionario");
+            return Response(funcionarioAtualizado);
         }
-        
+
+        [HttpPut]
+        [Route("api/Lojas")]
+        public IActionResult AtualizaLoja(AtualizarLojaViewModel atualizarLojaViewModel)
+        {
+            var tipoConta = _contaAppService.TrazerTipoDaConta(atualizarLojaViewModel.Id);
+            if (tipoConta != Domain.Models.Enums.ContaTipo.Loja) return BadRequest("A conta informada não é uma Loja");
+            var lojaAtualizada = _contaAppService.AtualizarLoja(atualizarLojaViewModel);
+            if (lojaAtualizada == null) return BadRequest("Algo deu errado ao Atualizar a Loja");
+            return Response(lojaAtualizada);
+        }
+
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
