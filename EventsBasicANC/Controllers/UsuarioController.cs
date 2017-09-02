@@ -49,7 +49,7 @@ namespace EventsBasicANC.Controllers
                 return BadRequest(ModelState.Values.Select(c => c.Errors));
             }
 
-            ContaViewModel conta = new ContaViewModel { Id = Guid.Parse(usuario.Id), Endereco = new EnderecoViewModel { Id = Guid.Parse(usuario.Id) }, Contato = new ContatoViewModel { Id = Guid.Parse(usuario.Id) } };
+            ContaViewModel conta = new ContaViewModel { Tipo = viewModel.ContaTipo, Id = Guid.Parse(usuario.Id), Endereco = new EnderecoViewModel { Id = Guid.Parse(usuario.Id) }, Contato = new ContatoViewModel { Id = Guid.Parse(usuario.Id) } };
             var contaCriada = _contaAppService.Criar(conta);
 
             if (contaCriada == null)
@@ -58,7 +58,20 @@ namespace EventsBasicANC.Controllers
                 return BadRequest("Erro ao criar Conta para o Usuario");
             }
 
+            Usuario usuarioCriado = await _userManager.FindByIdAsync(usuario.Id);
+            if (conta.Tipo == Domain.Models.Enums.ContaTipo.Loja) await _userManager.AddClaimsAsync(usuarioCriado, _usuarioAppService.ClaimsLoja());
+            if (conta.Tipo == Domain.Models.Enums.ContaTipo.Organizador) await _userManager.AddClaimsAsync(usuarioCriado, _usuarioAppService.ClaimsOrganizador());
+
             return Response($"Usuario { usuario.UserName } Criado", true);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> NovaSenha([FromBody]NovaSenhaViewModel novaSenhaViewModel)
+        {
+            var resultUsuario = await _usuarioAppService.AlterarSenha(novaSenhaViewModel.Id_usuario.ToString(), novaSenhaViewModel.NovaSenha);
+            if (resultUsuario == null) return BadRequest("Não foi possivel alterar a Senha");
+            return Response(resultUsuario);
         }
 
         [AllowAnonymous]
@@ -99,6 +112,7 @@ namespace EventsBasicANC.Controllers
 
             return Response(usuarioFunc);
         }
+
 
     }
 }

@@ -49,14 +49,29 @@ namespace EventsBasicANC.Services
             return _mapper.Map<ProdutoViewModel>(_produtoRepository.TrazerAtivoPorId(id));
         }
 
+        public IEnumerable<ProdutoViewModel> TrazerAtivoPorLoja(Guid id_loja)
+        {
+            return _mapper.Map<IEnumerable<ProdutoViewModel>>(_produtoRepository.PesquisarAtivos(p => p.Id_loja == id_loja).ToList());
+        }
+
         public ProdutoViewModel TrazerDeletadoPorId(Guid id)
         {
             return _mapper.Map<ProdutoViewModel>(_produtoRepository.TrazerDeletadoPorId(id));
         }
 
+        public IEnumerable<ProdutoViewModel> TrazerDeletadoPorLoja(Guid id_loja)
+        {
+            return _mapper.Map<IEnumerable<ProdutoViewModel>>(_produtoRepository.PesquisarDeletados(p => p.Id_loja == id_loja).ToList());
+        }
+
         public ProdutoViewModel TrazerPorId(Guid id)
         {
             return _mapper.Map<ProdutoViewModel>(_produtoRepository.TrazerPorId(id));
+        }
+
+        public IEnumerable<ProdutoViewModel> TrazerPorLoja(Guid id_loja)
+        {
+            return _mapper.Map<IEnumerable<ProdutoViewModel>>(_produtoRepository.Pesquisar(p => p.Id_loja == id_loja).ToList());
         }
 
         public IEnumerable<ProdutoViewModel> TrazerTodos()

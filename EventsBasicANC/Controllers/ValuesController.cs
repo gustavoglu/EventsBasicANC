@@ -8,6 +8,7 @@ using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.ViewModels;
 using System.ComponentModel;
 using FizzWare.NBuilder;
+using EventsBasicANC.Util;
 
 namespace EventsBasicANC.Controllers
 {
@@ -15,12 +16,21 @@ namespace EventsBasicANC.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        EasyClaims _easyClaims;
+
+        public ValuesController(EasyClaims easyClaims)
+        {
+            _easyClaims = easyClaims;
+        }
+
         // GET api/values
         [AllowAnonymous]
         [HttpGet]
-        public string Get()
+        public async Task<string> Get()
         {
-
+            
+            bool isprivate = await EasyClaims.isPrivate("Funcionarios");
+            bool isprincipal = await EasyClaims.isPrincipal("Lojas");
             return "Ok";
             //var container = Builder<ContainerViewModel>.CreateNew().Build();
             //container.Evento = Builder<EventoContainerViewModel>.CreateNew().Build();

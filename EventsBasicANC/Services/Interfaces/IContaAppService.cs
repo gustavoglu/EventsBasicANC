@@ -22,6 +22,10 @@ namespace EventsBasicANC.Services.Interfaces
 
         ContaViewModel TrazerDeletadoPorId(Guid id);
 
+        IEnumerable<ContaViewModel> TrazerFuncionariosAtivos(Guid id_conta);
+
+        IEnumerable<ContaViewModel> TrazerLojasAtivasPorOrganizador(Guid id_loja, Guid id_organizador);
+
         IEnumerable<ContaViewModel> TrazerTodos();
 
         IEnumerable<ContaViewModel> TrazerTodosAtivos();

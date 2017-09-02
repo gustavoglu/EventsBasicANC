@@ -20,6 +20,12 @@ namespace EventsBasicANC.Services.Interfaces
 
         ProdutoViewModel TrazerDeletadoPorId(Guid id);
 
+        IEnumerable<ProdutoViewModel> TrazerDeletadoPorLoja(Guid id_loja);
+
+        IEnumerable<ProdutoViewModel> TrazerAtivoPorLoja(Guid id_loja);
+
+        IEnumerable<ProdutoViewModel> TrazerPorLoja(Guid id_loja);
+
         IEnumerable<ProdutoViewModel> TrazerTodos();
 
         IEnumerable<ProdutoViewModel> TrazerTodosAtivos();

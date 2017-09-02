@@ -7,17 +7,20 @@ using EventsBasicANC.Data.Repository.Interfaces;
 using AutoMapper;
 using EventsBasicANC.Models;
 using EventsBasicANC.Domain.Models.Enums;
+using EventsBasicANC.Data.Repository;
 
 namespace EventsBasicANC.Services
 {
     public class ContaAppService : IContaAppService
     {
         private readonly IContaRepository _contaRepository;
+        private readonly IContratoRepository _contratoRepository;
         private readonly IConta_FuncionarioRepository _conta_FuncionarioRepository;
         private readonly IMapper _mapper;
-        public ContaAppService(IContaRepository contaRepository, IConta_FuncionarioRepository conta_FuncionarioRepository, IMapper mapper)
+        public ContaAppService(IContaRepository contaRepository, IContratoRepository contratoRepository, IConta_FuncionarioRepository conta_FuncionarioRepository, IMapper mapper)
         {
             _contaRepository = contaRepository;
+            _contratoRepository = contratoRepository;
             _conta_FuncionarioRepository = conta_FuncionarioRepository;
             _mapper = mapper;
         }
@@ -54,6 +57,20 @@ namespace EventsBasicANC.Services
         public ContaViewModel TrazerDeletadoPorId(Guid id)
         {
             return _mapper.Map<ContaViewModel>(_contaRepository.TrazerDeletadoPorId(id));
+        }
+
+        public IEnumerable<ContaViewModel> TrazerFuncionariosAtivos(Guid id_conta)
+        {
+            var conta_Funcionarios = _conta_FuncionarioRepository.TrazerPorContaPrincipal(id_conta);
+            var contas = conta_Funcionarios.Select(cf => cf.Conta);
+            return _mapper.Map<IEnumerable<ContaViewModel>>(contas);
+        }
+
+        public IEnumerable<ContaViewModel> TrazerLojasAtivasPorOrganizador(Guid id_loja, Guid id_organizador)
+        {
+            var contratos = _contratoRepository.Pesquisar(c => c.Id_loja == id_loja && c.Id_organizador == id_organizador);
+            var lojas = contratos.Select(c => c.Loja);
+            return _mapper.Map<IEnumerable<ContaViewModel>>(lojas);
         }
 
         public ContaViewModel TrazerPorId(Guid id)

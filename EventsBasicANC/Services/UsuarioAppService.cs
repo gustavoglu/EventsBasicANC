@@ -25,7 +25,7 @@ namespace EventsBasicANC.Services
         private readonly IMapper _mapper;
         private readonly IContaAppService _contaAppService;
 
-        public UsuarioAppService(IOptions<JwtTokenOptions> jwtTokenOptions, UserManager<Usuario> userManager, SignInManager<Usuario> signManager, IContaRepository contaRepository, IConta_FuncionarioRepository conta_funcionarioRepository, IContaAppService contaAppService,IMapper mapper)
+        public UsuarioAppService(IOptions<JwtTokenOptions> jwtTokenOptions, UserManager<Usuario> userManager, SignInManager<Usuario> signManager, IContaRepository contaRepository, IConta_FuncionarioRepository conta_funcionarioRepository, IContaAppService contaAppService, IMapper mapper)
         {
             _userManager = userManager;
             _signManager = signManager;
@@ -96,7 +96,7 @@ namespace EventsBasicANC.Services
 
         public async Task<UsuarioViewModel> CriarLojaPorOrganizador(NovaLojaViewModel novaLojaViewModel)
         {
-            Usuario usuario = new Usuario { UserName = novaLojaViewModel.Login , Email = novaLojaViewModel.Login};
+            Usuario usuario = new Usuario { UserName = novaLojaViewModel.Login, Email = novaLojaViewModel.Login };
 
             Guid id_usuarioGuid = Guid.Parse(usuario.Id);
 
@@ -127,10 +127,7 @@ namespace EventsBasicANC.Services
             {
                 var contaCriada = _contaRepository.Criar(conta_loja);
                 var usuarioCriado = await _signManager.UserManager.FindByIdAsync(usuario.Id);
-                await _signManager.UserManager.AddClaimsAsync(usuarioCriado, new List<Claim>()
-                {
-
-                });
+                await _signManager.UserManager.AddClaimsAsync(usuarioCriado, ClaimsLoja());
             }
             catch (Exception e)
             {
@@ -143,7 +140,11 @@ namespace EventsBasicANC.Services
 
         public async Task<UsuarioViewModel> CriarFuncionario(NovoFuncionarioViewModel novoFuncionarioViewModel)
         {
-            Usuario usuario = new Usuario { UserName = novoFuncionarioViewModel.Login ,Email = novoFuncionarioViewModel.Login };
+            Usuario usuario = new Usuario { UserName = novoFuncionarioViewModel.Login, Email = novoFuncionarioViewModel.Login };
+
+            ContaTipo contaTipo = _contaAppService.TrazerTipoDaConta(novoFuncionarioViewModel.Id_conta).Value;
+
+            if (contaTipo == ContaTipo.Funcionario) return null;
 
             Guid id_usuarioGuid = Guid.Parse(usuario.Id);
 
@@ -165,6 +166,9 @@ namespace EventsBasicANC.Services
                 var contaCriada = _contaRepository.Criar(funcionario);
                 Conta_Funcionario contaFuncionario = new Conta_Funcionario { Id_conta = novoFuncionarioViewModel.Id_conta, Id_funcionario = funcionario.Id };
                 _conta_funcionarioRepository.Criar(contaFuncionario);
+                Usuario usuarioCriado = await _userManager.FindByIdAsync(usuario.Id);
+                if (contaTipo == ContaTipo.Loja) await _signManager.UserManager.AddClaimsAsync(usuarioCriado, ClaimsFuncionarioLoja());
+                if (contaTipo == ContaTipo.Organizador) await _signManager.UserManager.AddClaimsAsync(usuarioCriado, ClaimsFuncionarioOrganizador());
             }
             catch (Exception e)
             {
@@ -175,27 +179,126 @@ namespace EventsBasicANC.Services
             return _mapper.Map<UsuarioViewModel>(usuario);
         }
 
-        private IEnumerable<Claim> ClaimsLoja()
+        public async Task<UsuarioViewModel> AlterarSenha(string id_usuario,string novaSenha)
+        {
+            var usuario = await _userManager.FindByIdAsync(id_usuario);
+            if (usuario == null) return null;
+
+            var result = await _userManager.RemovePasswordAsync(usuario);
+            if (!result.Succeeded) return null;
+
+            var resultNovaSenha = await _userManager.AddPasswordAsync(usuario, novaSenha);
+            if (!resultNovaSenha.Succeeded) return null;
+
+            return _mapper.Map<UsuarioViewModel>(usuario);
+        }
+
+        public IEnumerable<Claim> ClaimsLoja()
         {
             return new List<Claim>()
             {
-                new Claim("",""),
+                new Claim("Produtos","Vi"),
+                new Claim("Produtos","Pr"),
+                new Claim("Vendas","Vi"),
+                new Claim("Vendas","Ad"),
+                new Claim("Vendas","Ed"),
+                new Claim("Vendas","Pv"),
             };
         }
 
-        private IEnumerable<Claim> ClaimsOrganizador()
+        public IEnumerable<Claim> ClaimsOrganizador()
         {
-            return new List<Claim>() { };
+            return new List<Claim>() {
+
+                new Claim("Produtos","Vi"),
+                new Claim("Produtos","Ed"),
+                new Claim("Produtos","Ad"),
+                new Claim("Produtos","Ex"),
+                new Claim("Produtos","Pr"),
+
+                new Claim("Vendas","Vi"),
+                new Claim("Vendas","Ad"),
+                new Claim("Vendas","Ca"),
+                new Claim("Vendas","Pr"),
+
+                new Claim("Eventos","Vi"),
+                new Claim("Eventos","Ad"),
+                new Claim("Eventos","Ed"),
+                new Claim("Eventos","Ex"),
+                new Claim("Eventos","Pr"),
+
+                new Claim("Lojas","Ad"),
+                new Claim("Lojas","Ed"),
+                new Claim("Lojas","Ex"),
+                new Claim("Lojas","Vi"),
+                new Claim("Lojas","Pr"),
+
+                new Claim("Fichas","Ad"),
+                new Claim("Fichas","Ed"),
+                new Claim("Fichas","Vi"),
+                new Claim("Fichas","Pr"),
+
+                new Claim("Funcionarios","Ad"),
+                new Claim("Funcionarios","Ed"),
+                new Claim("Funcionarios","Vi"),
+                new Claim("Funcionarios","Ex"),
+                new Claim("Funcionarios","Pv"),
+
+            };
         }
 
-        private IEnumerable<Claim> ClaimsFuncionarioLoja()
+        public IEnumerable<Claim> ClaimsFuncionarioLoja()
         {
-            return new List<Claim>() { };
+            return new List<Claim>() {
+
+                     new Claim("Eventos","Vi"),
+                     new Claim("Eventos","Pv"),
+
+                     new Claim("Produtos","Pv"),
+                     new Claim("Produtos","Vi"),
+
+                     new Claim("Vendas","Vi"),
+                     new Claim("Vendas","Ad"),
+                     new Claim("Vendas","Pv"),
+                     new Claim("Vendas","Ca")
+            };
         }
 
-        private IEnumerable<Claim> ClaimsFuncionarioOrganizador()
+        public IEnumerable<Claim> ClaimsFuncionarioOrganizador()
         {
-            return new List<Claim>() { };
+            return new List<Claim>() {
+
+                new Claim("Produtos","Vi"),
+                new Claim("Produtos","Ed"),
+                new Claim("Produtos","Ad"),
+                new Claim("Produtos","Ex"),
+                new Claim("Produtos","Pr"),
+
+                new Claim("Eventos","Vi"),
+                new Claim("Eventos","Pr"),
+
+                new Claim("Lojas","Ad"),
+                new Claim("Lojas","Ed"),
+                new Claim("Lojas","Ex"),
+                new Claim("Lojas","Vi"),
+                new Claim("Lojas","Pr"),
+
+                new Claim("Fichas","Ad"),
+                new Claim("Fichas","Ed"),
+                new Claim("Fichas","Vi"),
+                new Claim("Fichas","Pr"),
+
+                new Claim("Lojas","Ad"),
+                new Claim("Lojas","Ed"),
+                new Claim("Lojas","Ex"),
+                new Claim("Lojas","Vi"),
+                new Claim("Lojas","Pr"),
+
+                new Claim("Funcionarios","Ad"),
+                new Claim("Funcionarios","Ed"),
+                new Claim("Funcionarios","Vi"),
+                new Claim("Funcionarios","Pv"),
+            };
 
         }
 

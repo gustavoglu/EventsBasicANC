@@ -23,6 +23,8 @@ using EventsBasicANC.Services.Interfaces;
 using EventsBasicANC.Services;
 using EventsBasicANC.Interfaces;
 using EventsBasicANC.Users;
+using Microsoft.AspNetCore.Http;
+using EventsBasicANC.Util;
 
 namespace EventsBasicANC
 {
@@ -86,6 +88,7 @@ namespace EventsBasicANC
                 opt.AddPolicy("EventosVisualizar", policy => policy.RequireClaim("Eventos", "Vi"));
                 opt.AddPolicy("EventosDeletar", policy => policy.RequireClaim("Eventos", "Ex"));
 
+                opt.AddPolicy("VendasCancelar", policy => policy.RequireClaim("Vendas", "Ca"));
                 opt.AddPolicy("VendasAdicionar", policy => policy.RequireClaim("Vendas", "Ad"));
                 opt.AddPolicy("VendasEditar", policy => policy.RequireClaim("Vendas", "Ed"));
                 opt.AddPolicy("VendasVisualizar", policy => policy.RequireClaim("Vendas", "Vi"));
@@ -154,6 +157,11 @@ namespace EventsBasicANC
 
             //Users
             services.AddScoped<IUser, AspNetUser>();
+
+            //Util
+            services.AddScoped<EasyClaims>();
+
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -170,6 +178,7 @@ namespace EventsBasicANC
             app.UseCors(c => { c.AllowAnyHeader(); c.AllowAnyMethod(); c.AllowAnyOrigin(); });
             app.UseAuthentication();
             app.UseMvc();
+            
 
         }
 

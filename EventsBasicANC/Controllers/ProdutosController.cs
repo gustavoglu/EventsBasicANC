@@ -9,7 +9,7 @@ using System.Linq;
 namespace EventsBasicANC.Controllers
 {
     [AllowAnonymous]
-    [Route("api/Produtos")]
+    [Route("api/[controller]/[action]")]
     public class ProdutosController : BaseController
     {
         IProdutoAppService _produtoAppService;
@@ -25,6 +25,12 @@ namespace EventsBasicANC.Controllers
         public IQueryable<ProdutoViewModel> Get()
         {
             return _produtoAppService.TrazerTodosAtivos().AsQueryable();
+        }
+
+        [HttpGet("{id_loja:Guid}")]
+        public IQueryable<ProdutoViewModel> Loja(Guid id_loja)
+        {
+            return _produtoAppService.TrazerAtivoPorLoja(id_loja).AsQueryable();
         }
 
         [HttpGet("{id:Guid}")]
