@@ -6,6 +6,8 @@ namespace EventsBasicANC.Models
 {
     public class Conta : Entity
     {
+        public string Login { get; set; }
+
         public ContaTipo Tipo { get; set; }
 
         public string RazaoSocial { get; set; } = null;

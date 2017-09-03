@@ -6,7 +6,7 @@ namespace EventsBasicANC.Models
     {
         public string NomeCompleto { get; set; } = null;
 
-        public DocumentoTipo DocumentoTipo { get; set; }
+        public DocumentoTipo DocumentoTipo { get; set; } = DocumentoTipo.CPF;
 
         public string Documento { get; set; } = null;
 

@@ -2,7 +2,7 @@
 
 namespace EventsBasicANC.ViewModels
 {
-    public class AtualizaFuncionarioaViewModel
+    public class AtualizaFuncionarioViewModel
     {
         public Guid Id { get; set; }
 

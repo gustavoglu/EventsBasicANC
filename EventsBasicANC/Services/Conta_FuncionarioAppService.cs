@@ -17,6 +17,7 @@ namespace EventsBasicANC.Services
         public Conta_FuncionarioAppService(IConta_FuncionarioRepository conta_funcionarioRepository, IMapper mapper)
         {
             _conta_funcionarioRepository = conta_funcionarioRepository;
+            _mapper = mapper;
         }
 
         public Conta_FuncionarioViewModel Atualizar(Conta_FuncionarioViewModel conta_FuncionarioViewModel)

@@ -14,11 +14,11 @@ namespace EventsBasicANC.Services.Interfaces
 
         ContaViewModel Atualizar(ContaViewModel entity);
 
-        Task<ContaViewModel> AtualizarFuncionario(AtualizaFuncionarioaViewModel atualizaFuncionarioaViewModel);
+        ContaViewModel AtualizarFuncionario(AtualizaFuncionarioViewModel atualizaFuncionarioaViewModel);
 
-        Task<ContaViewModel> AtualizarLoja(AtualizarLojaViewModel atualizaLojaViewModel);
+        ContaViewModel AtualizarLoja(AtualizarLojaViewModel atualizaLojaViewModel);
 
-        Task<ContaViewModel> Deletar(Guid id);
+        ContaViewModel Deletar(Guid id);
 
         ContaViewModel TrazerPorId(Guid id);
 

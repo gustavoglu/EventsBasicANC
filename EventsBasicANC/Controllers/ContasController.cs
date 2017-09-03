@@ -9,7 +9,7 @@ using EventsBasicANC.Services;
 namespace EventsBasicANC.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]/[action]")]
+    //[Route("api/[controller]/[action]")]
     public class ContasController : BaseController
     {
         IContaAppService _contaAppService;
@@ -49,7 +49,9 @@ namespace EventsBasicANC.Controllers
         {
             var tipoConta = _contaAppService.TrazerTipoDaConta(id_funcionario);
             if (!tipoConta.HasValue || tipoConta.Value != Domain.Models.Enums.ContaTipo.Funcionario) return BadRequest("A conta precisa ser de um Funcionário.");
-            var result = await _contaAppService.Deletar(id_funcionario);
+            var usuarioResult = await _usuarioAppService.Deletar(id_funcionario.ToString());
+            if (usuarioResult == null) BadRequest("Ocorreu algum erro ao deletar o Funcionario");
+            var result =  _contaAppService.Deletar(id_funcionario);
             if (result == null) BadRequest("Ocorreu algum erro ao deletar o Funcionario");
             return Response(result);
         }
@@ -60,7 +62,9 @@ namespace EventsBasicANC.Controllers
         {
             var tipoConta = _contaAppService.TrazerTipoDaConta(id_loja);
             if (!tipoConta.HasValue || tipoConta.Value != Domain.Models.Enums.ContaTipo.Loja) return BadRequest("A conta precisa ser de uma Loja.");
-            var result = await _contaAppService.Deletar(id_loja);
+            var usuarioResult = await _usuarioAppService.Deletar(id_loja.ToString());
+            if (usuarioResult == null) BadRequest("Ocorreu algum erro ao deletar o Loja");
+            var result =  _contaAppService.Deletar(id_loja);
             if (result == null) BadRequest("Ocorreu algum erro ao deletar a Loja");
             return Response(result);
         }
@@ -81,10 +85,12 @@ namespace EventsBasicANC.Controllers
         // PUT: api/Contas/5
         [HttpPut]
         [Route("api/Funcionarios")]
-        public IActionResult AtualizaFuncionario(AtualizaFuncionarioaViewModel atualizaFuncionarioViewModel)
+        public async Task<IActionResult> AtualizaFuncionario([FromBody]AtualizaFuncionarioViewModel atualizaFuncionarioViewModel)
         {
             var tipoConta = _contaAppService.TrazerTipoDaConta(atualizaFuncionarioViewModel.Id);
             if (tipoConta != Domain.Models.Enums.ContaTipo.Funcionario) return BadRequest("A conta informada não é um Funcionário");
+            var usuarioResult = await _usuarioAppService.AtualizaUserName(atualizaFuncionarioViewModel.Id.ToString(),atualizaFuncionarioViewModel.Login);
+            if (usuarioResult == null) BadRequest("Algo deu errado ao Atualizar o Funcionario");
             var funcionarioAtualizado = _contaAppService.AtualizarFuncionario(atualizaFuncionarioViewModel);
             if (funcionarioAtualizado == null) return BadRequest("Algo deu errado ao Atualizar o Funcionario");
             return Response(funcionarioAtualizado);
@@ -92,10 +98,12 @@ namespace EventsBasicANC.Controllers
 
         [HttpPut]
         [Route("api/Lojas")]
-        public IActionResult AtualizaLoja(AtualizarLojaViewModel atualizarLojaViewModel)
+        public async Task<IActionResult> AtualizaLoja([FromBody]AtualizarLojaViewModel atualizarLojaViewModel)
         {
             var tipoConta = _contaAppService.TrazerTipoDaConta(atualizarLojaViewModel.Id);
             if (tipoConta != Domain.Models.Enums.ContaTipo.Loja) return BadRequest("A conta informada não é uma Loja");
+            var usuarioResult = await _usuarioAppService.AtualizaUserName(atualizarLojaViewModel.Id.ToString(), atualizarLojaViewModel.Login);
+            if (usuarioResult == null) BadRequest("Algo deu errado ao Atualizar a Loja");
             var lojaAtualizada = _contaAppService.AtualizarLoja(atualizarLojaViewModel);
             if (lojaAtualizada == null) return BadRequest("Algo deu errado ao Atualizar a Loja");
             return Response(lojaAtualizada);

@@ -8,7 +8,19 @@ namespace EventsBasicANC.AutoMapper
     {
         public ViewModelToDomainProfile()
         {
-            CreateMap<Conta, ContaViewModel>().ReverseMap();
+            CreateMap<Conta, ContaViewModel>()
+                .ReverseMap()
+                .ForMember(c => c.Endereco, cfg => cfg.Ignore())
+                .ForMember(c => c.Contato, cfg => cfg.Ignore())
+                .ForMember(c => c.Vendas, cfg => cfg.Ignore())
+                .ForMember(c => c.Eventos, cfg => cfg.Ignore())
+                .ForMember(c => c.Produtos, cfg => cfg.Ignore())
+                .ForMember(c => c.Organizador_Contratos, cfg => cfg.Ignore())
+                .ForMember(c => c.Loja_Contratos, cfg => cfg.Ignore())
+                .ForMember(c => c.Conta_Funcionarios, cfg => cfg.Ignore())
+                .ForMember(c => c.Funcionario_Contas, cfg => cfg.Ignore())
+                .ForMember(c => c.Conta_Principal, cfg => cfg.Ignore())
+                ;
             CreateMap<Contato, ContatoViewModel>().ReverseMap();
             CreateMap<Conta_Funcionario, Conta_FuncionarioViewModel>().ReverseMap();
             CreateMap<Contrato, ContratoViewModel>().ReverseMap();

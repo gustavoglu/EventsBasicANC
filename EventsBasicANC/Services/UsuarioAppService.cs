@@ -114,11 +114,12 @@ namespace EventsBasicANC.Services
             Conta conta_loja = new Conta
             {
                 Id = id_usuarioGuid,
+                Login = novaLojaViewModel.Login,
                 NomeFantasia = novaLojaViewModel.NomeFantasia,
                 RazaoSocial = novaLojaViewModel.RazaoSocial,
                 Tipo = ContaTipo.Loja,
-                Endereco = new Endereco { Id = id_usuarioGuid, Bairro = novaLojaViewModel.Endereco.Bairro, Cidade = novaLojaViewModel.Endereco.Cidade, Estado = novaLojaViewModel.Endereco.Estado, Rua = novaLojaViewModel.Endereco.Rua },
-                Contato = new Contato { Id = id_usuarioGuid, Documento = novaLojaViewModel.Contato.Documento, DocumentoTipo = novaLojaViewModel.Contato.DocumentoTipo.Value, NomeCompleto = novaLojaViewModel.Contato.NomeCompleto, Email = novaLojaViewModel.Contato.Email, EmailAdicional = novaLojaViewModel.Contato.EmailAdicional, Telefone = novaLojaViewModel.Contato.Telefone, Telefone2 = novaLojaViewModel.Contato.Telefone2 },
+                Endereco = new Endereco { Id = id_usuarioGuid, Bairro = novaLojaViewModel.Bairro, Cidade = novaLojaViewModel.Cidade, Estado = novaLojaViewModel.Estado, Rua = novaLojaViewModel.Rua },
+                Contato = new Contato { Id = id_usuarioGuid, Documento = novaLojaViewModel.Documento, DocumentoTipo = novaLojaViewModel.DocumentoTipo ?? DocumentoTipo.CPF, NomeCompleto = novaLojaViewModel.NomeCompleto, Email = novaLojaViewModel.Email, EmailAdicional = novaLojaViewModel.EmailAdicional, Telefone = novaLojaViewModel.Telefone, Telefone2 = novaLojaViewModel.Telefone2 },
             };
 
             conta_loja.Organizador_Contratos = new List<Contrato>() { contrato };
@@ -156,6 +157,7 @@ namespace EventsBasicANC.Services
             Conta funcionario = new Conta
             {
                 Id = id_usuarioGuid,
+                Login = novoFuncionarioViewModel.Login,
                 Tipo = ContaTipo.Funcionario,
                 Contato = new Contato { Id = id_usuarioGuid, NomeCompleto = novoFuncionarioViewModel.NomeCompleto },
                 Endereco = new Endereco { Id = id_usuarioGuid },
