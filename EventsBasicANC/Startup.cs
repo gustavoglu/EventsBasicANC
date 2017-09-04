@@ -25,6 +25,8 @@ using EventsBasicANC.Interfaces;
 using EventsBasicANC.Users;
 using Microsoft.AspNetCore.Http;
 using EventsBasicANC.Util;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.IO;
 
 namespace EventsBasicANC
 {
@@ -83,7 +85,7 @@ namespace EventsBasicANC
             {
                 opt.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
 
-                opt.AddPolicy("EventosAdicionar", policy => policy.RequireClaim("Eventos","Ad"));
+                opt.AddPolicy("EventosAdicionar", policy => policy.RequireClaim("Eventos", "Ad"));
                 opt.AddPolicy("EventosEditar", policy => policy.RequireClaim("Eventos", "Ed"));
                 opt.AddPolicy("EventosVisualizar", policy => policy.RequireClaim("Eventos", "Vi"));
                 opt.AddPolicy("EventosDeletar", policy => policy.RequireClaim("Eventos", "Ex"));
@@ -161,7 +163,13 @@ namespace EventsBasicANC
             //Util
             services.AddScoped<EasyClaims>();
 
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Eventos API", Version = "V1", Description = "Eventos" });
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = Path.Combine(basePath, "EventsBasicANC.xml");
+                s.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -172,13 +180,17 @@ namespace EventsBasicANC
                 app.UseDeveloperExceptionPage();
             }
 
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseCors(c => { c.AllowAnyHeader(); c.AllowAnyMethod(); c.AllowAnyOrigin(); });
             app.UseAuthentication();
             app.UseMvc();
-            
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Eventos API"));
 
         }
 

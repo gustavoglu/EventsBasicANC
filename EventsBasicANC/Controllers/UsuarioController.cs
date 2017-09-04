@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace EventsBasicANC.Controllers
 {
-    [Route("api/[controller]/[action]")]
     public class UsuarioController : BaseController
     {
         private readonly UsuarioAppService _usuarioAppService;
@@ -29,13 +28,9 @@ namespace EventsBasicANC.Controllers
             _fichaAppService = fichaAppService;
         }
 
-        public string Teste()
-        {
-            return "TESTE";
-        }
-
         [AllowAnonymous]
         [HttpPost]
+        [Route("api/Usuarios/Registro")]
         public async Task<IActionResult> Registro([FromBody]UsuarioRegistroViewModel viewModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values);
@@ -67,6 +62,7 @@ namespace EventsBasicANC.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [Route("api/Usuarios/NovaSenha")]
         public async Task<IActionResult> NovaSenha([FromBody]NovaSenhaViewModel novaSenhaViewModel)
         {
             var resultUsuario = await _usuarioAppService.AlterarSenha(novaSenhaViewModel.Id_usuario.ToString(), novaSenhaViewModel.NovaSenha);
@@ -90,6 +86,7 @@ namespace EventsBasicANC.Controllers
         }
 
         [HttpPost]
+        [Route("api/Lojas")]
         public async Task<IActionResult> Loja([FromBody]NovaLojaViewModel novaLojaViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(novaLojaViewModel);
@@ -102,6 +99,7 @@ namespace EventsBasicANC.Controllers
         }
 
         [HttpPost]
+        [Route("api/Funcionarios")]
         public async Task<IActionResult> Funcionario([FromBody]NovoFuncionarioViewModel novoFuncionarioViewModel)
         {
             if (!ModelState.IsValid) return BadRequest(novoFuncionarioViewModel);

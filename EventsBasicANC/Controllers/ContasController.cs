@@ -30,6 +30,7 @@ namespace EventsBasicANC.Controllers
         }
 
         [Route("api/Funcionarios")]
+        [HttpGet]
         public IEnumerable<ContaViewModel> Funcionarios(Guid id_conta)
         {
             return _contaAppService.TrazerFuncionariosAtivos(id_conta);
