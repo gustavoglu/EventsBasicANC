@@ -32,7 +32,10 @@ namespace EventsBasicANC.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]FichaViewModel fichaViewModel)
         {
+            if(!ModelState.IsValid) return BadRequest("Verifique as informações enviadas");
             if (fichaViewModel == null) return BadRequest("Nenhuma Ficha Informada");
+            if (!_fichaAppService.ValidaCodigoDaFicha(fichaViewModel.Codigo)) return BadRequest("Informe um código de ficha válido");
+            if (_fichaAppService.CodigoFichaExist(fichaViewModel.Codigo, fichaViewModel.Id_evento)) return BadRequest("Este código de ficha ja esta sendo utilizado por outro cliente");
             var fichaCriada = _fichaAppService.Criar(fichaViewModel);
             return Response(fichaCriada);
         }
@@ -45,7 +48,6 @@ namespace EventsBasicANC.Controllers
             if (exist == null) return BadRequest("Esta Ficha não existe");
             var fichaAtualizada = _fichaAppService.Atualizar(fichaViewModel);
             return Response(fichaAtualizada);
-
         }
         
         [HttpDelete("{id:Guid}")]

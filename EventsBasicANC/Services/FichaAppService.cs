@@ -93,7 +93,8 @@ namespace EventsBasicANC.Services
 
             while (contagem < quantidadeFichasPorEvento)
             {
-                string codigo = contagem.ToString().PadLeft((qtdZeros - contagem.ToString().Length), '0');
+                int qtdChars = qtdZeros - contagem.ToString().Length;
+                string codigo = contagem.ToString().PadLeft(qtdChars, '0');
                 Ficha ficha = new Ficha { Codigo = codigo, Id_evento = id_evento, Saldo = 0 };
                 fichasDoEvento.Add(ficha);
                 contagem++;
@@ -199,6 +200,19 @@ namespace EventsBasicANC.Services
         public IEnumerable<FichaViewModel> TrazerTodosDeletados()
         {
             return _mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.TrazerTodosDeletados().ToList());
+        }
+
+        public bool ValidaCodigoDaFicha(string codigo)
+        {
+            int numeroCod;
+            bool tryParse = int.TryParse(codigo,out numeroCod);
+            if (!tryParse) return false;
+            return (numeroCod > 0 && numeroCod < 10000);
+        }
+
+        public bool CodigoFichaExist(string codigo,Guid id_evento)
+        {
+            return _fichaRepository.Pesquisar(f => f.Codigo == codigo && f.Id_evento == id_evento).Any();
         }
     }
 }

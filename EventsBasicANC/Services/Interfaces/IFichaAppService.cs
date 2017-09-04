@@ -37,5 +37,9 @@ namespace EventsBasicANC.Services.Interfaces
         IEnumerable<FichaViewModel> Estorno(Guid id_pagamento);
 
         FichaViewModel Estorno(Guid id_ficha,double valor);
+
+        bool ValidaCodigoDaFicha(string codigo);
+
+        bool CodigoFichaExist(string codigo, Guid id_evento);
     }
 }

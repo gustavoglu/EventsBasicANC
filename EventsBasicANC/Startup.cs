@@ -168,7 +168,7 @@ namespace EventsBasicANC
                 s.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Eventos API", Version = "V1", Description = "Eventos" });
                 var basePath = PlatformServices.Default.Application.ApplicationBasePath;
                 var xmlPath = Path.Combine(basePath, "EventsBasicANC.xml");
-                s.IncludeXmlComments(xmlPath);
+                //s.IncludeXmlComments(xmlPath);
             });
         }
 
