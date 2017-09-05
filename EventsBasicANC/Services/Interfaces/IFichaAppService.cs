@@ -12,7 +12,7 @@ namespace EventsBasicANC.Services.Interfaces
 
         FichaViewModel Atualizar(FichaViewModel entity);
 
-        FichaViewModel Atualizar(FichaViewModel entity, Guid id_pagamento,bool estorno = false, string movimentacaoObs = null);
+        FichaViewModel Atualizar(FichaViewModel entity, Guid? id_pagamento,bool estorno = false, string movimentacaoObs = null);
 
         FichaViewModel Deletar(Guid id);
 
@@ -35,6 +35,8 @@ namespace EventsBasicANC.Services.Interfaces
         IEnumerable<FichaViewModel> CriaFichasParaNovoEvento(Guid id_evento);
 
         IEnumerable<FichaViewModel> Estorno(Guid id_pagamento);
+
+        IEnumerable<FichaViewModel> TrazerPorEvento(Guid id_evento);
 
         FichaViewModel Estorno(Guid id_ficha,double valor);
 

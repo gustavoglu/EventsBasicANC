@@ -12,22 +12,26 @@ namespace EventsBasicANC.Services
     public class MovimentacaoAppService : IMovimentacaoAppService
     {
         private readonly IMovimentacaoRepository _movimentacaoRepository;
+        private readonly IFichaAppService _fichaAppService;
         private readonly IMapper _mapper;
-        public MovimentacaoAppService(IMovimentacaoRepository movimentacaoRepository, IMapper mapper)
+        public MovimentacaoAppService(IMovimentacaoRepository movimentacaoRepository, IFichaAppService fichaAppService, IMapper mapper)
         {
             _movimentacaoRepository = movimentacaoRepository;
+            _fichaAppService = fichaAppService;
             _mapper = mapper;
         }
 
         public MovimentacaoViewModel Atualizar(MovimentacaoViewModel MovimentacaoViewModel)
         {
-            var model = _mapper.Map<Movimentacao>(MovimentacaoViewModel);
+            var model = _movimentacaoRepository.TrazerPorId(MovimentacaoViewModel.Id);
             var modelAtualizado = _mapper.Map(MovimentacaoViewModel, model);
             return _mapper.Map<MovimentacaoViewModel>(_movimentacaoRepository.Atualizar(modelAtualizado));
         }
 
         public MovimentacaoViewModel Criar(MovimentacaoViewModel MovimentacaoViewModel)
         {
+            var ficha = _fichaAppService.TrazerPorId(MovimentacaoViewModel.Id_ficha);
+
             var model = _mapper.Map<Movimentacao>(MovimentacaoViewModel);
             return _mapper.Map<MovimentacaoViewModel>(_movimentacaoRepository.Criar(model));
         }
@@ -68,9 +72,48 @@ namespace EventsBasicANC.Services
             return _mapper.Map<IEnumerable<MovimentacaoViewModel>>(_movimentacaoRepository.TrazerTodosAtivos().ToList());
         }
 
+        public IEnumerable<MovimentacaoViewModel> TrazerTodosAtivosPorEvento(Guid id_evento)
+        {
+            var fichasDoEvento = _fichaAppService.TrazerPorEvento(id_evento);
+            if (!fichasDoEvento.Any()) return new List<MovimentacaoViewModel>();
+
+            var movimentacoesFichas = _movimentacaoRepository.TrazerTodosAtivos();
+            var movimentacoes = from ficha in fichasDoEvento
+                                join movimentacao in movimentacoesFichas on ficha.Id equals movimentacao.Id_ficha
+                                select movimentacao;
+
+            return _mapper.Map<IEnumerable<MovimentacaoViewModel>>(movimentacoes.ToList());
+        }
+
         public IEnumerable<MovimentacaoViewModel> TrazerTodosDeletados()
         {
             return _mapper.Map<IEnumerable<MovimentacaoViewModel>>(_movimentacaoRepository.TrazerTodosDeletados().ToList());
+        }
+
+        public IEnumerable<MovimentacaoViewModel> TrazerTodosDeletadosPorEvento(Guid id_evento)
+        {
+            var fichasDoEvento = _fichaAppService.TrazerPorEvento(id_evento);
+            if (!fichasDoEvento.Any()) return new List<MovimentacaoViewModel>();
+
+            var movimentacoesFichas = _movimentacaoRepository.TrazerTodosDeletados();
+            var movimentacoes = from ficha in fichasDoEvento
+                                join movimentacao in movimentacoesFichas on ficha.Id equals movimentacao.Id_ficha
+                                select movimentacao;
+
+            return _mapper.Map<IEnumerable<MovimentacaoViewModel>>(movimentacoes.ToList());
+        }
+
+        public IEnumerable<MovimentacaoViewModel> TrazerTodosPorEvento(Guid id_evento)
+        {
+            var fichasDoEvento = _fichaAppService.TrazerPorEvento(id_evento);
+            if (!fichasDoEvento.Any()) return new List<MovimentacaoViewModel>();
+
+            var movimentacoesFichas = _movimentacaoRepository.TrazerTodos();
+            var movimentacoes = from ficha in fichasDoEvento
+                                join movimentacao in movimentacoesFichas on ficha.Id equals movimentacao.Id_ficha
+                                select movimentacao;
+
+            return _mapper.Map<IEnumerable<MovimentacaoViewModel>>(movimentacoes.ToList());
         }
     }
 }

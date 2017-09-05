@@ -2,7 +2,7 @@
 {
     public enum MovimentacaoTipo
     {
-        Entreda,
+        Entrada,
         Saida,
         Estorno,
     }

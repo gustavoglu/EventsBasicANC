@@ -20,6 +20,12 @@ namespace EventsBasicANC.Services.Interfaces
 
         MovimentacaoViewModel TrazerDeletadoPorId(Guid id);
 
+        IEnumerable<MovimentacaoViewModel> TrazerTodosDeletadosPorEvento(Guid id_evento);
+
+        IEnumerable<MovimentacaoViewModel> TrazerTodosPorEvento(Guid id_evento);
+
+        IEnumerable<MovimentacaoViewModel> TrazerTodosAtivosPorEvento(Guid id_evento);
+
         IEnumerable<MovimentacaoViewModel> TrazerTodos();
 
         IEnumerable<MovimentacaoViewModel> TrazerTodosAtivos();

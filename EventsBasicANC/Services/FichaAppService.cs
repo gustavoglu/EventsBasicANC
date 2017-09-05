@@ -35,7 +35,7 @@ namespace EventsBasicANC.Services
 
             double saldoDiferenca = model.Saldo > FichaViewModel.Saldo ? (model.Saldo - FichaViewModel.Saldo) : (FichaViewModel.Saldo - model.Saldo);
 
-            MovimentacaoTipo movimentacaoTipo = model.Saldo > FichaViewModel.Saldo ? MovimentacaoTipo.Saida : MovimentacaoTipo.Entreda;
+            MovimentacaoTipo movimentacaoTipo = model.Saldo > FichaViewModel.Saldo ? MovimentacaoTipo.Saida : MovimentacaoTipo.Entrada;
 
             var modelAtualizado = _mapper.Map(FichaViewModel, model);
 
@@ -50,7 +50,7 @@ namespace EventsBasicANC.Services
             return fichaAtualizada;
         }
 
-        public FichaViewModel Atualizar(FichaViewModel FichaViewModel, Guid id_pagamento, bool estorno = false, string movimentacaoObs = null)
+        public FichaViewModel Atualizar(FichaViewModel FichaViewModel, Guid? id_pagamento , bool estorno = false, string movimentacaoObs = null)
         {
 
             var model = _fichaRepository.TrazerPorId(FichaViewModel.Id);
@@ -61,7 +61,7 @@ namespace EventsBasicANC.Services
 
             MovimentacaoTipo movimentacaoTipo = model.Saldo > FichaViewModel.Saldo ? MovimentacaoTipo.Saida :
                                                 estorno ? MovimentacaoTipo.Estorno :
-                                                MovimentacaoTipo.Entreda;
+                                                MovimentacaoTipo.Entrada;
 
             var modelAtualizado = _mapper.Map(FichaViewModel, model);
 
@@ -73,6 +73,7 @@ namespace EventsBasicANC.Services
                 {
                     Id_ficha = model.Id,
                     SaldoAnterior = saldoAnterior,
+                    Valor = saldoDiferenca,
                     Id_Pagamento = id_pagamento,
                     MovimentacaoTipo = movimentacaoTipo,
                     Observacao = movimentacaoObs
@@ -213,6 +214,11 @@ namespace EventsBasicANC.Services
         public bool CodigoFichaExist(string codigo,Guid id_evento)
         {
             return _fichaRepository.Pesquisar(f => f.Codigo == codigo && f.Id_evento == id_evento).Any();
+        }
+
+        public IEnumerable<FichaViewModel> TrazerPorEvento(Guid id_evento)
+        {
+            return _mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.Pesquisar(f => f.Id_evento == id_evento).ToList());
         }
     }
 }
