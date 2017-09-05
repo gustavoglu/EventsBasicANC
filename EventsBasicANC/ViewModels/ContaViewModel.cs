@@ -5,16 +5,11 @@ namespace EventsBasicANC.ViewModels
 {
     public class ContaViewModel
     {
-
         public Guid Id { get; set; }
-
-        public string Login { get; set; }
 
         public ContaTipo Tipo { get; set; }
 
-        public DocumentoTipo DocumentoTipo { get; set; }
-
-        public string Documento { get; set; } = null;
+        public string Login { get; set; }
 
         public DateTime? DataNascimento { get; set; } = null;
 

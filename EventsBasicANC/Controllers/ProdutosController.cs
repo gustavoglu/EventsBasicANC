@@ -9,7 +9,6 @@ using System.Linq;
 namespace EventsBasicANC.Controllers
 {
     [AllowAnonymous]
-    [Route("api/[controller]/[action]")]
     public class ProdutosController : BaseController
     {
         IProdutoAppService _produtoAppService;
@@ -21,25 +20,29 @@ namespace EventsBasicANC.Controllers
             _contaAppService = contaAppService;
         }
 
+        [Route("api/Produtos")]
         [HttpGet]
         public IQueryable<ProdutoViewModel> Get()
         {
             return _produtoAppService.TrazerTodosAtivos().AsQueryable();
         }
 
-        [HttpGet("{id_loja:Guid}")]
+        [Route("api/Produtos/Loja/{id_loja:Guid}")]
+        [HttpGet]
         public IQueryable<ProdutoViewModel> Loja(Guid id_loja)
         {
             return _produtoAppService.TrazerAtivoPorLoja(id_loja).AsQueryable();
         }
 
-        [HttpGet("{id:Guid}")]
-        public ProdutoViewModel Get(Guid id)
+        [HttpGet]
+        [Route("api/Produtos/{id_produto:Guid}")]
+        public ProdutoViewModel Get(Guid id_produto)
         {
-            return _produtoAppService.TrazerPorId(id);
+            return _produtoAppService.TrazerPorId(id_produto);
         }
 
-        [HttpPost(Name = "Post")]
+        [HttpPost]
+        [Route("api/Produtos/")]
         public IActionResult Post([FromBody]ProdutoViewModel produto)
         {
             var contaTipo = _contaAppService.TrazerTipoDaConta(produto.Id_loja);
@@ -51,6 +54,7 @@ namespace EventsBasicANC.Controllers
         }
 
         [HttpPut]
+        [Route("api/Produtos/")]
         public IActionResult Put([FromBody]ProdutoViewModel produto)
         {
             var exist = _produtoAppService.TrazerPorId(produto.Id.Value);
@@ -59,13 +63,15 @@ namespace EventsBasicANC.Controllers
             return Response(produtoViewModel);
         }
 
-        [HttpDelete("{id:Guid}")]
-        public IActionResult Delete(Guid id)
+
+        [HttpDelete]
+        [Route("api/Produtos/{id_produto:Guid}")]
+        public IActionResult Delete(Guid id_produto)
         {
-            var exist = _produtoAppService.TrazerPorId(id);
+            var exist = _produtoAppService.TrazerPorId(id_produto);
             if (exist == null) return BadRequest("Este produto não existe");
 
-            var produtoDeletado = _produtoAppService.Deletar(id);
+            var produtoDeletado = _produtoAppService.Deletar(id_produto);
             return Response(produtoDeletado);
         }
     }

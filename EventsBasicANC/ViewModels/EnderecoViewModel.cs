@@ -14,5 +14,9 @@ namespace EventsBasicANC.ViewModels
 
         public string Estado { get; set; } = null;
 
+        public string Numero { get; set; } = null;
+
+        public string Complemento { get; set; } = null;
+
     }
 }

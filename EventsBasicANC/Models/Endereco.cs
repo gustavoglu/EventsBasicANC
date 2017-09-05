@@ -1,4 +1,6 @@
-﻿namespace EventsBasicANC.Models
+﻿using System;
+
+namespace EventsBasicANC.Models
 {
     public class Endereco : Entity
     {
@@ -9,6 +11,10 @@
         public string Cidade { get; set; } = null;
 
         public string Estado { get; set; } = null;
+
+        public string Numero { get; set; } = null;
+
+        public string Complemento { get; set; } = null;
 
         public virtual Conta Conta { get; set; }
     }

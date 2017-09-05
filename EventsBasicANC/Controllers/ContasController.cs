@@ -118,7 +118,10 @@ namespace EventsBasicANC.Controllers
                 return BadRequest(ModelState.Values.Select(c => c.Errors));
             }
 
-            ContaViewModel conta = new ContaViewModel { Tipo = viewModel.ContaTipo, Id = Guid.Parse(usuario.Id), Endereco = new EnderecoViewModel { Id = Guid.Parse(usuario.Id) }, Contato = new ContatoViewModel { Id = Guid.Parse(usuario.Id) } };
+            ContaViewModel conta = new ContaViewModel { Tipo = viewModel.ContaTipo, Id = Guid.Parse(usuario.Id),
+                Endereco = new EnderecoViewModel { Id = Guid.Parse(usuario.Id) },
+                Contato = new ContatoViewModel { Id = Guid.Parse(usuario.Id) } };
+
             var contaCriada = _contaAppService.Criar(conta);
 
             if (contaCriada == null)

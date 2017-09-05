@@ -38,7 +38,9 @@ namespace EventsBasicANC.ViewModels
 
         public string Telefone2 { get; set; } = null;
 
+        public string Numero { get; set; } = null;
 
+        public string Complemento { get; set; } = null;
 
     }
 }

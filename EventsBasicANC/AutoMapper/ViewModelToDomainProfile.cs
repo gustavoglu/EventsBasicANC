@@ -10,8 +10,8 @@ namespace EventsBasicANC.AutoMapper
         {
             CreateMap<Conta, ContaViewModel>()
                 .ReverseMap()
-                .ForMember(c => c.Endereco, cfg => cfg.Ignore())
-                .ForMember(c => c.Contato, cfg => cfg.Ignore())
+                //.ForMember(c => c.Endereco, cfg => cfg.Ignore())
+                //.ForMember(c => c.Contato, cfg => cfg.Ignore())
                 .ForMember(c => c.Vendas, cfg => cfg.Ignore())
                 .ForMember(c => c.Eventos, cfg => cfg.Ignore())
                 .ForMember(c => c.Produtos, cfg => cfg.Ignore())

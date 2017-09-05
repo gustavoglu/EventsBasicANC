@@ -9,7 +9,7 @@ namespace EventsBasicANC.Models
             this.Id = Guid.NewGuid();
         }
 
-        public Guid Id { get; set; }
+        public virtual Guid Id { get; set; }
 
         public string CriadoPor { get; set; } = null;
 
