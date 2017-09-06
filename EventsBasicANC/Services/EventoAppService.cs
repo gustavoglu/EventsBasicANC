@@ -28,11 +28,11 @@ namespace EventsBasicANC.Services
             return _mapper.Map<EventoViewModel>(_eventoRepository.Atualizar(modelAtualizado));
         }
 
-        public EventoViewModel Criar(EventoViewModel EventoViewModel)
+        public EventoViewModel Criar(EventoViewModel EventoViewModel, int qtdFichas = 0)
         {
             var model = _mapper.Map<Evento>(EventoViewModel);
             var eventoCriado = _mapper.Map<EventoViewModel>(_eventoRepository.Criar(model));
-            var fichasCriadas =  _fichaAppService.CriaFichasParaNovoEvento(eventoCriado.Id.Value);
+            var fichasCriadas =  _fichaAppService.CriaFichasParaNovoEvento(eventoCriado.Id.Value,qtdFichas);
             return eventoCriado;
         }
 

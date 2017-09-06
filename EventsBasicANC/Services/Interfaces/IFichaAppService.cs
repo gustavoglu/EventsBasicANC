@@ -16,23 +16,23 @@ namespace EventsBasicANC.Services.Interfaces
 
         FichaViewModel Deletar(Guid id);
 
-        FichaViewModel TrazerPorCodigo(string codigo);
+        FichaViewModel TrazerPorCodigo(string codigo,Guid id_evento);
 
-        FichaViewModel TrazerPorId(Guid id);
+        FichaViewModel TrazerPorId(Guid id, Guid? id_evento = null);
 
-        FichaViewModel TrazerAtivoPorId(Guid id);
+        FichaViewModel TrazerAtivoPorId(Guid id, Guid? id_evento = null);
 
-        FichaViewModel TrazerDeletadoPorId(Guid id);
+        FichaViewModel TrazerDeletadoPorId(Guid id,Guid? id_evento = null);
 
-        IEnumerable<FichaViewModel> TrazerTodos();
+        IEnumerable<FichaViewModel> TrazerTodos(Guid? id_evento = null);
 
-        IEnumerable<FichaViewModel> TrazerTodosAtivos();
+        IEnumerable<FichaViewModel> TrazerTodosAtivos(Guid? id_evento = null);
 
-        IEnumerable<FichaViewModel> TrazerTodosDeletados();
+        IEnumerable<FichaViewModel> TrazerTodosDeletados(Guid? id_evento = null);
 
         IEnumerable<FichaViewModel> EfetuaPagamentoFichas(ICollection<FichaViewModel> fichas, Guid id_pagamento, double totalVenda);
 
-        IEnumerable<FichaViewModel> CriaFichasParaNovoEvento(Guid id_evento);
+        IEnumerable<FichaViewModel> CriaFichasParaNovoEvento(Guid id_evento, int qtdFichas);
 
         IEnumerable<FichaViewModel> Estorno(Guid id_pagamento);
 

@@ -6,7 +6,7 @@ namespace EventsBasicANC.Services.Interfaces
 {
     public interface IEventoAppService
     {
-        EventoViewModel Criar(EventoViewModel entity);
+        EventoViewModel Criar(EventoViewModel entity, int qtdFichas);
 
         IEnumerable<EventoViewModel> Criar(ICollection<EventoViewModel> entitys);
 

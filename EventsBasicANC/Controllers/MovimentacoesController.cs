@@ -30,7 +30,7 @@ namespace EventsBasicANC.Controllers
         }
 
         [HttpGet]
-        [Route("api/Movimentacoes/Evento/{id:Guid}")]
+        [Route("api/Movimentacoes/Evento/{id_evento:Guid}")]
         public IEnumerable<MovimentacaoViewModel> TrazerPorEvento(Guid id_evento)
         {
             return _movimentacaoAppService.TrazerTodosAtivosPorEvento(id_evento);
@@ -47,7 +47,7 @@ namespace EventsBasicANC.Controllers
         [Route("api/Movimentacoes/")]
         public IActionResult Post([FromBody]MovimentacaoViewModel movimentacaoViewModel)
         {
-            
+            if (movimentacaoViewModel.Id_ficha == null) return BadRequest("id_ficha chegou nulo");
             var ficha = _fichaAppService.TrazerPorId(movimentacaoViewModel.Id_ficha);
             if (ficha == null) return Response("Esta ficha não existe", false);
 

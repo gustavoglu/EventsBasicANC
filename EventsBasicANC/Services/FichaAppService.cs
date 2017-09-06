@@ -17,7 +17,7 @@ namespace EventsBasicANC.Services
         private readonly IMovimentacaoRepository _movimentacaoRepository;
         private readonly IPagamentoRepository _pagamentoRepository;
         private readonly IMapper _mapper;
-        private int quantidadeFichasPorEvento = 10000;
+        private int quantidadeFichasPorEvento = 5000;
 
         public FichaAppService(IFichaRepository fichaRepository, IMovimentacaoRepository movimentacaoRepository, IPagamentoRepository pagamentoRepository, IMapper mapper)
         {
@@ -85,17 +85,17 @@ namespace EventsBasicANC.Services
             return fichaAtualizada;
         }
 
-        public IEnumerable<FichaViewModel> CriaFichasParaNovoEvento(Guid id_evento)
+        public IEnumerable<FichaViewModel> CriaFichasParaNovoEvento(Guid id_evento,int qtdFichas = 0)
         {
             List<Ficha> fichasDoEvento = new List<Ficha>();
             List<Ficha> fichasCriadas = new List<Ficha>();
             int contagem = 1;
             int qtdZeros = 5;
+            int quantidadeFichas = qtdFichas == 0 ? quantidadeFichasPorEvento : qtdFichas;
 
-            while (contagem < quantidadeFichasPorEvento)
+            while (contagem < quantidadeFichas)
             {
-                int qtdChars = qtdZeros - contagem.ToString().Length;
-                string codigo = contagem.ToString().PadLeft(qtdChars, '0');
+                string codigo = contagem.ToString().PadLeft(qtdZeros, '0');
                 Ficha ficha = new Ficha { Codigo = codigo, Id_evento = id_evento, Saldo = 0 };
                 fichasDoEvento.Add(ficha);
                 contagem++;
@@ -168,38 +168,44 @@ namespace EventsBasicANC.Services
             return this.Atualizar(fichaViewModel);
         }
 
-        public FichaViewModel TrazerAtivoPorId(Guid id)
+        public FichaViewModel TrazerAtivoPorId(Guid id,Guid? id_evento = null)
         {
+            if (id_evento.HasValue) return _mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Id == id && f.Id_evento == id_evento && f.Deletado == false).FirstOrDefault());
             return _mapper.Map<FichaViewModel>(_fichaRepository.TrazerAtivoPorId(id));
         }
 
-        public FichaViewModel TrazerDeletadoPorId(Guid id)
+        public FichaViewModel TrazerDeletadoPorId(Guid id,Guid? id_evento = null)
         {
-            return _mapper.Map<FichaViewModel>(_fichaRepository.TrazerDeletadoPorId(id));
+            if (id_evento.HasValue) return _mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f =>f.Id == id && f.Id_evento == id_evento && f.Deletado == true).FirstOrDefault());
+            return  _mapper.Map<FichaViewModel>(_fichaRepository.TrazerDeletadoPorId(id));
         }
 
-        public FichaViewModel TrazerPorCodigo(string codigo)
+        public FichaViewModel TrazerPorCodigo(string codigo,Guid id_evento)
         {
-            return _mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Codigo == codigo && f.Deletado == false).FirstOrDefault());
+            return _mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Id_evento == id_evento && f.Codigo == codigo && f.Deletado == false).FirstOrDefault());
         }
 
-        public FichaViewModel TrazerPorId(Guid id)
+        public FichaViewModel TrazerPorId(Guid id,Guid? id_evento = null)
         {
+            if (id_evento.HasValue) return _mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Id == id && f.Id_evento == id_evento).FirstOrDefault());
             return _mapper.Map<FichaViewModel>(_fichaRepository.TrazerPorId(id));
         }
 
-        public IEnumerable<FichaViewModel> TrazerTodos()
+        public IEnumerable<FichaViewModel> TrazerTodos(Guid? id_evento = null)
         {
+            if(id_evento.HasValue) return _mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.Pesquisar(f => f.Id_evento == id_evento).ToList());
             return _mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.TrazerTodos().ToList());
         }
 
-        public IEnumerable<FichaViewModel> TrazerTodosAtivos()
+        public IEnumerable<FichaViewModel> TrazerTodosAtivos(Guid? id_evento = null)
         {
+            if (id_evento.HasValue) return _mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.Pesquisar(f => f.Id_evento == id_evento && f.Deletado == false).ToList());
             return _mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.TrazerTodosAtivos().ToList());
         }
 
-        public IEnumerable<FichaViewModel> TrazerTodosDeletados()
+        public IEnumerable<FichaViewModel> TrazerTodosDeletados(Guid? id_evento = null)
         {
+            if (id_evento.HasValue) return _mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.Pesquisar(f => f.Id_evento == id_evento && f.Deletado == true).ToList());
             return _mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.TrazerTodosDeletados().ToList());
         }
 

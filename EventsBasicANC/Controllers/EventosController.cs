@@ -35,12 +35,19 @@ namespace EventsBasicANC.Controllers
         }
 
         // POST: api/Evento
+        [HttpPost("{qtdFichas:int}")]
+        public IActionResult Post([FromBody]EventoViewModel eventoViewModel,int qtdFichas = 0)
+        {
+            if (!ModelState.IsValid) return BadRequest("");
+
+            return Response(_eventoAppService.Criar(eventoViewModel,qtdFichas));
+        }
         [HttpPost]
         public IActionResult Post([FromBody]EventoViewModel eventoViewModel)
         {
             if (!ModelState.IsValid) return BadRequest("");
 
-            return Response(_eventoAppService.Criar(eventoViewModel));
+            return Response(_eventoAppService.Criar(eventoViewModel, 0));
         }
 
         // PUT: api/Evento/5

@@ -135,8 +135,9 @@ namespace EventsBasicANC.Services
 
         public ContaTipo? TrazerTipoDaConta(Guid id_conta)
         {
-            var contaTipo = _contaRepository.TrazerAtivoPorId(id_conta).Tipo;
-            return contaTipo;
+            var conta = _contaRepository.TrazerAtivoPorId(id_conta);
+            if (conta == null) return null;
+            return conta.Tipo;
         }
 
         public ContaTipo? TrazerTipoFuncionario(Guid id_conta_funcionario)
