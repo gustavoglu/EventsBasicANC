@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using EventsBasicANC.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace EventsBasicANC.Controllers
 {
@@ -19,13 +20,15 @@ namespace EventsBasicANC.Controllers
         UsuarioAppService _usuarioAppService;
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signManager;
+        IHttpContextAccessor _accessor;
 
-        public ContasController(IContaAppService contaAppService, UsuarioAppService usuarioAppService, UserManager<Usuario> userManager, SignInManager<Usuario> signManager)
+        public ContasController(IContaAppService contaAppService, IHttpContextAccessor accessor, UsuarioAppService usuarioAppService, UserManager<Usuario> userManager, SignInManager<Usuario> signManager)
         {
             _contaAppService = contaAppService;
             _usuarioAppService = usuarioAppService;
             _userManager = userManager;
             _signManager = signManager;
+            _accessor = accessor;
         }
 
         // GET: api/Contas
@@ -160,6 +163,7 @@ namespace EventsBasicANC.Controllers
 
             var retorno = _usuarioAppService.ObterTokenUsuario(viewModel);
 
+            
             return Response(retorno);
         }
 

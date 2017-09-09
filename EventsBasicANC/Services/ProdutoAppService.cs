@@ -22,6 +22,7 @@ namespace EventsBasicANC.Services
         public ProdutoViewModel Atualizar(ProdutoViewModel ProdutoViewModel)
         {
             var model = _produtoRepository.TrazerAtivoPorId(ProdutoViewModel.Id.Value);
+            if (model == null) return null;
             var modelAtualizado = _mapper.Map(ProdutoViewModel, model);
             return _mapper.Map<ProdutoViewModel>(_produtoRepository.Atualizar(modelAtualizado));
         }

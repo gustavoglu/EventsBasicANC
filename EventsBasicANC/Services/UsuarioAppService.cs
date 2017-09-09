@@ -46,13 +46,16 @@ namespace EventsBasicANC.Services
             var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
             var userClaims = await _userManager.GetClaimsAsync(user);
             string tipoConta = _contaAppService.TrazerTipoDaConta(Guid.Parse(user.Id)).ToString();
-            string tipoFuncionario = null;
+            string tipoFuncionario = string.Empty;
             if (tipoConta == "Funcionario") tipoFuncionario = _contaAppService.TrazerTipoFuncionario(Guid.Parse(user.Id)).ToString();
 
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, await _jwtTokenOptions.JtiGenerator()));
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtTokenOptions.IssueAt).ToString(), ClaimValueTypes.Integer64));
+            userClaims.Add(new Claim(ClaimTypes.Name, user.Email));
+            userClaims.Add(new Claim("ContaTipo", tipoConta));
+            userClaims.Add(new Claim("FuncionarioTipo", tipoFuncionario));
 
             var jwt = new JwtSecurityToken(
                 issuer: _jwtTokenOptions.Issuer,

@@ -46,7 +46,7 @@ namespace EventsBasicANC.Controllers
         public IActionResult Post([FromBody]ProdutoViewModel produto)
         {
             var contaTipo = _contaAppService.TrazerTipoDaConta(produto.Id_loja);
-            if (contaTipo == ContaTipo.Funcionario || contaTipo == ContaTipo.Funcionario) return BadRequest("O id_conta precisa ser de uma loja");
+            //if (contaTipo == ContaTipo.Funcionario || contaTipo == ContaTipo.Funcionario) return BadRequest("O id_conta precisa ser de uma loja");
             if (produto == null) return BadRequest("Nenhum Produto Informado");
 
             var produtoViewModel = _produtoAppService.Criar(produto);

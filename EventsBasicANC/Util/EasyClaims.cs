@@ -29,11 +29,16 @@ namespace EventsBasicANC.Util
                 return query.Any();
             }
 
-            var usuario = await _userManaber.FindByIdAsync(id_usuario);
-            if (usuario == null) return false;
-            var claimsUser = await _userManaber.GetClaimsAsync(usuario);
-            var queryClaimUser = claimsUser.Where(c => c.Type == ClaimName && c.Value == "Pv");
-            return queryClaimUser.Any();
+            if (id_usuario != null)
+            {
+                var usuario = await _userManaber.FindByIdAsync(id_usuario);
+                if (usuario == null) return false;
+                var claimsUser = await _userManaber.GetClaimsAsync(usuario);
+                var queryClaimUser = claimsUser.Where(c => c.Type == ClaimName && c.Value == "Pv");
+                return queryClaimUser.Any();
+            }
+
+            return false;
         }
 
         public async static Task<bool> isPrincipal(string ClaimName, string id_usuario = null)
@@ -45,11 +50,15 @@ namespace EventsBasicANC.Util
                 return query.Any();
             }
 
-            var usuario = await _userManaber.FindByIdAsync(id_usuario);
-            if (usuario == null) return false;
-            var claimsUser = await _userManaber.GetClaimsAsync(usuario);
-            var queryClaimUser = claimsUser.Where(c => c.Type == ClaimName && c.Value == "Pr");
-            return queryClaimUser.Any();
+            if (id_usuario != null)
+            {
+                var usuario = await _userManaber.FindByIdAsync(id_usuario);
+                if (usuario == null) return false;
+                var claimsUser = await _userManaber.GetClaimsAsync(usuario);
+                var queryClaimUser = claimsUser.Where(c => c.Type == ClaimName && c.Value == "Pr");
+                return queryClaimUser.Any();
+            }
+            return false;
         }
     }
 }
