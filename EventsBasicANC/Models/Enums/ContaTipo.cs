@@ -4,6 +4,7 @@
     {
         Funcionario,
         Loja,
-        Organizador
+        Organizador,
+        Admin
     }
 }

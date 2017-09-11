@@ -56,6 +56,7 @@ namespace EventsBasicANC.Services
             userClaims.Add(new Claim(ClaimTypes.Name, user.Email));
             userClaims.Add(new Claim("ContaTipo", tipoConta));
             userClaims.Add(new Claim("FuncionarioTipo", tipoFuncionario));
+            userClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
             var jwt = new JwtSecurityToken(
                 issuer: _jwtTokenOptions.Issuer,

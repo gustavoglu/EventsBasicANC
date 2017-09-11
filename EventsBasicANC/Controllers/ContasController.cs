@@ -136,7 +136,7 @@ namespace EventsBasicANC.Controllers
             Usuario usuarioCriado = await _userManager.FindByIdAsync(usuario.Id);
             if (conta.Tipo == Domain.Models.Enums.ContaTipo.Loja) await _userManager.AddClaimsAsync(usuarioCriado, _usuarioAppService.ClaimsLoja());
             if (conta.Tipo == Domain.Models.Enums.ContaTipo.Organizador) await _userManager.AddClaimsAsync(usuarioCriado, _usuarioAppService.ClaimsOrganizador());
-
+            if (conta.Tipo == Domain.Models.Enums.ContaTipo.Admin) await _userManager.AddClaimAsync(usuarioCriado, new System.Security.Claims.Claim("Admin", "Admin"));
             return Response($"Usuario { usuario.UserName } Criado", true);
         }
 

@@ -24,7 +24,7 @@ namespace EventsBasicANC.Users
 
         public Guid GetUserId()
         {
-            return Guid.NewGuid();//IsAuthenticated() ? Guid.Parse(_accessor.HttpContext.User.GetUserId()) : Guid.NewGuid();
+            return IsAuthenticated() ? Guid.Parse(_accessor.HttpContext.User.GetUserId()) : Guid.NewGuid();
         }
 
         public bool IsAuthenticated()

@@ -19,6 +19,29 @@ namespace EventsBasicANC.Util
             _userManaber = userManager;
         }
 
+        public static async Task<bool> isAdmin(string id_usuario = null)
+        {
+
+            if (_accessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                var claims = (ClaimsIdentity)_accessor.HttpContext.User.Identity;
+                var query = claims.Claims.Where(c => c.Type == "Admin "&& c.Value == "Admin");
+                return query.Any();
+            }
+
+            if (id_usuario != null)
+            {
+                var usuario = await _userManaber.FindByIdAsync(id_usuario);
+                if (usuario == null) return false;
+                var claimsUser = await _userManaber.GetClaimsAsync(usuario);
+                var queryClaimUser = claimsUser.Where(c => c.Type == "Admin" && c.Value == "Admin");
+                return queryClaimUser.Any();
+            }
+
+            return false;
+        }
+
+
         public static async Task<bool> isPrivate(string ClaimName, string id_usuario = null)
         {
 
