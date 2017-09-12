@@ -19,7 +19,7 @@ namespace EventsBasicANC.Util
             _userManaber = userManager;
         }
 
-        public static async Task<bool> isAdmin(string id_usuario = null)
+        public async Task<bool> isAdmin(string id_usuario = null)
         {
 
             if (_accessor.HttpContext.User.Identity.IsAuthenticated)
@@ -42,7 +42,7 @@ namespace EventsBasicANC.Util
         }
 
 
-        public static async Task<bool> isPrivate(string ClaimName, string id_usuario = null)
+        public async Task<bool> isPrivate(string ClaimName, string id_usuario = null)
         {
 
             if (_accessor.HttpContext.User.Identity.IsAuthenticated)
@@ -64,7 +64,7 @@ namespace EventsBasicANC.Util
             return false;
         }
 
-        public async static Task<bool> isPrincipal(string ClaimName, string id_usuario = null)
+        public async Task<bool> isPrincipal(string ClaimName, string id_usuario = null)
         {
             if (_accessor.HttpContext.User.Identity.IsAuthenticated && id_usuario == null)
             {

@@ -12,18 +12,20 @@ namespace EventsBasicANC.Data.Repository
 {
     public class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {
-        private bool IsPrivate() => EasyClaims.isPrivate("Produtos").Result;
-        private bool IsPrincipal() => EasyClaims.isPrincipal("Produtos").Result;
-        private bool IsAdmin() => EasyClaims.isAdmin().Result;
+        private bool IsPrivate() => _easyClaims.isPrivate("Produtos").Result;
+        private bool IsPrincipal() => _easyClaims.isPrincipal("Produtos").Result;
+        private bool IsAdmin() => _easyClaims.isAdmin().Result;
         private readonly IContratoRepository _contratoRepository;
         private readonly IConta_FuncionarioRepository _conta_FuncionarioRepository;
         private readonly IUser _user;
+        private readonly EasyClaims _easyClaims;
 
-        public ProdutoRepository(SQLSContext sqlsContext, IConta_FuncionarioRepository conta_FuncionarioRepository, IContratoRepository contratoRepository, IUser user) : base(sqlsContext)
+        public ProdutoRepository(SQLSContext sqlsContext, IConta_FuncionarioRepository conta_FuncionarioRepository, IContratoRepository contratoRepository, IUser user, EasyClaims easyClaims) : base(sqlsContext)
         {
             _contratoRepository = contratoRepository;
             _conta_FuncionarioRepository = conta_FuncionarioRepository;
             _user = user;
+            _easyClaims = easyClaims;
         }
 
         public override IEnumerable<Produto> TrazerTodos()
@@ -35,11 +37,11 @@ namespace EventsBasicANC.Data.Repository
 
                 if (IsPrincipal())
                 {
-                    var lojas = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user).ToList().Select(c => c.Loja);
-                    if (!lojas.Any()) return null;
+                    var contratos = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user);
+                    if (!contratos.Any()) return new List<Produto>();
 
-                    var produtos = from loja in lojas
-                                   from produto in this.Pesquisar(p => p.Id_loja == loja.Id).ToList()
+                    var produtos = from contrato in contratos
+                                   from produto in this.Pesquisar(p => p.Id_loja == contrato.Id_loja).ToList()
                                    select produto;
 
                     return produtos;
@@ -69,11 +71,12 @@ namespace EventsBasicANC.Data.Repository
 
                 if (IsPrincipal())
                 {
-                    var lojas = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user).ToList().Select(c => c.Loja);
-                    if (!lojas.Any()) return null;
+                    var contratos = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user);
 
-                    var produtos = from loja in lojas
-                                   from produto in this.PesquisarAtivos(p => p.Id_loja == loja.Id).ToList()
+                    if (!contratos.Any()) return new List<Produto>();
+
+                    var produtos = from contrato in contratos
+                                   from produto in this.PesquisarAtivos(p => p.Id_loja == contrato.Id_loja)
                                    select produto;
 
                     return produtos;
@@ -85,13 +88,8 @@ namespace EventsBasicANC.Data.Repository
                     if (conta_funcionario != null) return this.PesquisarAtivos(p => p.Id_loja == conta_funcionario.Id_conta);
                     this.PesquisarAtivos(p => p.Id_loja == id_user);
                 }
-
-                if (IsAdmin())
-                {
-                    return base.TrazerTodos();
-                }
             }
-            return null;
+            return base.TrazerTodos();
         }
 
         public override IEnumerable<Produto> TrazerTodosDeletados()
@@ -102,11 +100,11 @@ namespace EventsBasicANC.Data.Repository
 
                 if (IsPrincipal())
                 {
-                    var lojas = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user).ToList().Select(c => c.Loja);
-                    if (!lojas.Any()) return null;
+                    var contratos = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user);
+                    if (!contratos.Any()) return new List<Produto>(); ;
 
-                    var produtos = from loja in lojas
-                                   from produto in this.PesquisarDeletados(p => p.Id_loja == loja.Id).ToList()
+                    var produtos = from contrato in contratos
+                                   from produto in this.PesquisarDeletados(p => p.Id_loja == contrato.Id_loja)
                                    select produto;
 
                     return produtos;
@@ -136,11 +134,11 @@ namespace EventsBasicANC.Data.Repository
 
                 if (IsPrincipal())
                 {
-                    var lojas = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user).ToList().Select(c => c.Loja);
-                    if (!lojas.Any()) return null;
+                    var contratos = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user);
+                    if (!contratos.Any()) return null;
 
-                    var produtos = from loja in lojas
-                                   from produto in this.Pesquisar(p => p.Id_loja == loja.Id).ToList()
+                    var produtos = from contrato in contratos
+                                   from produto in this.Pesquisar(p => p.Id_loja == contrato.Id_loja)
                                    where produto.Id == id
                                    select produto;
 
@@ -171,11 +169,11 @@ namespace EventsBasicANC.Data.Repository
 
                 if (IsPrincipal())
                 {
-                    var lojas = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user).ToList().Select(c => c.Loja);
-                    if (!lojas.Any()) return null;
+                    var contratos = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user);
+                    if (!contratos.Any()) return null;
 
-                    var produtos = from loja in lojas
-                                   from produto in this.PesquisarDeletados(p => p.Id_loja == loja.Id).ToList()
+                    var produtos = from contrato in contratos
+                                   from produto in this.PesquisarDeletados(p => p.Id_loja == contrato.Id_loja)
                                    where produto.Id == id
                                    select produto;
 
@@ -206,11 +204,11 @@ namespace EventsBasicANC.Data.Repository
 
                 if (IsPrincipal())
                 {
-                    var lojas = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user).ToList().Select(c => c.Loja);
-                    if (!lojas.Any()) return null;
+                    var contratos = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user);
+                    if (!contratos.Any()) return null;
 
-                    var produtos = from loja in lojas
-                                   from produto in this.PesquisarAtivos(p => p.Id_loja == loja.Id).ToList()
+                    var produtos = from contrato in contratos
+                                   from produto in this.PesquisarAtivos(p => p.Id_loja == contrato.Id_loja).ToList()
                                    where produto.Id == id
                                    select produto;
 
@@ -241,11 +239,11 @@ namespace EventsBasicANC.Data.Repository
 
                 if (IsPrincipal())
                 {
-                    var lojas = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user).ToList().Select(c => c.Loja);
-                    if (!lojas.Any()) return null;
+                    var contratos = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user);
+                    if (!contratos.Any()) return new List<Produto>();
 
-                    var produtos = from loja in lojas
-                                   from produto in this.DbSet.Where(p => p.Id_loja == loja.Id).Where(predicate).ToList()
+                    var produtos = from contrato in contratos
+                                   from produto in this.DbSet.Where(p => p.Id_loja == contrato.Id_loja).Where(predicate).ToList()
                                    select produto;
 
                     return produtos;
@@ -257,23 +255,69 @@ namespace EventsBasicANC.Data.Repository
                     if (conta_funcionario != null) return this.DbSet.Where(p => p.Id_loja == conta_funcionario.Id_conta).Where(predicate);
                     this.DbSet.Where(p => p.Id_loja == id_user).Where(predicate);
                 }
-
-                if (IsAdmin())
-                {
-                    return base.Pesquisar(predicate);
-                }
             }
 
-            return null;
+            return base.Pesquisar(predicate);
         }
 
         public override IEnumerable<Produto> PesquisarAtivos(Expression<Func<Produto, bool>> predicate)
         {
+            if (_user.IsAuthenticated())
+            {
+                var id_user = _user.GetUserId();
+
+                if (IsPrincipal())
+                {
+                    var contratos = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user);
+                    if (!contratos.Any()) return new List<Produto>();
+
+                    var produtos = from contrato in contratos
+                                   from produto in this.DbSet.Where(p => p.Id_loja == contrato.Id_loja).AsQueryable().Where(predicate)
+                                   where produto.Deletado == false
+                                   select produto;
+
+                    return produtos;
+                }
+
+                if (IsPrivate())
+                {
+                    var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
+                    if (conta_funcionario != null) return this.DbSet.Where(p => p.Id_loja == conta_funcionario.Id_conta && p.Deletado == false).Where(predicate);
+                    this.DbSet.Where(p => p.Id_loja == id_user && p.Deletado == false).Where(predicate);
+                }
+            }
+
             return base.PesquisarAtivos(predicate);
         }
 
         public override IEnumerable<Produto> PesquisarDeletados(Expression<Func<Produto, bool>> predicate)
         {
+            if (_user.IsAuthenticated())
+            {
+                var id_user = _user.GetUserId();
+
+                if (IsPrincipal())
+                {
+                    var contratos = _contratoRepository.PesquisarAtivos(c => c.Id_organizador == id_user);
+
+                    if (!contratos.Any()) return new List<Produto>();
+
+                    var produtos = from contrato in contratos
+                                   from produto in this.DbSet.Where(p => p.Id_loja == contrato.Id_loja).Where(predicate).ToList()
+                                   where produto.Deletado == true
+                                   select produto;
+
+                    return produtos;
+                }
+
+                if (IsPrivate())
+                {
+                    var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
+                    if (conta_funcionario != null) return this.DbSet.Where(p => p.Id_loja == conta_funcionario.Id_conta && p.Deletado == true).Where(predicate);
+                    this.DbSet.Where(p => p.Id_loja == id_user && p.Deletado == true).Where(predicate);
+                }
+            }
+
             return base.PesquisarDeletados(predicate);
         }
     }

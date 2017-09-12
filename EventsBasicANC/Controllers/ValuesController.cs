@@ -29,8 +29,8 @@ namespace EventsBasicANC.Controllers
         public async Task<string> Get()
         {
             
-            bool isprivate = await EasyClaims.isPrivate("Funcionarios");
-            bool isprincipal = await EasyClaims.isPrincipal("Lojas");
+            //bool isprivate = await EasyClaims.isPrivate("Funcionarios");
+            //bool isprincipal = await EasyClaims.isPrincipal("Lojas");
             return "Ok";
             //var container = Builder<ContainerViewModel>.CreateNew().Build();
             //container.Evento = Builder<EventoContainerViewModel>.CreateNew().Build();

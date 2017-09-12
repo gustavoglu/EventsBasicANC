@@ -82,7 +82,7 @@ namespace EventsBasicANC.Services
 
         public IEnumerable<ProdutoViewModel> TrazerTodosAtivos()
         {
-            return _mapper.Map<IEnumerable<ProdutoViewModel>>(_produtoRepository.TrazerTodosAtivos().ToList());
+            return _mapper.Map<IEnumerable<ProdutoViewModel>>(_produtoRepository.TrazerTodosAtivos()?.ToList());
         }
 
         public IEnumerable<ProdutoViewModel> TrazerTodosDeletados()
