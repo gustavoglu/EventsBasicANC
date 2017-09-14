@@ -13,11 +13,13 @@ namespace EventsBasicANC.Services
     {
         private readonly IEventoRepository _eventoRepository;
         private readonly IFichaAppService _fichaAppService;
+        private readonly IContratoRepository _contratoRepository;
         private readonly IMapper _mapper;
-        public EventoAppService(IEventoRepository eventoRepository, IFichaAppService fichaAppService, IMapper mapper)
+        public EventoAppService(IEventoRepository eventoRepository, IFichaAppService fichaAppService, IContratoRepository contratoRepository, IMapper mapper)
         {
             _fichaAppService = fichaAppService;
             _eventoRepository = eventoRepository;
+            _contratoRepository = contratoRepository;
             _mapper = mapper;
         }
 
@@ -32,7 +34,7 @@ namespace EventsBasicANC.Services
         {
             var model = _mapper.Map<Evento>(EventoViewModel);
             var eventoCriado = _mapper.Map<EventoViewModel>(_eventoRepository.Criar(model));
-            var fichasCriadas =  _fichaAppService.CriaFichasParaNovoEvento(eventoCriado.Id.Value,qtdFichas);
+            var fichasCriadas = _fichaAppService.CriaFichasParaNovoEvento(eventoCriado.Id.Value, qtdFichas);
             return eventoCriado;
         }
 
@@ -57,9 +59,21 @@ namespace EventsBasicANC.Services
             return _mapper.Map<EventoViewModel>(_eventoRepository.TrazerDeletadoPorId(id));
         }
 
+        public EventoViewModel TrazerEventoFirstPorLoja(Guid id_loja)
+        {
+            var contrato = _contratoRepository.PesquisarAtivos(c => c.Id_loja == id_loja).FirstOrDefault();
+            return this.TrazerPorId(contrato.Id_evento);
+        }
+
         public EventoViewModel TrazerPorId(Guid id)
         {
             return _mapper.Map<EventoViewModel>(_eventoRepository.TrazerPorId(id));
+        }
+
+        public IEnumerable<EventoViewModel> TrazerPorLoja(Guid id_loja)
+        {
+            var eventos = _contratoRepository.PesquisarAtivos(c => c.Id_loja == id_loja).ToList().Select(c => c.Evento);
+            return _mapper.Map<IEnumerable<EventoViewModel>>(eventos);
         }
 
         public IEnumerable<EventoViewModel> TrazerTodos()

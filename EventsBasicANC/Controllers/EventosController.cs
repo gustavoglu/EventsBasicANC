@@ -34,6 +34,13 @@ namespace EventsBasicANC.Controllers
             return _eventoAppService.TrazerPorId(id);
         }
 
+        [HttpGet]
+        [Route("First/Loja/{id_loja:Guid}")]
+        public EventoViewModel GetFirst(Guid id_loja)
+        {
+            return _eventoAppService.TrazerEventoFirstPorLoja(id_loja);
+        }
+
         // POST: api/Evento
         [HttpPost("{qtdFichas:int}")]
         public IActionResult Post([FromBody]EventoViewModel eventoViewModel,int qtdFichas = 0)
