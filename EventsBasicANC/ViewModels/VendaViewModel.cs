@@ -9,7 +9,6 @@ namespace EventsBasicANC.ViewModels
         {
             this.Id = Guid.NewGuid();
             Venda_Produtos = new List<Venda_ProdutoViewModel>();
-            Pagamentos = new List<PagamentoViewModel>();
         }
 
         public Guid Id { get; set; }
@@ -28,6 +27,5 @@ namespace EventsBasicANC.ViewModels
 
         public virtual ICollection<Venda_ProdutoViewModel> Venda_Produtos { get; set; }
 
-        public virtual ICollection<PagamentoViewModel> Pagamentos { get; set; }
     }
 }
