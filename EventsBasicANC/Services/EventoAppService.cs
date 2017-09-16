@@ -49,6 +49,7 @@ namespace EventsBasicANC.Services
             return _mapper.Map<EventoViewModel>(_eventoRepository.Deletar(id));
         }
 
+
         public EventoViewModel TrazerAtivoPorId(Guid id)
         {
             return _mapper.Map<EventoViewModel>(_eventoRepository.TrazerAtivoPorId(id));

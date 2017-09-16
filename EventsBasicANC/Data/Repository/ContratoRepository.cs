@@ -1,5 +1,8 @@
-﻿using EventsBasicANC.Data.Repository.Interfaces;
+﻿using System;
+using EventsBasicANC.Data.Repository.Interfaces;
 using EventsBasicANC.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace EventsBasicANC.Data.Repository
 {
@@ -7,6 +10,7 @@ namespace EventsBasicANC.Data.Repository
     {
         public ContratoRepository(SQLSContext sqlsContext) : base(sqlsContext)
         {
+            
         }
     }
 }

@@ -27,5 +27,9 @@ namespace EventsBasicANC.Services.Interfaces
         IEnumerable<VendaViewModel> TrazerTodosAtivos();
 
         IEnumerable<VendaViewModel> TrazerTodosDeletados();
+
+        double ToTalVendasEventoPorLoja(Guid id_loja, Guid id_evento);
+
+        IEnumerable<VendaViewModel> VendasPorEvento(Guid id_evento);
     }
 }

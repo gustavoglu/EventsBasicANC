@@ -34,6 +34,13 @@ namespace EventsBasicANC.Controllers
             return _vendaAppService.TrazerPorId(id);
         }
 
+        [Route("Total/Loja/{id_loja:Guid}/Evento/{id_evento:Guid}")]
+        [HttpGet]
+        public double TotalVendasPorLoja(Guid id_loja,Guid id_evento)
+        {
+            return _vendaAppService.ToTalVendasEventoPorLoja(id_loja, id_evento);
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody]VendaViewModel vendaViewModel)
         {

@@ -63,6 +63,14 @@ namespace EventsBasicANC.Services
             return _mapper.Map<VendaViewModel>(_vendaRepository.Deletar(id));
         }
 
+        public double ToTalVendasEventoPorLoja(Guid id_loja, Guid id_evento)
+        {
+            var vendas = _vendaRepository.PesquisarAtivos(v => v.Id_loja == id_loja && v.Id_Evento == id_evento).ToList();
+            if (vendas == null || !vendas.Any()) return 0;
+            double totalVendas = vendas.Sum(v => v.Total.Value);
+            return totalVendas;
+        }
+
         public VendaViewModel TrazerAtivoPorId(Guid id)
         {
             return _mapper.Map<VendaViewModel>(_vendaRepository.TrazerAtivoPorId(id));
@@ -91,6 +99,12 @@ namespace EventsBasicANC.Services
         public IEnumerable<VendaViewModel> TrazerTodosDeletados()
         {
             return _mapper.Map<IEnumerable<VendaViewModel>>(_vendaRepository.TrazerTodosDeletados().ToList());
+        }
+
+        public IEnumerable<VendaViewModel> VendasPorEvento(Guid id_evento)
+        {
+            var vendas = _vendaRepository.PesquisarAtivos(v => v.Id_Evento == id_evento).ToList();
+            return _mapper.Map<IEnumerable<VendaViewModel>>(vendas);
         }
     }
 }

@@ -20,12 +20,13 @@ namespace EventsBasicANC.Services
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signManager;
         private readonly JwtTokenOptions _jwtTokenOptions;
+        private readonly IEventoAppService _eventoAppService;
         private readonly IContaRepository _contaRepository;
         private readonly IConta_FuncionarioRepository _conta_funcionarioRepository;
         private readonly IMapper _mapper;
         private readonly IContaAppService _contaAppService;
 
-        public UsuarioAppService(IOptions<JwtTokenOptions> jwtTokenOptions, UserManager<Usuario> userManager, SignInManager<Usuario> signManager, IContaRepository contaRepository, IConta_FuncionarioRepository conta_funcionarioRepository, IContaAppService contaAppService, IMapper mapper)
+        public UsuarioAppService(IOptions<JwtTokenOptions> jwtTokenOptions, UserManager<Usuario> userManager, SignInManager<Usuario> signManager, IContaRepository contaRepository, IConta_FuncionarioRepository conta_funcionarioRepository, IContaAppService contaAppService, IEventoAppService eventoAppService, IMapper mapper)
         {
             _userManager = userManager;
             _signManager = signManager;
@@ -33,6 +34,7 @@ namespace EventsBasicANC.Services
             _contaRepository = contaRepository;
             _conta_funcionarioRepository = conta_funcionarioRepository;
             _contaAppService = contaAppService;
+            _eventoAppService = eventoAppService;
             _mapper = mapper;
 
             ThrowIfInvalidOptions(_jwtTokenOptions);
@@ -45,16 +47,19 @@ namespace EventsBasicANC.Services
         {
             var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
             var userClaims = await _userManager.GetClaimsAsync(user);
-            string tipoConta = _contaAppService.TrazerTipoDaConta(Guid.Parse(user.Id)).ToString();
+            ContaTipo? tipoConta = _contaAppService.TrazerTipoDaConta(Guid.Parse(user.Id));
+            string tipoContaString = tipoConta?.ToString();
             string tipoFuncionario = string.Empty;
-            if (tipoConta == "Funcionario") tipoFuncionario = _contaAppService.TrazerTipoFuncionario(Guid.Parse(user.Id)).ToString();
+            EventoViewModel eventoPrincipal = null;
+            if (tipoConta.HasValue && tipoConta.Value == ContaTipo.Funcionario) tipoFuncionario = _contaAppService.TrazerTipoFuncionario(Guid.Parse(user.Id)).ToString();
+            if (tipoConta.HasValue && tipoConta.Value == ContaTipo.Loja || tipoFuncionario == "Loja") eventoPrincipal = _eventoAppService.TrazerEventoFirstPorLoja(Guid.Parse(user.Id));
 
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, await _jwtTokenOptions.JtiGenerator()));
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtTokenOptions.IssueAt).ToString(), ClaimValueTypes.Integer64));
             userClaims.Add(new Claim(ClaimTypes.Name, user.Email));
-            userClaims.Add(new Claim("ContaTipo", tipoConta));
+            userClaims.Add(new Claim("ContaTipo", tipoContaString));
             userClaims.Add(new Claim("FuncionarioTipo", tipoFuncionario));
             userClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
@@ -71,9 +76,10 @@ namespace EventsBasicANC.Services
             var response = new
             {
                 access_token = encodedJwt,
-                tipoConta = tipoConta,
+                tipoConta = tipoContaString,
                 id_usuario = user.Id,
-                tipoFuncionario = tipoFuncionario,
+                tipoFuncionario = tipoFuncionario == string.Empty ? null : tipoFuncionario,
+                eventoPrincipal = eventoPrincipal,
                 expirese_in = (int)_jwtTokenOptions.ValidFor.TotalSeconds,
             };
 
@@ -185,7 +191,7 @@ namespace EventsBasicANC.Services
             return _mapper.Map<UsuarioViewModel>(usuario);
         }
 
-        public async Task<UsuarioViewModel> AlterarSenha(string id_usuario,string novaSenha)
+        public async Task<UsuarioViewModel> AlterarSenha(string id_usuario, string novaSenha)
         {
             var usuario = await _userManager.FindByIdAsync(id_usuario);
             if (usuario == null) return null;
@@ -207,7 +213,7 @@ namespace EventsBasicANC.Services
             return _mapper.Map<UsuarioViewModel>(usuarioDeletado);
         }
 
-        public async Task<UsuarioViewModel> AtualizaUserName(string id_usuario,string userNameLogin)
+        public async Task<UsuarioViewModel> AtualizaUserName(string id_usuario, string userNameLogin)
         {
             var usuario = await _userManager.FindByIdAsync(id_usuario);
             if (usuario == null) return null;

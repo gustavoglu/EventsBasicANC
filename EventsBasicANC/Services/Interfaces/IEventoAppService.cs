@@ -29,5 +29,9 @@ namespace EventsBasicANC.Services.Interfaces
         IEnumerable<EventoViewModel> TrazerTodosDeletados();
 
         IEnumerable<EventoViewModel> TrazerPorLoja(Guid id_loja);
+
+
+
+
     }
 }
