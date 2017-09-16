@@ -51,7 +51,7 @@ namespace EventsBasicANC.Data.Repository
                 {
                     var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
                     if (conta_funcionario != null) return this.Pesquisar(p => p.Id_loja == conta_funcionario.Id_conta);
-                    this.Pesquisar(p => p.Id_loja == id_user);
+                    return this.Pesquisar(p => p.Id_loja == id_user);
                 }
 
                 if (IsAdmin())
@@ -86,7 +86,7 @@ namespace EventsBasicANC.Data.Repository
                 {
                     var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
                     if (conta_funcionario != null) return this.PesquisarAtivos(p => p.Id_loja == conta_funcionario.Id_conta);
-                    this.PesquisarAtivos(p => p.Id_loja == id_user);
+                    return this.PesquisarAtivos(p => p.Id_loja == id_user);
                 }
             }
             return base.TrazerTodos();
@@ -114,7 +114,7 @@ namespace EventsBasicANC.Data.Repository
                 {
                     var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
                     if (conta_funcionario != null) return this.PesquisarDeletados(p => p.Id_loja == conta_funcionario.Id_conta);
-                    this.PesquisarDeletados(p => p.Id_loja == id_user);
+                    return this.PesquisarDeletados(p => p.Id_loja == id_user);
                 }
 
                 if (IsAdmin())
@@ -149,7 +149,7 @@ namespace EventsBasicANC.Data.Repository
                 {
                     var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
                     if (conta_funcionario != null) return this.Pesquisar(p => p.Id_loja == conta_funcionario.Id_conta && p.Id == id).FirstOrDefault();
-                    this.Pesquisar(p => p.Id_loja == id_user && p.Id == id).FirstOrDefault();
+                    return this.Pesquisar(p => p.Id_loja == id_user && p.Id == id).FirstOrDefault();
                 }
 
                 if (IsAdmin())
@@ -184,7 +184,7 @@ namespace EventsBasicANC.Data.Repository
                 {
                     var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
                     if (conta_funcionario != null) return this.PesquisarDeletados(p => p.Id_loja == conta_funcionario.Id_conta && p.Id == id).FirstOrDefault();
-                    this.PesquisarDeletados(p => p.Id_loja == id_user && p.Id == id).FirstOrDefault();
+                    return this.PesquisarDeletados(p => p.Id_loja == id_user && p.Id == id).FirstOrDefault();
                 }
 
                 if (IsAdmin())
@@ -219,7 +219,7 @@ namespace EventsBasicANC.Data.Repository
                 {
                     var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
                     if (conta_funcionario != null) return this.PesquisarAtivos(p => p.Id_loja == conta_funcionario.Id_conta && p.Id == id).FirstOrDefault();
-                    this.PesquisarAtivos(p => p.Id_loja == id_user && p.Id == id).FirstOrDefault();
+                    return this.PesquisarAtivos(p => p.Id_loja == id_user && p.Id == id).FirstOrDefault();
                 }
 
                 if (IsAdmin())
@@ -253,7 +253,7 @@ namespace EventsBasicANC.Data.Repository
                 {
                     var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
                     if (conta_funcionario != null) return this.DbSet.Where(p => p.Id_loja == conta_funcionario.Id_conta).Where(predicate);
-                    this.DbSet.Where(p => p.Id_loja == id_user).Where(predicate);
+                    return this.DbSet.Where(p => p.Id_loja == id_user).Where(predicate);
                 }
             }
 
@@ -283,7 +283,7 @@ namespace EventsBasicANC.Data.Repository
                 {
                     var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
                     if (conta_funcionario != null) return this.DbSet.Where(p => p.Id_loja == conta_funcionario.Id_conta && p.Deletado == false).Where(predicate);
-                    this.DbSet.Where(p => p.Id_loja == id_user && p.Deletado == false).Where(predicate);
+                    return this.DbSet.Where(p => p.Id_loja == id_user && p.Deletado == false).Where(predicate);
                 }
             }
 
@@ -314,7 +314,7 @@ namespace EventsBasicANC.Data.Repository
                 {
                     var conta_funcionario = _conta_FuncionarioRepository.PesquisarAtivos(cf => cf.Id_funcionario == id_user).FirstOrDefault();
                     if (conta_funcionario != null) return this.DbSet.Where(p => p.Id_loja == conta_funcionario.Id_conta && p.Deletado == true).Where(predicate);
-                    this.DbSet.Where(p => p.Id_loja == id_user && p.Deletado == true).Where(predicate);
+                    return this.DbSet.Where(p => p.Id_loja == id_user && p.Deletado == true).Where(predicate);
                 }
             }
 

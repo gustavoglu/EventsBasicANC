@@ -229,7 +229,7 @@ namespace EventsBasicANC.Services
             return new List<Claim>()
             {
                 new Claim("Produtos","Vi"),
-                new Claim("Produtos","Pr"),
+                new Claim("Produtos","Pv"),
                 new Claim("Vendas","Vi"),
                 new Claim("Vendas","Ad"),
                 new Claim("Vendas","Ed"),
