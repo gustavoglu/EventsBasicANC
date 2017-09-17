@@ -13,8 +13,6 @@ namespace EventsBasicANC.ViewModels
 
         public Guid Id { get; set; }
 
-        public Guid Id_venda { get; set; }
-
         public double? Total { get; set; } = 0;
 
         public bool? Cancelado { get; set; } = false;

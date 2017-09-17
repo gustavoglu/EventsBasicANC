@@ -12,6 +12,7 @@ namespace EventsBasicANC.Services
     public class VendaAppService : IVendaAppService
     {
         private readonly IVendaRepository _vendaRepository;
+        private readonly IPagamentoAppService _pagamentoAppService;
         private readonly IMovimentacaoRepository _movimentacaoRepository;
         private readonly IFichaAppService _fichaAppService;
         private readonly IMapper _mapper;
@@ -43,13 +44,16 @@ namespace EventsBasicANC.Services
 
         public VendaViewModel Criar(VendaViewModel VendaViewModel)
         {
-            var fichas = VendaViewModel.Pagamento.Pagamento_Fichas.Select(pf => pf.Ficha).OrderByDescending(f => f.Saldo).ToList();
+            var fichas = VendaViewModel.Pagamento.Pagamento_Fichas.Select(pf => pf.Ficha).ToList();
             double totalVenda = VendaViewModel.Total.Value;
+
+            var model = _mapper.Map<Venda>(VendaViewModel);
+            var vendaCriada = _mapper.Map<VendaViewModel>(_vendaRepository.Criar(model));
 
             var fichasAtualizadas = _fichaAppService.EfetuaPagamentoFichas(fichas, VendaViewModel.Pagamento.Id, totalVenda);
 
-            var model = _mapper.Map<Venda>(VendaViewModel);
-            return _mapper.Map<VendaViewModel>(_vendaRepository.Criar(model));
+      
+            return vendaCriada;
         }
 
         public IEnumerable<VendaViewModel> Criar(ICollection<VendaViewModel> vendasViewModel)
