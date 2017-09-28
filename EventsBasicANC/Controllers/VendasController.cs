@@ -25,6 +25,12 @@ namespace EventsBasicANC.Controllers
         {
             return _vendaAppService.TrazerTodosAtivos();
         }
+        [Route("Evento/{id_evento:Guid}")]
+        [HttpGet]
+        public IEnumerable<VendaViewModel> TrazerPorEvento(Guid id_evento)
+        {
+            return _vendaAppService.VendasPorEvento(id_evento);
+        }
 
         [HttpGet("{id:Guid}")]
         public VendaViewModel Get(Guid id)

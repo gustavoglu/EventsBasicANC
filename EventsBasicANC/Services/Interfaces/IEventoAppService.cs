@@ -30,8 +30,5 @@ namespace EventsBasicANC.Services.Interfaces
 
         IEnumerable<EventoViewModel> TrazerPorLoja(Guid id_loja);
 
-
-
-
     }
 }
