@@ -18,6 +18,8 @@ using AutoMapper;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
 using EventsBasicANC.Configurations;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace EventsBasicANC
 {
@@ -71,6 +73,10 @@ namespace EventsBasicANC
                 .Build();
 
                 options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
             AuthorizationConfig.Configure(services);
