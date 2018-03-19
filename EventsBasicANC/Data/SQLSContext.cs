@@ -129,7 +129,7 @@ namespace EventsBasicANC.Data
                .AddJsonFile("appsettings.json")
                .Build();
 
-            optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnectionAzure"));
+            optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
         }
 
     }

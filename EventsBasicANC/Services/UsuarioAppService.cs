@@ -51,9 +51,15 @@ namespace EventsBasicANC.Services
             string tipoContaString = tipoConta?.ToString();
             string tipoFuncionario = string.Empty;
             EventoViewModel eventoPrincipal = null;
-            if (tipoConta.HasValue && tipoConta.Value == ContaTipo.Funcionario) tipoFuncionario = _contaAppService.TrazerTipoFuncionario(Guid.Parse(user.Id)).ToString();
-            if (tipoConta.HasValue && tipoConta.Value == ContaTipo.Loja || tipoFuncionario == "Loja") eventoPrincipal = _eventoAppService.TrazerEventoFirstPorLoja(Guid.Parse(user.Id));
 
+            if (tipoConta.HasValue && tipoConta.Value == ContaTipo.Funcionario)
+                tipoFuncionario = _contaAppService.TrazerTipoFuncionario(Guid.Parse(user.Id)).ToString();
+
+            if (tipoConta.HasValue && tipoConta.Value == ContaTipo.Loja || tipoFuncionario == "Loja")
+            {
+                eventoPrincipal = _eventoAppService.TrazerEventoFirstPorLoja(Guid.Parse(user.Id));
+
+            }
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, await _jwtTokenOptions.JtiGenerator()));

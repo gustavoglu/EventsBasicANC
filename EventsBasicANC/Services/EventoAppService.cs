@@ -63,6 +63,7 @@ namespace EventsBasicANC.Services
         public EventoViewModel TrazerEventoFirstPorLoja(Guid id_loja)
         {
             var contrato = _contratoRepository.PesquisarAtivos(c => c.Id_loja == id_loja).FirstOrDefault();
+            if (contrato == null) return null;
             return this.TrazerPorId(contrato.Id_evento);
         }
 

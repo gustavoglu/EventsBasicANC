@@ -93,7 +93,7 @@ namespace EventsBasicANC.Services
             int qtdZeros = 5;
             int quantidadeFichas = qtdFichas == 0 ? quantidadeFichasPorEvento : qtdFichas;
 
-            while (contagem < quantidadeFichas)
+            while (contagem <= quantidadeFichas)
             {
                 string codigo = contagem.ToString().PadLeft(qtdZeros, '0');
                 Ficha ficha = new Ficha { Codigo = codigo, Id_evento = id_evento, Saldo = 0 };
